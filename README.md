@@ -36,7 +36,7 @@ Projeto sobre o Calendário de jogos do Bahia 2026.
 
 - [Acesse o projeto finalizado, online](https://github.com/williamsramos/Calendario-Bahia-2026)
 - [Acesse o site do projeto finalizado, online](https://williamsramos.github.io/Calendario-Bahia-2026)
-- [Acesse o site do projeto finalizado, online](https://Calendario-Bahia-2026.git.vercel.app)
+- [Acesse o site do projeto finalizado, online](https://Calendario-Bahia-2026.vercel.app)
 
 ## :memo: Licença
 

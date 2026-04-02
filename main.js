@@ -11,7 +11,7 @@ const shields = {
   "cruzeiro": "img/cruzeiro.svg",
   "botafogo": "img/botafogo.png",
   "fluminense": "img/fluminense.png",
-  "athletico-pr": "img/athletico-pr.svg",
+  "athletico-pr": "img/athletico-pr.png",
   "santos": "img/santos.png",
   "bragantino": "img/bragantino.png",
   "vasco": "img/vasco.png",

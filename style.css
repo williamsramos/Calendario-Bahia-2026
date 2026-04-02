@@ -1,0 +1,276 @@
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    url("img/arena_fonte_nova.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+html, body {
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 51, 160, 0.8),
+    rgba(200, 0, 0, 0.8)
+  );
+  padding: 12px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo_brasileiro, .logo_bahia {
+  width: 100px;
+}
+
+/* PAINEL */
+.admin {
+  padding: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.6)
+  );
+}
+
+.admin h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.admin input {
+  width:    60%;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.admin button {
+  width: 60%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.admin .btn_adicionar {
+  background: #0033a0; /* vermelho mais forte */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-weight: bold;
+  width: 60%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin .btn_excluir {
+  background: #c00000; /* vermelho mais forte */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-weight: bold;
+  width: 60%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin .btn_adicionar:hover {
+  background:#0051ff;
+  transform: scale(1.02);
+}
+
+.admin .btn_excluir:hover {
+  background: #ff1a1a;
+  transform: scale(1.02);
+}
+
+/* CARDS */
+#cards {
+  padding: 10px;
+}
+
+.card {
+    background: linear-gradient(
+    90deg,
+    rgba(0, 51, 160, 0.8),
+    rgba(255, 255, 255, 0.6),
+    rgba(200, 0, 0, 0.8)
+  );
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* ===================== */
+/* ⚽ JOGOS (CORRIGIDO CENTRALIZAÇÃO) */
+/* ===================== */
+
+.game {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  /* background: rgba(20,20,20,0.85); */
+  border-radius: 10px;
+  margin: 0 auto 8px auto;
+
+  /* 🔥 CENTRALIZA DE VERDADE */
+  width: 100%;
+  max-width: 500px;
+  justify-content: center;
+}
+
+/* checkbox sempre esquerda */
+.select-game {
+ transform: scale(1.2);
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* 🔥 AJUSTE IMPORTANTE */
+.game-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+}
+
+.team img {
+  width: 32px;
+}
+
+/* INFO CENTRALIZADA */
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 2px;
+  font-size: 13px;
+}
+
+/* INPUT PLACAR */
+input {
+  width: 70px;
+  height: 35px;
+  text-align: center;
+  border-radius: 6px;
+  border: none;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 51, 160, 0.9),
+    rgba(200, 0, 0, 0.9)
+  );
+}
+
+.footer img {
+  width: 50px;
+  display: block;
+  margin: 5px auto;
+}
+
+.slogan {
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+/* ===================== */
+/* 📱 RESPONSIVO */
+/* ===================== */
+
+@media (max-width: 600px) {
+
+  * {
+  box-sizing: border-box;
+}
+
+  #cards {
+    padding: 5px;
+  }
+
+    .logo_brasileiro,
+  .logo_bahia {
+    width: 25px; /* menor no mobile */
+  }
+
+  header {
+    padding: 8px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .game {
+    max-width: 100%;
+    padding: 8px;
+  }
+
+  .game-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .team {
+    justify-content: center;
+  }
+
+  input {
+    width: 80px;
+    height: 32px;
+  }
+
+  .select-game {
+    align-self: flex-start;
+  }
+
+  .info {
+    font-size: 12px;
+  }
+
+  .admin input {
+  width: 70%;
+}
+}

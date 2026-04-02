@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="img-src * data:;">
+
+<link rel="shortcut icon" href="img/bahia.png" type="image/x-icon">
+<title>Calendário do Bahia</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+<div class="header-content">
+<img src="img/bahia.png" alt="Logo do Bahia" class="logo_bahia">
+<h1>Calendário do Esquadrão 2026</h1>
+<img src="img/logo_brasileiro.png"   alt="Logo do Campeonato Brasileiro" class="logo_brasileiro">
+</div>
+</header>
+
+<!-- 🧠 PAINEL -->
+<section class="admin">
+<h2>Adicionar Jogo</h2>
+
+<input id="date" placeholder="Data (ex: 30/04)">
+<input id="info" placeholder="Rodada e dia">
+<input id="team1" placeholder="Time casa (ex: bahia)">
+<input id="team2" placeholder="Time fora">
+<input id="stadium" placeholder="Estádio">
+<input id="time" placeholder="Horário">
+<input id="score" placeholder="Placar (ex: 2 x 1)" >  
+
+<button onclick="addGame()" class="btn_adicionar">Adicionar</button>
+<button onclick="deleteSelectedGames()" class="btn_excluir">
+  🗑 Excluir selecionados
+</button>
+</section>
+
+
+<main id="cards"></main>
+
+<footer class="footer">
+<p>BBMP 🔵🔴⚪</p>
+<span class="slogan">É o esquadrão, não tem jeito</span>
+<img src="img/bahia.png" alt="Logo do Bahia" class="logo-bahia">
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

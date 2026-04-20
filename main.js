@@ -1,3 +1,4 @@
+
 // 🛡️ ESCUDOS
 const shields = {
   "bahia": "img/bahia.png",
@@ -141,7 +142,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "bahia",
     stadium: "Maracanã",
     time: "19:30",
-    score: "x"
+    score: "2x0"
   },
   {
   date: "22/04",

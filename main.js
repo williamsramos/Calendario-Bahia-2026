@@ -168,11 +168,61 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     info: "Rodada 14ª • domingo",
     team1: "sao-paulo",
     team2: "bahia",
-    stadium: "MorumBis",
+    stadium: "Estadio Cicero Sousa de Marques",
     time: "16:00",
     score: "x"
+  },
+  
+  {
+    date: "09/05",
+    info: "Rodada 15ª • sabado",
+    team1: "bahia",
+    team2: "cruzeiro",
+    stadium: "Arena Fonte Nova",
+    time: "21:00",
+    score: "x"
+  }, 
+  
+  {
+    date: "13/05",
+    info: "Copa do Brasil 5ªfase volta • domingo",
+    team1: "remo",
+    team2: "bahia",
+    stadium: "Mangueirao",
+    time: "21:30",
+    score: "x"
+  },
+  
+  {
+    date: "17/05",
+    info: "Rodada 16ª • domingo",
+    team1: "bahia",
+    team2: "cruzeiro",
+    stadium: "Arena Fonte Nova",
+    time: "16:00",
+    score: "x"
+  }, 
+  
+  {
+    date: "25/05",
+    info: "Rodada 17ª • segunda",
+    team1: "coritiba",
+    team2: "bahia",
+    stadium: "Couto Pereira",
+    time: "20:00",
+    score: "x"
+  },
+  
+  {
+    date: "31/05",
+    info: "Rodada 18ª • domingo",
+    team1: "bahia",
+    team2: "botafogo",
+    stadium: "Arena Fonte Nova",
+    time: "17:00",
+    score: "x"
   }
-
+  
   // 2º turno do Brasileirão 2026  - Copa do Brasil
 ];
 

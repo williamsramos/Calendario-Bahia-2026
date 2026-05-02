@@ -214,12 +214,12 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   },
   
   {
-    date: "31/05",
+    date: "30/05",
     info: "Rodada 18ª • domingo",
     team1: "bahia",
     team2: "botafogo",
     stadium: "Arena Fonte Nova",
-    time: "17:00",
+    time: "17:30",
     score: "x"
   }
   

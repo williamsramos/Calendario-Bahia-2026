@@ -170,7 +170,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "bahia",
     stadium: "Estadio Cicero Sousa de Marques",
     time: "16:00",
-    score: "x"
+    score: "2x2"
   },
   
   {

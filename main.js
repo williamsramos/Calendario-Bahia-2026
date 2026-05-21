@@ -332,12 +332,6 @@ function addGame() {
   renderGames();
 }
 
-
-
-
-
-
-
 // 🗑 excluir selecionados
 function deleteSelectedGames() {
   const checkboxes = document.querySelectorAll(".select-game:checked");
@@ -362,19 +356,47 @@ function deleteSelectedGames() {
 
 // 📊 renderizar
 function renderGames() {
+
   let content = "";
 
   games.forEach((g, i) => {
+
+    // ⚽ início do 1º turno
+    if (i === 0) {
+      content += `
+        <div class="turno-title">
+          ⚽ 1º TURNO
+        </div>
+      `;
+    }
+
+    // 🔁 início do 2º turno
+    if (g.info.includes("20ª")) {
+      content += `
+        <div class="turno-title">
+          🔁 2º TURNO
+        </div>
+      `;
+    }
+
     content += createCard(
       g.date,
       g.info,
       g.stadium,
       g.time,
-      createGame("g" + i, g.team1, g.score, g.team2)
+
+      createGame(
+        g.id,
+        g.team1,
+        g.score,
+        g.team2
+      )
     );
+
   });
 
   document.querySelector("#cards").innerHTML = content;
+}
 }
 
 // 🚀 iniciar

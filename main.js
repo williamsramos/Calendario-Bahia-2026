@@ -221,9 +221,28 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     stadium: "Arena Fonte Nova",
     time: "17:30",
     score: "x"
-  }
+  },
   
-  // 2º turno do Brasileirão 2026  - Copa do Brasil
+  {
+    date: "22/07",
+    info: "Rodada 19ª • -",
+    team1: "atletico-mg",
+    team2: "bahia",
+    stadium: "Arena MRV",
+    time: "-",
+    score: "x"
+  },
+  
+  *2º turno do Brasileirão 2026*
+  {
+    date: "25/07",
+    info: "Rodada 20ª • -",
+    team1: "bahia",
+    team2: "corinnthians",
+    stadium: "Arena Fonte Nova",
+    time: "-",
+    score: "x"
+  }
 ];
 
 // 💾 salvar placar

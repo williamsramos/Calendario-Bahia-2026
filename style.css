@@ -139,17 +139,32 @@ header {
 
 /* 🟢 vitória */
 .card.win {
-  border-left: 5px solid #00ff88;
+  border: 2px solid #00ff88;
+  box-shadow: 0 0 15px rgba(0,255,136,0.4);
+}
+
+.card.win h2 {
+  color: #00ff88;
 }
 
 /* 🔴 derrota */
-.card.loss {
-  border-left: 5px solid #ff3b3b;
+.card.loser {
+  border: 2px solid #ff3b3b;
+  box-shadow: 0 0 15px rgba(255, 59, 59, 0.4);
+}
+
+.card.loser h2 {
+  color: #ff3b3b;
 }
 
 /* 🟡 empate */
 .card.draw {
-  border-left: 5px solid #ffd700;
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 15px rgba(255,215,0,0.4);
+}
+
+.card.draw h2 {
+  color: #ffd700;
 }
 
 /* ===================== */

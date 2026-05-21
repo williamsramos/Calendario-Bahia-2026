@@ -74,7 +74,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   },
   {
     date: "11/03",
-    info: "Rodada 5ª • terça",
+    info: "Rodada 5ª • quarta",
     team1: "bahia",
     team2: "vitoria",
     stadium: "Arena Fonte Nova",

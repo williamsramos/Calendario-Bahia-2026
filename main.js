@@ -251,7 +251,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   // 🔁 2º turno
   {
     date: "25/07",
-    info: "Rodada 20ª • quarta",
+    info: "Rodada 20ª • -",
     team1: "bahia",
     team2: "corinthians",
     stadium: "Arena Fonte Nova",

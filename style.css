@@ -285,4 +285,15 @@ input {
   .admin input {
   width: 70%;
 }
+
+.turno-title {
+
+    font-size: 18px;
+
+    padding: 8px;
+
+    margin: 15px 0 10px;
+
+    border-radius: 10px;
+  }
 }

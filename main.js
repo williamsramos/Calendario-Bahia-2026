@@ -332,68 +332,55 @@ function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
 
   // 📊 resultado do Bahia
 
-  if (score.includes("x")) {
+ // 🔥 RESULTADO
+if (
+  score &&
+  score !== "x" &&
+  score.includes("x") &&
+  !score.includes("pênaltis")
+) {
 
-    const parts = score.split("x");
+  const placar = score.split("x");
 
-    if (parts.length === 2) {
+  const gols1 = parseInt(placar[0]);
+  const gols2 = parseInt(placar[1]);
 
-      const goals1 = parseInt(parts[0]);
+  // evita erro
+  if (!isNaN(gols1) && !isNaN(gols2)) {
 
-      const goals2 = parseInt(parts[1]);
+    // Bahia mandante
+    if (team1 === "bahia") {
 
-      if (!isNaN(goals1) && !isNaN(goals2)) {
-
-        // Bahia mandante
-
-        if (team1 === "bahia") {
-
-          if (goals1 > goals2) {
-
-            resultClass = "win";
-
-          }
-
-          else if (goals1 < goals2) {
-
-            resultClass = "loss";
-
-          }
-
-          else {
-
-            resultClass = "draw";
-
-          }
-
-        }
-
-        // Bahia visitante
-
-        if (team2 === "bahia") {
-
-          if (goals2 > goals1) {
-
-            resultClass = "win";
-
-          }
-
-          else if (goals2 < goals1) {
-
-            resultClass = "loss";
-
-          }
-
-          else {
-
-            resultClass = "draw";
-        }
-
+      if (gols1 > gols2) {
+        extraClass += " win";
       }
 
+      else if (gols1 < gols2) {
+        extraClass += " loser";
+      }
+
+      else {
+        extraClass += " draw";
+      }
     }
 
+    // Bahia visitante
+    if (team2 === "bahia") {
+
+      if (gols2 > gols1) {
+        extraClass += " win";
+      }
+
+      else if (gols2 < gols1) {
+        extraClass += " loser";
+      }
+
+      else {
+        extraClass += " draw";
+      }
+    }
   }
+}
 
   return `
     <div class="card ${extraClass} ${resultClass}">

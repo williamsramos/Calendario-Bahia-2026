@@ -1,4 +1,3 @@
-
 // 🛡️ ESCUDOS
 const shields = {
   "bahia": "img/bahia.png",
@@ -26,7 +25,8 @@ const shields = {
 
 // 📦 jogos
 let games = JSON.parse(localStorage.getItem("games")) || [
-  // 1º turno do Brasileirão 2026  - Copa do Brasil
+
+  // 1º turno do Brasileirão 2026
   {
     date: "28/01",
     info: "Rodada 1ª • terça",
@@ -36,6 +36,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "20:00",
     score: "1 x 2"
   },
+
   {
     date: "05/02",
     info: "Rodada 2ª • quarta",
@@ -45,6 +46,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "19:00",
     score: "1 x 1"
   },
+
   {
     date: "11/02",
     info: "Rodada 3ª • terça",
@@ -54,6 +56,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "21:30",
     score: "0 x 1"
   },
+
   {
     date: "18/02",
     info: "Libertadores • 2ª fase • ida",
@@ -63,6 +66,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "19:00",
     score: "1 x 0"
   },
+
   {
     date: "25/02",
     info: "Libertadores • 2ª fase • volta",
@@ -70,8 +74,10 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "o-higgins",
     stadium: "Arena Fonte Nova",
     time: "19:00",
-    score: "2 x 1 (3 x 4 pênaltis)"
+    score: "2 x 1 (3 x 4)",
+    result: "loser"
   },
+
   {
     date: "11/03",
     info: "Rodada 5ª • quarta",
@@ -81,6 +87,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "20:00",
     score: "1 x 1"
   },
+
   {
     date: "15/03",
     info: "Rodada 6ª • domingo",
@@ -90,15 +97,17 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "16:00",
     score: "0 x 1"
   },
+
   {
     date: "18/03",
-    info: "Rodada 7ª • quarta ",
+    info: "Rodada 7ª • quarta",
     team1: "bahia",
     team2: "bragantino",
     stadium: "Arena Fonte Nova",
     time: "19:00",
     score: "2 x 0"
   },
+
   {
     date: "22/03",
     info: "Rodada 8ª • domingo",
@@ -108,6 +117,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "16:00",
     score: "4 x 1"
   },
+
   {
     date: "01/04",
     info: "Rodada 9ª • quarta",
@@ -117,6 +127,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "20:00",
     score: "3 x 0"
   },
+
   {
     date: "05/04",
     info: "Rodada 10ª • domingo",
@@ -124,8 +135,9 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "palmeiras",
     stadium: "Arena Fonte Nova",
     time: "19:30",
-    score: "1x2"
+    score: "1 x 2"
   },
+
   {
     date: "11/04",
     info: "Rodada 11ª • sábado",
@@ -133,8 +145,9 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "bahia",
     stadium: "Maião",
     time: "18:30",
-    score: "1x2"
+    score: "1 x 2"
   },
+
   {
     date: "19/04",
     info: "Rodada 12ª • domingo",
@@ -142,17 +155,19 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "bahia",
     stadium: "Maracanã",
     time: "19:30",
-    score: "2x0"
+    score: "2 x 0"
   },
+
   {
-  date: "22/04",
-  info: "Copa do Brasil • 5ª fase • quarta",
-  team1: "bahia",
-  team2: "remo",
-  stadium: "Arena Fonte Nova",
-  time: "19:00",
-  score: "1x3"
-},
+    date: "22/04",
+    info: "Copa do Brasil • 5ª fase • quarta",
+    team1: "bahia",
+    team2: "remo",
+    stadium: "Arena Fonte Nova",
+    time: "19:00",
+    score: "1 x 3"
+  },
+
   {
     date: "25/04",
     info: "Rodada 13ª • sábado",
@@ -160,39 +175,39 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "santos",
     stadium: "Arena Fonte Nova",
     time: "18:30",
-    score: "2x2"
+    score: "2 x 2"
   },
 
-    {
+  {
     date: "03/05",
     info: "Rodada 14ª • domingo",
     team1: "sao-paulo",
     team2: "bahia",
     stadium: "Estadio Cicero Sousa de Marques",
     time: "16:00",
-    score: "2x2"
+    score: "2 x 2"
   },
-  
+
   {
     date: "09/05",
-    info: "Rodada 15ª • sabado",
+    info: "Rodada 15ª • sábado",
     team1: "bahia",
     team2: "cruzeiro",
     stadium: "Arena Fonte Nova",
     time: "21:00",
-    score: "1x2"
-  }, 
-  
+    score: "1 x 2"
+  },
+
   {
     date: "13/05",
-    info: "Copa do Brasil 5ªfase volta • domingo",
+    info: "Copa do Brasil • 5ª fase • volta",
     team1: "remo",
     team2: "bahia",
-    stadium: "Mangueirao",
+    stadium: "Mangueirão",
     time: "21:30",
-    score: "2x1"
+    score: "2 x 1"
   },
-  
+
   {
     date: "17/05",
     info: "Rodada 16ª • domingo",
@@ -200,9 +215,9 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     team2: "gremio",
     stadium: "Arena Fonte Nova",
     time: "16:00",
-    score: "1x1"
-  }, 
-  
+    score: "1 x 1"
+  },
+
   {
     date: "25/05",
     info: "Rodada 17ª • segunda",
@@ -212,17 +227,17 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "20:00",
     score: "x"
   },
-  
+
   {
     date: "30/05",
-    info: "Rodada 18ª • sabado",
+    info: "Rodada 18ª • sábado",
     team1: "bahia",
     team2: "botafogo",
     stadium: "Arena Fonte Nova",
     time: "17:30",
     score: "x"
   },
-  
+
   {
     date: "22/07",
     info: "Rodada 19ª • -",
@@ -232,8 +247,8 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "-",
     score: "x"
   },
-  
-  //2º turno do Brasileirão 2026
+
+  // 🔁 2º turno
   {
     date: "25/07",
     info: "Rodada 20ª • quarta",
@@ -245,16 +260,6 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   }
 ];
 
-// 💾 salvar placar
-function saveScore(id, value) {
-  localStorage.setItem(id, value);
-}
-
-// 📥 pegar placar
-function getScore(id) {
-  return localStorage.getItem(id) || "";
-}
-
 // 🔧 normalizar nomes
 function normalizeTeam(name) {
   return name
@@ -265,34 +270,53 @@ function normalizeTeam(name) {
     .replaceAll("ç", "c");
 }
 
+// 💾 salvar placar
+function saveScore(index, value) {
+
+  games[index].score = value;
+
+  localStorage.setItem("games", JSON.stringify(games));
+
+  renderGames();
+}
+
 // ⚽ criar jogo
-function createGame(id, team1, score, team2) {
+function createGame(index, team1, score, team2) {
+
   return `
-  <li class="game">
+    <li class="game">
 
-    <input type="checkbox" class="select-game" data-id="${id}">
+      <input
+        type="checkbox"
+        class="select-game"
+        data-index="${index}"
+      >
 
-    <div class="team">
-      <img src="${shields[team1]}">
-      <span>${team1.replace("-", " ")}</span>
-    </div>
+      <div class="team">
+        <img src="${shields[team1]}">
+        <span>${team1.replace("-", " ")}</span>
+      </div>
 
-    <div class="info">
-      <input value="${getScore(id) || score}"
-      oninput="saveScore('${id}', this.value)">
-    </div>
+      <div class="info">
 
-    <div class="team">
-      <img src="${shields[team2]}">
-      <span>${team2.replace("-", " ")}</span>
-    </div>
+        <input
+          value="${score}"
+          oninput="saveScore(${index}, this.value)"
+        >
 
-  </li>
+      </div>
+
+      <div class="team">
+        <img src="${shields[team2]}">
+        <span>${team2.replace("-", " ")}</span>
+      </div>
+
+    </li>
   `;
 }
 
 // 📅 card
-function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
+function createCard(date, info, stadium, time, gamesHTML, team1, team2, score, result) {
 
   let extraClass = "";
 
@@ -306,15 +330,20 @@ function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
     extraClass += " copa-brasil";
   }
 
-  // 🔥 RESULTADO
-  if (
+  // 🔥 resultado manual
+  if (result) {
+    extraClass += ` ${result}`;
+  }
+
+  // 🔥 resultado automático
+  else if (
     score &&
     score !== "x" &&
-    score.includes("x") &&
-    !score.includes("pênaltis")
+    score.includes(" x ") &&
+    !score.includes("(")
   ) {
 
-    const placar = score.split("x");
+    const placar = score.split(" x ");
 
     const gols1 = parseInt(placar[0]);
     const gols2 = parseInt(placar[1]);
@@ -357,6 +386,7 @@ function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
 
   return `
     <div class="card ${extraClass}">
+
       <h2>
         ${date}
         <span>${info} • ${stadium} • ${time}</span>
@@ -372,6 +402,7 @@ function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
 
 // 🚫 duplicado
 function isDuplicate(newGame) {
+
   return games.some(g =>
     g.date === newGame.date &&
     g.team1 === newGame.team1 &&
@@ -381,6 +412,7 @@ function isDuplicate(newGame) {
 
 // ➕ adicionar jogo
 function addGame() {
+
   const game = {
     date: document.getElementById("date").value,
     info: document.getElementById("info").value,
@@ -397,12 +429,15 @@ function addGame() {
   }
 
   games.push(game);
+
   localStorage.setItem("games", JSON.stringify(games));
+
   renderGames();
 }
 
-// 🗑 excluir selecionados
+// 🗑 excluir jogos
 function deleteSelectedGames() {
+
   const checkboxes = document.querySelectorAll(".select-game:checked");
 
   if (checkboxes.length === 0) {
@@ -410,19 +445,26 @@ function deleteSelectedGames() {
     return;
   }
 
-  const confirmacao = confirm("Tem certeza que deseja excluir os jogos selecionados?");
+  const confirmacao = confirm(
+    "Tem certeza que deseja excluir os jogos selecionados?"
+  );
 
   if (!confirmacao) return;
 
-  const idsToDelete = Array.from(checkboxes).map(cb => cb.dataset.id);
+  const indexesToDelete = Array
+    .from(checkboxes)
+    .map(cb => Number(cb.dataset.index));
 
-  games = games.filter((_, index) => !idsToDelete.includes("g" + index));
+  games = games.filter(
+    (_, index) => !indexesToDelete.includes(index)
+  );
 
   localStorage.setItem("games", JSON.stringify(games));
+
   renderGames();
 }
 
-
+// 🎨 renderizar jogos
 function renderGames() {
 
   let content = "";
@@ -434,10 +476,11 @@ function renderGames() {
     </div>
   `;
 
-  games.forEach((g) => {
+  games.forEach((g, index) => {
 
     // 🔁 início do 2º turno
     if (g.info.includes("20ª")) {
+
       content += `
         <div class="turno-title">
           🔁 2º TURNO
@@ -452,7 +495,7 @@ function renderGames() {
       g.time,
 
       createGame(
-        g.id,
+        index,
         g.team1,
         g.score,
         g.team2
@@ -460,9 +503,9 @@ function renderGames() {
 
       g.team1,
       g.team2,
-      g.score
+      g.score,
+      g.result
     );
-
   });
 
   document.querySelector("#cards").innerHTML = content;
@@ -470,4 +513,3 @@ function renderGames() {
 
 // 🚀 iniciar
 renderGames();
-

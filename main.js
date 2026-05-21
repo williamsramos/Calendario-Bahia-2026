@@ -233,7 +233,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     score: "x"
   },
   
-  *2º turno do Brasileirão 2026*
+  //2º turno do Brasileirão 2026
   {
     date: "25/07",
     info: "Rodada 20ª • -",

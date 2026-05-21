@@ -236,7 +236,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   //2º turno do Brasileirão 2026
   {
     date: "25/07",
-    info: "Rodada 20ª • -",
+    info: "Rodada 20ª • quarta",
     team1: "bahia",
     team2: "corinthians",
     stadium: "Arena Fonte Nova",
@@ -361,7 +361,7 @@ function renderGames() {
 
   games.forEach((g, i) => {
 
-    // ⚽ início do 1º turno
+    // ⚽ 1º turno
     if (i === 0) {
       content += `
         <div class="turno-title">
@@ -370,7 +370,7 @@ function renderGames() {
       `;
     }
 
-    // 🔁 início do 2º turno
+    // 🔁 2º turno
     if (g.info.includes("20ª")) {
       content += `
         <div class="turno-title">

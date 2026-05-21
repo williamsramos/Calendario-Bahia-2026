@@ -292,9 +292,10 @@ function createGame(id, team1, score, team2) {
 }
 
 // 📅 card
-function createCard(date, info, stadium, time, gamesHTML) {
+function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
 
   let extraClass = "";
+  let resultClass = "";
 
   // 🟢 Libertadores
   if (info.toLowerCase().includes("libertadores")) {
@@ -306,8 +307,52 @@ function createCard(date, info, stadium, time, gamesHTML) {
     extraClass = "copa-brasil";
   }
 
+  // 📊 resultado do Bahia
+  if (score.includes("x")) {
+
+    const parts = score.split("x");
+
+    if (parts.length === 2) {
+
+      const goals1 = parseInt(parts[0]);
+      const goals2 = parseInt(parts[1]);
+
+      // Bahia mandante
+      if (team1 === "bahia") {
+
+        if (goals1 > goals2) {
+          resultClass = "win";
+        }
+        else if (goals1 < goals2) {
+          resultClass = "loss";
+        }
+        else {
+          resultClass = "draw";
+        }
+
+      }
+
+      // Bahia visitante
+      if (team2 === "bahia") {
+
+        if (goals2 > goals1) {
+          resultClass = "win";
+        }
+        else if (goals2 < goals1) {
+          resultClass = "loss";
+        }
+        else {
+          resultClass = "draw";
+        }
+
+      }
+
+    }
+
+  }
+
   return `
-    <div class="card ${extraClass}">
+    <div class="card ${extraClass} ${resultClass}">
 
       <h2>
         ${date}
@@ -396,16 +441,15 @@ function renderGames() {
     }
 
     content += createCard(
-      g.date,
-      g.info,
-      g.stadium,
-      g.time,
-      createGame(
-        g.id,
-        g.team1,
-        g.score,
-        g.team2
-      )
+  g.date,
+  g.info,
+  g.stadium,
+  g.time,
+  createGame(g.id, g.team1, g.score, g.team2),
+  g.team1,
+  g.team2,
+  g.score
+)
     );
 
   });

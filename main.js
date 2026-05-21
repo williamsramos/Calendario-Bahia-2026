@@ -354,10 +354,16 @@ function deleteSelectedGames() {
 }
 
 
-// 📊 renderizar
 function renderGames() {
 
   let content = "";
+
+  // 🔥 título do primeiro turno
+  content += `
+    <div class="turno-title">
+      🔵 1º TURNO
+    </div>
+  `;
 
   games.forEach((g) => {
 

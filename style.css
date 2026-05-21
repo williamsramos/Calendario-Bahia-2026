@@ -213,6 +213,18 @@ input {
   font-weight: bold;
 }
 
+.turno-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0 15px;
+  color: #ffd700;
+
+  background: rgba(0,0,0,0.7);
+  padding: 10px;
+  border-radius: 12px;
+}
+
 /* ===================== */
 /* 📱 RESPONSIVO */
 /* ===================== */

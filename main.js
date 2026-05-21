@@ -83,7 +83,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   },
   {
     date: "15/03",
-    info: "Rodada 6ª • sábado",
+    info: "Rodada 6ª • domingo",
     team1: "internacional",
     team2: "bahia",
     stadium: "Beira-Rio",
@@ -92,7 +92,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   },
   {
     date: "18/03",
-    info: "Rodada 7ª • terça",
+    info: "Rodada 7ª • quarta ",
     team1: "bahia",
     team2: "bragantino",
     stadium: "Arena Fonte Nova",
@@ -101,7 +101,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   },
   {
     date: "22/03",
-    info: "Rodada 8ª • sábado",
+    info: "Rodada 8ª • domingo",
     team1: "remo",
     team2: "bahia",
     stadium: "Mangueirão",
@@ -119,7 +119,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   },
   {
     date: "05/04",
-    info: "Rodada 10ª • sábado",
+    info: "Rodada 10ª • domingo",
     team1: "bahia",
     team2: "palmeiras",
     stadium: "Arena Fonte Nova",
@@ -215,7 +215,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   
   {
     date: "30/05",
-    info: "Rodada 18ª • domingo",
+    info: "Rodada 18ª • sabado",
     team1: "bahia",
     team2: "botafogo",
     stadium: "Arena Fonte Nova",

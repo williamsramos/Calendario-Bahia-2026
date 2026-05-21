@@ -295,102 +295,76 @@ function createGame(id, team1, score, team2) {
 function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
 
   let extraClass = "";
-  let resultClass = "";
 
   // 🟢 Libertadores
   if (info.toLowerCase().includes("libertadores")) {
-    extraClass = "libertadores";
+    extraClass += " libertadores";
   }
 
   // 🟡 Copa do Brasil
   if (info.toLowerCase().includes("copa do brasil")) {
-    extraClass = "copa-brasil";
+    extraClass += " copa-brasil";
   }
 
-  // 📊 resultado do Bahia
-  function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
+  // 🔥 RESULTADO
+  if (
+    score &&
+    score !== "x" &&
+    score.includes("x") &&
+    !score.includes("pênaltis")
+  ) {
 
-  let extraClass = "";
+    const placar = score.split("x");
 
-  let resultClass = "";
+    const gols1 = parseInt(placar[0]);
+    const gols2 = parseInt(placar[1]);
 
-  // 🟢 Libertadores
+    if (!isNaN(gols1) && !isNaN(gols2)) {
 
-  if (info.toLowerCase().includes("libertadores")) {
+      // Bahia mandante
+      if (team1 === "bahia") {
 
-    extraClass = "libertadores";
+        if (gols1 > gols2) {
+          extraClass += " win";
+        }
 
-  }
+        else if (gols1 < gols2) {
+          extraClass += " loser";
+        }
 
-  // 🟡 Copa do Brasil
-
-  if (info.toLowerCase().includes("copa do brasil")) {
-
-    extraClass = "copa-brasil";
-
-  }
-
-  // 📊 resultado do Bahia
-
- // 🔥 RESULTADO
-if (
-  score &&
-  score !== "x" &&
-  score.includes("x") &&
-  !score.includes("pênaltis")
-) {
-
-  const placar = score.split("x");
-
-  const gols1 = parseInt(placar[0]);
-  const gols2 = parseInt(placar[1]);
-
-  // evita erro
-  if (!isNaN(gols1) && !isNaN(gols2)) {
-
-    // Bahia mandante
-    if (team1 === "bahia") {
-
-      if (gols1 > gols2) {
-        extraClass += " win";
+        else {
+          extraClass += " draw";
+        }
       }
 
-      else if (gols1 < gols2) {
-        extraClass += " loser";
-      }
+      // Bahia visitante
+      if (team2 === "bahia") {
 
-      else {
-        extraClass += " draw";
-      }
-    }
+        if (gols2 > gols1) {
+          extraClass += " win";
+        }
 
-    // Bahia visitante
-    if (team2 === "bahia") {
+        else if (gols2 < gols1) {
+          extraClass += " loser";
+        }
 
-      if (gols2 > gols1) {
-        extraClass += " win";
-      }
-
-      else if (gols2 < gols1) {
-        extraClass += " loser";
-      }
-
-      else {
-        extraClass += " draw";
+        else {
+          extraClass += " draw";
+        }
       }
     }
   }
-}
 
   return `
-    <div class="card ${extraClass} ${resultClass}">
-
+    <div class="card ${extraClass}">
       <h2>
         ${date}
         <span>${info} • ${stadium} • ${time}</span>
       </h2>
 
-      <ul>${gamesHTML}</ul>
+      <ul>
+        ${gamesHTML}
+      </ul>
 
     </div>
   `;

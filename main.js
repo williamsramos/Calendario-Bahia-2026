@@ -308,49 +308,85 @@ function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
   }
 
   // 📊 resultado do Bahia
-  if (score !== "x" && score.includes("x")) {
+  function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
 
-  const placar = score.split("x");
+  let extraClass = "";
 
-  const gols1 = parseInt(placar[0]);
+  let resultClass = "";
 
-  const gols2 = parseInt(placar[1]);
+  // 🟢 Libertadores
 
-  // Bahia mandante
+  if (info.toLowerCase().includes("libertadores")) {
 
-  if (team1 === "bahia") {
-
-    if (gols1 > gols2) {
-
-      extraClass += " vitoria";
-
-    } else if (gols1 < gols2) {
-
-      extraClass += " derrota";
-
-    } else {
-
-      extraClass += " empate";
-
-    }
+    extraClass = "libertadores";
 
   }
 
-  // Bahia visitante
+  // 🟡 Copa do Brasil
 
-  if (team2 === "bahia") {
+  if (info.toLowerCase().includes("copa do brasil")) {
 
-    if (gols2 > gols1) {
+    extraClass = "copa-brasil";
 
-      extraClass += " vitoria";
+  }
 
-    } else if (gols2 < gols1) {
+  // 📊 resultado do Bahia
 
-      extraClass += " derrota";
+  if (score.includes("x")) {
 
-    } else {
+    const parts = score.split("x");
 
-      extraClass += " empate";
+    if (parts.length === 2) {
+
+      const goals1 = parseInt(parts[0]);
+
+      const goals2 = parseInt(parts[1]);
+
+      if (!isNaN(goals1) && !isNaN(goals2)) {
+
+        // Bahia mandante
+
+        if (team1 === "bahia") {
+
+          if (goals1 > goals2) {
+
+            resultClass = "win";
+
+          }
+
+          else if (goals1 < goals2) {
+
+            resultClass = "loss";
+
+          }
+
+          else {
+
+            resultClass = "draw";
+
+          }
+
+        }
+
+        // Bahia visitante
+
+        if (team2 === "bahia") {
+
+          if (goals2 > goals1) {
+
+            resultClass = "win";
+
+          }
+
+          else if (goals2 < goals1) {
+
+            resultClass = "loss";
+
+          }
+
+          else {
+
+            resultClass = "draw";
         }
 
       }

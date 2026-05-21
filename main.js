@@ -422,7 +422,7 @@ function renderGames() {
 
   let content = "";
 
-  // 🔥 título do primeiro turno
+  // 🔵 1º turno
   content += `
     <div class="turno-title">
       🔵 1º TURNO
@@ -441,15 +441,21 @@ function renderGames() {
     }
 
     content += createCard(
-  g.date,
-  g.info,
-  g.stadium,
-  g.time,
-  createGame(g.id, g.team1, g.score, g.team2),
-  g.team1,
-  g.team2,
-  g.score
-)
+      g.date,
+      g.info,
+      g.stadium,
+      g.time,
+
+      createGame(
+        g.id,
+        g.team1,
+        g.score,
+        g.team2
+      ),
+
+      g.team1,
+      g.team2,
+      g.score
     );
 
   });

@@ -308,41 +308,49 @@ function createCard(date, info, stadium, time, gamesHTML, team1, team2, score) {
   }
 
   // 📊 resultado do Bahia
-  if (score.includes("x")) {
+  if (score !== "x" && score.includes("x")) {
 
-    const parts = score.split("x");
+  const placar = score.split("x");
 
-    if (parts.length === 2) {
+  const gols1 = parseInt(placar[0]);
 
-      const goals1 = parseInt(parts[0]);
-      const goals2 = parseInt(parts[1]);
+  const gols2 = parseInt(placar[1]);
 
-      // Bahia mandante
-      if (team1 === "bahia") {
+  // Bahia mandante
 
-        if (goals1 > goals2) {
-          resultClass = "win";
-        }
-        else if (goals1 < goals2) {
-          resultClass = "loss";
-        }
-        else {
-          resultClass = "draw";
-        }
+  if (team1 === "bahia") {
 
-      }
+    if (gols1 > gols2) {
 
-      // Bahia visitante
-      if (team2 === "bahia") {
+      extraClass += " vitoria";
 
-        if (goals2 > goals1) {
-          resultClass = "win";
-        }
-        else if (goals2 < goals1) {
-          resultClass = "loss";
-        }
-        else {
-          resultClass = "draw";
+    } else if (gols1 < gols2) {
+
+      extraClass += " derrota";
+
+    } else {
+
+      extraClass += " empate";
+
+    }
+
+  }
+
+  // Bahia visitante
+
+  if (team2 === "bahia") {
+
+    if (gols2 > gols1) {
+
+      extraClass += " vitoria";
+
+    } else if (gols2 < gols1) {
+
+      extraClass += " derrota";
+
+    } else {
+
+      extraClass += " empate";
         }
 
       }

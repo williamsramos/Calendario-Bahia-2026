@@ -293,11 +293,30 @@ function createGame(id, team1, score, team2) {
 
 // 📅 card
 function createCard(date, info, stadium, time, gamesHTML) {
+
+  let extraClass = "";
+
+  // 🟢 Libertadores
+  if (info.toLowerCase().includes("libertadores")) {
+    extraClass = "libertadores";
+  }
+
+  // 🟡 Copa do Brasil
+  if (info.toLowerCase().includes("copa do brasil")) {
+    extraClass = "copa-brasil";
+  }
+
   return `
-  <div class="card">
-    <h2>${date} <span>${info} • ${stadium} • ${time}</span></h2>
-    <ul>${gamesHTML}</ul>
-  </div>
+    <div class="card ${extraClass}">
+
+      <h2>
+        ${date}
+        <span>${info} • ${stadium} • ${time}</span>
+      </h2>
+
+      <ul>${gamesHTML}</ul>
+
+    </div>
   `;
 }
 

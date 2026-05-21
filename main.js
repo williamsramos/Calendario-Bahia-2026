@@ -359,18 +359,9 @@ function renderGames() {
 
   let content = "";
 
-  games.forEach((g, i) => {
+  games.forEach((g) => {
 
-    // ⚽ 1º turno
-    if (i === 0) {
-      content += `
-        <div class="turno-title">
-          ⚽ 1º TURNO
-        </div>
-      `;
-    }
-
-    // 🔁 2º turno
+    // 🔁 início do 2º turno
     if (g.info.includes("20ª")) {
       content += `
         <div class="turno-title">
@@ -384,7 +375,6 @@ function renderGames() {
       g.info,
       g.stadium,
       g.time,
-
       createGame(
         g.id,
         g.team1,
@@ -396,7 +386,6 @@ function renderGames() {
   });
 
   document.querySelector("#cards").innerHTML = content;
-}
 }
 
 // 🚀 iniciar

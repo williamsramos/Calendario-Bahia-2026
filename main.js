@@ -528,42 +528,48 @@ function renderGames() {
       else if (g.penalties && g.penalties.trim() !== "") {
         penaltisExibicao = g.penalties;
       }
-      // 3. SEGUNDO CRITÉRIO: DETECÇÃO AUTOMÁTICA POR EMPATE NO AGREGADO
-      else if (g.info.toLowerCase().includes("volta") && placarExibicao.includes("x") && placarExibicao !== "x") {
-        const adversario = g.team1 === "bahia" ? g.team2 : g.team1;
-        const jogoIda = games.find(jogo => 
-          jogo.info.toLowerCase().includes("ida") && 
-          (jogo.team1 === adversario || jogo.team2 === adversario) &&
-          jogo.score && jogo.score !== "x"
-        );
+      // 3. DETECÇÃO AUTOMÁTICA POR EMPATE NO AGREGADO (Apenas se o jogo já tiver placar preenchido)
+      else if (g.info.toLowerCase().includes("volta") && placarExibicao.includes("x") && placarExibicao.trim() !== "x") {
+        const pVolta = placarExibicao.split("x");
+        const golV1Raw = pVolta[0]?.trim();
+        const golV2Raw = pVolta[1]?.trim();
 
-        if (jogoIda) {
-          const pVolta = placarExibicao.split("x");
-          const golsVolta1 = parseInt(pVolta[0]);
-          const golsVolta2 = parseInt(pVolta[1]);
+        // SÓ CALCULA SE OS INPUTS NÃO ESTIVEREM VAZIOS
+        if (golV1Raw !== "" && golV2Raw !== "" && !isNaN(parseInt(golV1Raw)) && !isNaN(parseInt(golV2Raw))) {
+          const adversario = g.team1 === "bahia" ? g.team2 : g.team1;
+          const jogoIda = games.find(jogo => 
+            jogo.info.toLowerCase().includes("ida") && 
+            (jogo.team1 === adversario || jogo.team2 === adversario) &&
+            jogo.score && jogo.score !== "x"
+          );
 
-          const pIda = jogoIda.score.split("(")[0].split("x");
-          const golsIda1 = parseInt(pIda[0]);
-          const golsIda2 = parseInt(pIda[1]);
+          if (jogoIda) {
+            const golsVolta1 = parseInt(golV1Raw);
+            const golsVolta2 = parseInt(golV2Raw);
 
-          if (!isNaN(golsVolta1) && !isNaN(golsVolta2) && !isNaN(golsIda1) && !isNaN(golsIda2)) {
-            let totalBahia = 0;
-            let totalAdversario = 0;
+            const pIda = jogoIda.score.split("(")[0].split("x");
+            const golsIda1 = parseInt(pIda[0]);
+            const golsIda2 = parseInt(pIda[1]);
 
-            if (jogoIda.team1 === "bahia") { totalBahia += golsIda1; totalAdversario += golsIda2; } 
-            else { totalBahia += golsIda2; totalAdversario += golsIda1; }
+            if (!isNaN(golsIda1) && !isNaN(golsIda2)) {
+              let totalBahia = 0;
+              let totalAdversario = 0;
 
-            if (g.team1 === "bahia") { totalBahia += golsVolta1; totalAdversario += golsVolta2; } 
-            else { totalBahia += golsVolta2; totalAdversario += golsVolta1; }
+              if (jogoIda.team1 === "bahia") { totalBahia += golsIda1; totalAdversario += golsIda2; } 
+              else { totalBahia += golsIda2; totalAdversario += golsIda1; }
 
-            if (totalBahia === totalAdversario) {
-              penaltisExibicao = "0 x 0"; // Cria um placeholder inicial de pênaltis se houver empate agregado
+              if (g.team1 === "bahia") { totalBahia += golsVolta1; totalAdversario += golsVolta2; } 
+              else { totalBahia += golsVolta2; totalAdversario += golsVolta1; }
+
+              if (totalBahia === totalAdversario) {
+                penaltisExibicao = "0 x 0"; // Abre as caixas de PK zeradas para você poder digitar
+              }
             }
           }
         }
       }
 
-      // Separação dos gols individuais para popular os respectivos inputs da tela
+      // Separação segura dos gols individuais para preencher a tela
       const golsNormalArray = placarExibicao.split("x");
       const golNormal1 = golsNormalArray[0]?.trim() || "";
       const golNormal2 = golsNormalArray[1]?.trim() || "";
@@ -594,7 +600,7 @@ function renderGames() {
 
       // Função auxiliar interna para atualizar dinamicamente a string unificada no LocalStorage
       window.atualizarPlacarComPenaltis = function(idx, n1, n2, p1, p2) {
-        let stringResultado = `${n1 || '0'} x ${n2 || '0'}`;
+        let stringResultado = `${n1 || ''} x ${n2 || ''}`;
         if (p1 !== "" || p2 !== "") {
           stringResultado += ` (${p1 || '0'} x ${p2 || '0'})`;
         }
@@ -613,7 +619,7 @@ function renderGames() {
             </div>
             
             <div class="score-box" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-              <input class="score-input" value="${golNormal1}" oninput="atualizarPlacarComPenaltis(${index}, this.value, '${golNormal2}', '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
+              <input class="score-input" value="${golNormal1}" oninput="atualizarPlacarComPenaltis(${index}, this.value, '${golNormal2}', '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;" placeholder="">
               
               ${penaltisExibicao !== "" ? `
                 <input class="pk-input" value="${golPenalti1}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', this.value, '${golPenalti2}')" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
@@ -625,7 +631,7 @@ function renderGames() {
                 <input class="pk-input" value="${golPenalti2}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', '${golPenalti1}', this.value)" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
               ` : ''}
 
-              <input class="score-input" value="${golNormal2}" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', this.value, '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
+              <input class="score-input" value="${golNormal2}" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', this.value, '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;" placeholder="">
             </div>
 
             <div class="team-box away">
@@ -650,7 +656,6 @@ function renderGames() {
   calculateSeasonProgress();
   switchTab(activeTab, null);
 }
-
 // ============================================================================
 // 🏃‍♂️ MÓDULO EXCLUSIVO: GERENCIAMENTO DE ELENCO & TOP ARTILHEIROS
 // ============================================================================

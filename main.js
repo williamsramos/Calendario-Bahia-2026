@@ -29,7 +29,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   { date: "05/02", info: "Rodada 2ª • quarta", team1: "bahia", team2: "fluminense", stadium: "Arena Fonte Nova", time: "19:00", score: "1 x 1" },
   { date: "11/02", info: "Rodada 3ª • terça", team1: "vasco", team2: "bahia", stadium: "São Januário", time: "21:30", score: "0 x 1" },
   { date: "18/02", info: "Libertadores • 2ª fase • ida", team1: "o-higgins", team2: "bahia", stadium: "El Teniente", time: "19:00", score: "1 x 0" },
-  { date: "25/02", info: "Libertadores • 2ª fase • volta", team1: "bahia", team2: "o-higgins", stadium: "Arena Fonte Nova", time: "19:00", score: "2 x 1 penalties: 3 x 4 ", result: "loser" },
+  { date: "25/02", info: "Libertadores • 2ª fase • volta", team1: "bahia", team2: "o-higgins", stadium: "Arena Fonte Nova", time: "19:00", score: "2 x 1 (3 x 4 )", result: "loser" },
   { date: "11/03", info: "Rodada 5ª • quarta", team1: "bahia", team2: "vitoria", stadium: "Arena Fonte Nova", time: "20:00", score: "1 x 1" },
   { date: "15/03", info: "Rodada 6ª • domingo", team1: "internacional", team2: "bahia", stadium: "Beira-Rio", time: "16:00", score: "0 x 1" },
   { date: "18/03", info: "Rodada 7ª • quarta", team1: "bahia", team2: "bragantino", stadium: "Arena Fonte Nova", time: "19:00", score: "2 x 0" },

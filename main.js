@@ -237,25 +237,64 @@ let games = JSON.parse(localStorage.getItem("games")) || [
     time: "17:30",
     score: "2 x 1"
   },
+  {
+    date: "17/07",
+    info: "Rodada 4ª • sexta",
+    team1: "bahia",
+    team2: "chapecoense",
+    stadium: "Arena Fonte Nova",
+    time: "19:30",
+    score: " x "
+  },
 
   {
-    date: "22/07",
-    info: "Rodada 19ª • -",
+    date: "21/07",
+    info: "Rodada 19ª • terça",
     team1: "atletico-mg",
     team2: "bahia",
     stadium: "Arena MRV",
-    time: "-",
+    time: "19:30",
     score: "x"
   },
 
   // 🔁 2º turno
   {
-    date: "25/07",
-    info: "Rodada 20ª • -",
+    date: "26/07",
+    info: "Rodada 20ª • domingo",
     team1: "bahia",
     team2: "corinthians",
     stadium: "Arena Fonte Nova",
-    time: "-",
+    time: "16:00",
+    score: "x"
+  },
+
+    {
+    date: "09/08",
+    info: "Rodada 22ª • domingo",
+    team1: "bahia",
+    team2: "vasco",
+    stadium: "Arena Fonte Nova",
+    time: "16:00",
+    score: "x"
+  },
+
+    {
+    date: "16/08",
+    info: "Rodada 23ª • domingo",
+    team1: "chapecoense",
+    team2: "bahia",
+    stadium: "Arena  Condá",
+    time: "11:00",
+    score: "x"
+  },
+
+    {
+    date: "23/08",
+    info: "Rodada 24ª • domingo",
+    team1: "vitoria",
+    team2: "bahia",
+    stadium: "Barradão",
+    time: "16:00",
     score: "x"
   }
 ];

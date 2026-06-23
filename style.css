@@ -1,337 +1,552 @@
+/* Definição de Variáveis para Temas */
+:root {
+    --bg-main: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.92)), url("img/arena_fonte_nova.jpg");
+    --text-color: #ffffff;
+    --card-bg: rgba(18, 25, 36, 0.9);
+    --panel-admin-bg: rgba(255, 255, 255, 0.98);
+    --panel-admin-text: #333;
+    --tab-inactive: #121924;
+    --tab-inactive-hover: #1c2736;
+    --border-light: rgba(255, 255, 255, 0.08);
+}
+
+.light-theme {
+    --bg-main: linear-gradient(rgba(240,244,248,0.9), rgba(240,244,248,0.95)), url("img/arena_fonte_nova.jpg");
+    --text-color: #1e293b;
+    --card-bg: #ffffff;
+    --panel-admin-bg: #f8fafc;
+    --panel-admin-text: #0f172a;
+    --tab-inactive: #e2e8f0;
+    --tab-inactive-hover: #cbd5e1;
+    --border-light: rgba(0, 0, 0, 0.08);
+}
 
 body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  color: white;
-
-  background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
-    url("img/arena_fonte_nova.jpg");
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
-html, body {
-  overflow-x: hidden;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    background: var(--bg-main);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* HEADER */
 header {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 51, 160, 0.8),
-    rgba(200, 0, 0, 0.8)
-  );
-  padding: 12px;
+    background: linear-gradient(90deg, rgba(0, 51, 160, 0.85), rgba(200, 0, 0, 0.85));
+    padding: 15px;
 }
 
 .header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .logo_brasileiro, .logo_bahia {
-  width: 100px;
+    width: 85px;
 }
 
-/* PAINEL */
+/* BOTÃO TEMA */
+.btn-theme-toggle {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-theme-toggle:hover {
+    background: #fff;
+    color: #00468C;
+}
+
+/* BOTÃO TOGGLE ADMIN */
+.toggle-container {
+    text-align: center;
+    margin: 20px 0 10px 0;
+}
+
+.btn_abrir_painel {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 22px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.light-theme .btn_abrir_painel {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.btn_abrir_painel:hover {
+    background-color: #ffffff;
+    color: #00468C;
+}
+
+/* PAINEL ADMIN MODERNO */
 .admin {
-  padding: 10px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.6)
-  );
+    max-width: 650px;
+    margin: 15px auto 30px auto;
+    padding: 22px;
+    background-color: var(--panel-admin-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    color: var(--panel-admin-text);
 }
 
 .admin h2 {
-  text-align: center;
-  margin-top: 0;
+    color: #00468C;
+    margin-top: 0;
+    margin-bottom: 18px;
+    text-align: center;
+    font-weight: 900;
 }
 
-.admin input {
-  width:    60%;
-  margin-bottom: 6px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: none;
-  font-size: 13px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.admin input, .admin select {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #333;
 }
 
+.admin input::placeholder {
+    color: #666;
+    font-weight: 500;
+}
+
+.form-group-row, .teams-inputs-row {
+    display: flex;
+    gap: 10px;
+}
+
+.teams-inputs-row input:nth-child(2) {
+    width: 45%;
+    text-align: center;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
 
 .admin button {
-  width: 60%;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    flex: 1;
+    min-width: 140px;
+    padding: 11px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+    color: white;
 }
 
-.admin .btn_adicionar {
-  background: #0033a0; /* vermelho mais forte */
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  font-weight: bold;
-  width: 60%;
-  cursor: pointer;
-  transition: 0.2s;
+.admin button:active { transform: scale(0.98); }
+.btn_adicionar { background-color: #00468C; }
+.btn_adicionar:hover { background-color: #002d5c; }
+.btn_resetar { background-color: #6c757d; }
+.btn_resetar:hover { background-color: #565e64; }
+.btn_excluir { background-color: #E31C22; }
+.btn_excluir:hover { background-color: #b81418; }
+
+/* ==================== MENU DE ABAS (TABS) ==================== */
+.tab-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 25px auto 15px auto;
+    max-width: 800px;
+    padding: 0 15px;
+    flex-wrap: wrap;
 }
 
-.admin .btn_excluir {
-  background: #c00000; /* vermelho mais forte */
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  font-weight: bold;
-  width: 60%;
-  cursor: pointer;
-  transition: 0.2s;
+.tab-btn {
+    background-color: var(--tab-inactive);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.admin .btn_adicionar:hover {
-  background:#0051ff;
-  transform: scale(1.02);
+.tab-btn:hover {
+    background-color: var(--tab-inactive-hover);
 }
 
-.admin .btn_excluir:hover {
-  background: #ff1a1a;
-  transform: scale(1.02);
+.tab-btn.active {
+    background-color: #00e676; 
+    color: #000000;
+    font-weight: 900;
+    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.4);
 }
 
-/* CARDS */
-#cards {
-  padding: 10px;
+/* ==================== BARRA DE PROGRESSO ==================== */
+.progress-container {
+    max-width: 770px;
+    margin: 15px auto 5px auto;
+    padding: 0 15px;
+    text-align: center;
 }
 
-.card {
-    background: linear-gradient(
-    90deg,
-    rgba(0, 51, 160, 0.8),
-    rgba(255, 255, 255, 0.6),
-    rgba(200, 0, 0, 0.8)
-  );
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 12px;
+.progress-text {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* 🟢 LIBERTADORES */
-.card.libertadores {
-  border: 2px solid #00ff88;
-  box-shadow: 0 0 15px rgba(0,255,136,0.25);
+.progress-bar-bg {
+    background: rgba(255, 255, 255, 0.1);
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
 }
 
-/* 🟡 COPA DO BRASIL */
-.card.copa-brasil {
-  border: 2px solid #ffd700;
-  box-shadow: 0 0 15px rgba(255,215,0,0.25);
+.light-theme .progress-bar-bg {
+    background: rgba(0, 0, 0, 0.1);
 }
 
-/* 🟢 vitória */
-.card.win {
-  border: 2px solid #00ff88;
-  box-shadow: 0 0 15px rgba(0,255,136,0.4);
+.progress-bar-fill {
+    background: linear-gradient(90deg, #00468C, #00e676);
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
-
-/* 🔴 derrota */
-.card.loser {
-  border: 2px solid #ff3b3b;
-  box-shadow: 0 0 15px rgba(255, 59, 59, 0.4);
+/* ==================== DASHBOARD DE ESTATÍSTICAS ==================== */
+.dashboard-stats {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    max-width: 800px;
+    margin: 10px auto 20px auto;
+    padding: 0 15px;
 }
 
-
-
-/* 🟡 empate */
-.card.draw {
-  border: 2px solid #ffd700;
-  box-shadow: 0 0 15px rgba(255,215,0,0.4);
+.stat-card {
+    flex: 1;
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-bottom: 3px solid #ccc;
+    min-width: 70px;
+    color: var(--text-color);
 }
 
+.stat-card.blue { border-bottom-color: #00468C; }
+.stat-card.gray { border-bottom-color: #6c757d; }
+.stat-card.red { border-bottom-color: #E31C22; }
+.stat-card.green { border-bottom-color: #00e676; }
+.stat-card.gold { border-bottom-color: #ffd700; }
+.stat-card.dark-blue { border-bottom-color: #002d5c; }
 
-
-/* ===================== */
-/* ⚽ JOGOS (CORRIGIDO CENTRALIZAÇÃO) */
-/* ===================== */
-
-.game {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  /* background: rgba(20,20,20,0.85); */
-  border-radius: 10px;
-  margin: 0 auto 8px auto;
-
-  /* 🔥 CENTRALIZA DE VERDADE */
-  width: 100%;
-  max-width: 500px;
-  justify-content: center;
+.stat-value {
+    display: block;
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 2px;
 }
 
-/* checkbox sempre esquerda */
+.stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #b0b5bc;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.light-theme .stat-label {
+    color: #64748b;
+}
+
+/* ==================== FILTROS DE MANDO DE CAMPO ==================== */
+.filter-mando-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    max-width: 800px;
+    margin: 0 auto 25px auto;
+    padding: 0 15px;
+}
+
+.filter-mando-btn {
+    background-color: var(--tab-inactive);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.light-theme .filter-mando-btn {
+    border-color: rgba(0,0,0,0.05);
+}
+
+.filter-mando-btn:hover {
+    background-color: var(--tab-inactive-hover);
+}
+
+.filter-mando-btn.active {
+    background-color: #00468C;
+    color: #ffffff;
+    border-color: #00468C;
+    font-weight: 900;
+    box-shadow: 0 3px 8px rgba(0,70,140,0.3);
+}
+
+/* SEÇÕES DOS CAMPEONATOS */
+.campeonato-secao {
+    max-width: 800px;
+    margin: 20px auto 35px auto;
+    padding: 0 15px;
+}
+
+.secao-titulo {
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    border-left: 6px solid #E31C22;
+    padding-left: 10px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.light-theme .secao-titulo {
+    text-shadow: none;
+}
+
+/* GRID DOS CARDS ESTILO COPA */
+.rodada-container {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.light-theme .rodada-container {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.rodada-header {
+    background-color: #00468C;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: 900;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 3px solid #E31C22;
+}
+
+.match-card {
+    background: linear-gradient(to right, #011e3d 50%, #610205 50%);
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.light-theme .match-card {
+    background: linear-gradient(to right, #f1f5f9 50%, #fef2f2 50%);
+}
+
+.match-card.libertadores { border-left: 4px solid #00ff88; }
+.match-card.copa-brasil { border-left: 4px solid #ffd700; }
+.match-card.win { border-right: 4px solid #00ff88; }
+.match-card.loser { border-right: 4px solid #ff3b3b; }
+.match-card.draw { border-right: 4px solid #ffd700; }
+
+/* ==================== ESTILO DO PRÓXIMO JOGO DESTAQUE ==================== */
+.match-card.next-match {
+    box-shadow: inset 0 0 0 2px #ffd700, 0 4px 15px rgba(255, 215, 0, 0.35);
+    animation: pulseBorder 2s infinite alternate;
+    background: linear-gradient(to right, #022c59 50%, #7d0408 50%);
+}
+
+.light-theme .match-card.next-match {
+    background: linear-gradient(to right, #e2e8f0 50%, #fee2e2 50%);
+}
+
+@keyframes pulseBorder {
+    0% { box-shadow: inset 0 0 0 2px #ffd700, 0 4px 10px rgba(255, 215, 0, 0.2); }
+    100% { box-shadow: inset 0 0 0 2px #00e676, 0 4px 20px rgba(0, 230, 118, 0.5); }
+}
+
+.next-match-badge {
+    background: #ffd700;
+    color: #000;
+    font-size: 9px;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.match-details {
+    font-size: 11px;
+    color: #ddd;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px 12px;
+    border-radius: 15px;
+}
+
+.light-theme .match-details {
+    color: #475569;
+    background: rgba(0,0,0,0.06);
+}
+
+.match-teams-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.team-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 42%;
+}
+.team-box.home { justify-content: flex-end; text-align: right; }
+.team-box.away { justify-content: flex-start; text-align: left; }
+
+.team-logo {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.team-name {
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.light-theme .team-name {
+    text-shadow: none;
+}
+
+/* CAIXA DE PLACAR CENTRAL */
+.score-box {
+    background: #ffffff;
+    padding: 2px 8px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-input {
+    width: 65px;
+    height: 30px;
+    background: transparent;
+    color: #00468C;
+    border: none;
+    font-weight: 900;
+    font-size: 16px;
+    text-align: center;
+}
+
+.score-input:focus { outline: none; }
+
+/* CHECKBOX INTERNO DISCRETO */
 .select-game {
- transform: scale(1.2);
-  margin-right: 8px;
-  flex-shrink: 0;
-}
-
-/* 🔥 AJUSTE IMPORTANTE */
-.game-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.team {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 14px;
-}
-
-.team img {
-  width: 32px;
-}
-
-/* INFO CENTRALIZADA */
-.info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 2px;
-  font-size: 13px;
-}
-
-/* INPUT PLACAR */
-input {
-  width: 70px;
-  height: 35px;
-  text-align: center;
-  border-radius: 6px;
-  border: none;
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    cursor: pointer;
+    transform: scale(1.1);
+    accent-color: #E31C22;
 }
 
 /* FOOTER */
 .footer {
-  text-align: center;
-  padding: 15px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 51, 160, 0.9),
-    rgba(200, 0, 0, 0.9)
-  );
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(90deg, rgba(0, 51, 160, 0.95), rgba(200, 0, 0, 0.95));
+    margin-top: 40px;
+    color: white;
 }
 
-.footer img {
-  width: 50px;
-  display: block;
-  margin: 5px auto;
-}
+.footer img { width: 45px; margin: 8px auto 0 auto; display: block; }
+.slogan { display: block; margin-top: 4px; font-weight: bold; font-size: 14px; }
 
-.slogan {
-  display: block;
-  margin-top: 5px;
-  font-weight: bold;
-}
-
-.turno-title {
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  margin: 20px 0 15px;
-  color: #ffd700;
-
-  background: rgba(0,0,0,0.7);
-  padding: 10px;
-  border-radius: 12px;
-}
-
-/* ===================== */
-/* 📱 RESPONSIVO */
-/* ===================== */
-
+/* RESPONSIVO */
 @media (max-width: 600px) {
 
-  * {
-  box-sizing: border-box;
-}
-
-  #cards {
-    padding: 5px;
-  }
-
-    .logo_brasileiro,
-  .logo_bahia {
-    width: 25px; /* menor no mobile */
-  }
-
-  header {
-    padding: 8px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .game {
-    max-width: 100%;
-    padding: 8px;
-  }
-
-  .game-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .team {
-    justify-content: center;
-  }
-
-  input {
-    width: 80px;
-    height: 32px;
-  }
-
-  .select-game {
-    align-self: flex-start;
-  }
-
-  .info {
-    font-size: 12px;
-  }
-
-  .admin input {
-  width: 70%;
-}
-
-.turno-title {
-    font-size: 18px;
-    padding: 8px;
-    margin: 15px 0 10px;
-    border-radius: 10px;
-  }
-  
-  .card.libertadores,
-  .card.copa-brasil {
-  border-width: 1px;
-  box-shadow: 0 0 8px rgba(255,255,255,0.2);
- }
+  .dashboard-stats { 
+        gap: 4px; 
+        flex-wrap: wrap; /* Permite que os cards quebrem em duas linhas de 3 no celular se necessário */
+    }
+    .header-content h1 { font-size: 20px; text-align: center; }
+    .logo_brasileiro, .logo_bahia { width: 50px; }
+    .form-group-row, .teams-inputs-row { flex-direction: column; gap: 0; }
+    .teams-inputs-row input:nth-child(2) { width: 100%; }
+    .match-card { padding: 15px 10px; }
+    .team-name { font-size: 12px; }
+    .team-logo { width: 28px; height: 28px; }
+    .score-input { width: 55px; font-size: 14px; }
+    .select-game { top: 12px; left: 8px; transform: scale(0.9); }
+    .tab-menu { gap: 6px; }
+    .tab-btn { padding: 8px 12px; font-size: 12px; flex: 1; min-width: 75px; text-align: center; }
+    .stat-card { padding: 8px 4px; min-width: 55px; }
+    .stat-value { font-size: 16px; }
+    .stat-label { font-size: 8px; }
+    
+    .dashboard-stats { gap: 8px; }
+    .stat-value { font-size: 18px; }
+    .stat-label { font-size: 9px; }
+    .filter-mando-container { flex-direction: row; flex-wrap: wrap; }
+    .filter-mando-btn { flex: 1; text-align: center; font-size: 11px; padding: 6px 10px; }
 }

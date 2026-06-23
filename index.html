@@ -1,54 +1,206 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="img-src * data:;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="img-src * data:;">
 
-<link rel="shortcut icon" href="img/bahia.png" type="image/x-icon">
-<title>Calendário do Bahia</title>
+    <link rel="shortcut icon" href="img/bahia.png" type="image/x-icon">
+    <title>Calendário do Bahia</title>
 
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header>
-<div class="header-content">
-<img src="img/bahia.png" alt="Logo do Bahia" class="logo_bahia">
-<h1>Calendário do Esquadrão 2026</h1>
-<img src="img/logo_brasileiro.png"   alt="Logo do Campeonato Brasileiro" class="logo_brasileiro">
-</div>
-</header>
+    <header>
+        <div class="header-content">
+            <img src="img/bahia.png" alt="Logo do Bahia" class="logo_bahia">
+            <h1>Calendário do Esquadrão 2026</h1>
+            <div class="header-actions">
+                <button onclick="toggleTheme()" class="btn-theme-toggle" id="theme-btn">⚪ Uniforme Alvo</button>
+                <img src="img/logo_brasileiro.png" alt="Logo do Campeonato Brasileiro" class="logo_brasileiro">
+            </div>
+        </div>
+    </header>
 
-<!-- 🧠 PAINEL -->
-<section class="admin">
-<h2>Adicionar Jogo</h2>
+    <div class="tab-menu" style="margin-top: 20px; margin-bottom: 5px;">
+        <button id="nav-jogos" class="tab-btn active" onclick="switchMainSection('jogos')">📅 Calendário de Jogos</button>
+        <button id="nav-classificacao" class="tab-btn" onclick="switchMainSection('classificacao')">📊 Tabela Classificação</button>
+        <button id="nav-elenco" class="tab-btn" onclick="switchMainSection('elenco')">🏃‍♂️ Elenco & Artilharia</button>
+    </div>
 
-<input id="date" placeholder="Data (ex: 30/04)">
-<input id="info" placeholder="Rodada e dia">
-<input id="team1" placeholder="Time casa (ex: bahia)">
-<input id="team2" placeholder="Time fora">
-<input id="stadium" placeholder="Estádio">
-<input id="time" placeholder="Horário">
-<input id="score" placeholder="Placar (ex: 2 x 1)" >  
+    <div id="section-jogos" class="main-section">
+        
+        <div class="toggle-container">
+            <button onclick="toggleAdminPanel()" class="btn_abrir_painel">⚙️ Gerenciar Jogos e Tabela</button>
+        </div>
 
-<button onclick="addGame()" class="btn_adicionar">Adicionar</button>
-<button onclick="deleteSelectedGames()" class="btn_excluir">
-  🗑 Excluir selecionados
-</button>
-</section>
+        <section class="admin" id="admin-panel" style="display: none;">
+            <h2>Gerenciar Jogos do Esquadrão</h2>
 
+            <div class="form-group-row">
+                <input id="date" placeholder="Data (ex: 30/04)">
+                <input id="time" placeholder="Horário (ex: 21:30)">
+            </div>
+            
+            <input id="info" placeholder="Dia da semana e estádio (ex: Terça • Vila Belmiro)">
 
-<main id="cards"></main>
+            <select id="competition-type" onchange="toggleCompetitionOptions()">
+                <option value="brasileirao">Campeonato Brasileiro</option>
+                <option value="copas">Copas (Libertadores / Copa do Brasil)</option>
+            </select>
 
-<footer class="footer">
-<p>BBMP 🔵🔴⚪</p>
-<span class="slogan">É o esquadrão, não tem jeito</span>
-<img src="img/bahia.png" alt="Logo do Bahia" class="logo-bahia">
-</footer>
+            <select id="rodada-select">
+                <script>
+                    for (let i = 1; i <= 38; i++) {
+                        document.write(`<option value="${i}">${i}ª Rodada</option>`);
+                    }
+                </script>
+            </select>
 
-<script src="main.js"></script>
+            <input id="copa-fase" placeholder="Fase (ex: Libertadores • 2ª Fase • Ida)" style="display: none;">
+
+            <div class="teams-inputs-row">
+                <input id="team1" placeholder="Time Mandante">
+                <input id="score" placeholder="Placar (ex: 2 x 1)">
+                <input id="team2" placeholder="Time Visitante">
+            </div>
+
+            <div style="border-top: 1px solid #ccc; margin-top: 15px; padding-top: 15px;">
+                <h3 style="font-size: 14px; margin-bottom: 10px; color: #00468C;">🏆 Atualizar Classificação Manual (Se necessário)</h3>
+                <div class="form-group-row">
+                    <input id="admin-posicao" type="number" placeholder="Posição na Tabela (ex: 6)" oninput="updateClassificationData()">
+                    <input id="admin-pontos" type="number" placeholder="Total de Pontos (ex: 26)" oninput="updateClassificationData()">
+                </div>
+            </div>
+
+            <div class="admin-buttons" style="margin-top: 15px;">
+                <button onclick="saveGame()" class="btn_adicionar">Salvar Jogo</button>
+                <button onclick="resetForm()" class="btn_resetar">Resetar Campos</button>
+                <button onclick="deleteSelectedGames()" class="btn_excluir">🗑 Excluir selecionados</button>
+            </div>
+        </section>
+
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab('todas', event)">Todos</button>
+            <button class="tab-btn" onclick="switchTab('1-turno', event)">1º Turno</button>
+            <button class="tab-btn" onclick="switchTab('2-turno', event)">2º Turno</button>
+            <button class="tab-btn" onclick="switchTab('copas-tab', event)">Copas</button>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-text">Progresso da Temporada: <span id="progress-percentage">0%</span> (<span id="progress-count">0/0</span> jogos)</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card gold">
+                <span class="stat-value" id="stat-posicao">6</span>
+                <span class="stat-label">Posição</span>
+            </div>
+            <div class="stat-card dark-blue">
+                <span class="stat-value" id="stat-pontos">26</span>
+                <span class="stat-label">Pontos</span>
+            </div>
+            <div class="stat-card blue">
+                <span class="stat-value" id="stat-vitorias">7</span>
+                <span class="stat-label">Triunfos</span>
+            </div>
+            <div class="stat-card gray">
+                <span class="stat-value" id="stat-empates">5</span>
+                <span class="stat-label">Empates</span>
+            </div>
+            <div class="stat-card red">
+                <span class="stat-value" id="stat-derrotas">5</span>
+                <span class="stat-label">Derrotas</span>
+            </div>
+            <div class="stat-card green">
+                <span class="stat-value" id="stat-aproveitamento">50.9%</span>
+                <span class="stat-label">Aproveit.</span>
+            </div>
+        </div>
+
+        <div class="filter-mando-container">
+            <button class="filter-mando-btn active" onclick="filterMando('todos-jogos', event)">Todos os Jogos</button>
+            <button class="filter-mando-btn" onclick="filterMando('mandante', event)">🏟️ Arena Fonte Nova</button>
+            <button class="filter-mando-btn" onclick="filterMando('visitante', event)">✈️ Jogos Fora</button>
+        </div>
+
+        <main id="main-content">
+            <section class="campeonato-secao" id="sec-brasileirao">
+                <h2 class="secao-titulo">Campeonato Brasileiro</h2>
+                <div id="brasileirao-containers"></div>
+            </section>
+
+            <section class="campeonato-secao" id="sec-copas">
+                <h2 class="secao-titulo">Copas</h2>
+                <div id="copas-container"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="section-classificacao" class="main-section" style="display: none; max-width: 1000px; margin: 0 auto; padding: 20px;">
+        <div style="border-bottom: 2px solid #00468C; padding-bottom: 10px; margin-bottom: 20px;">
+            <h2 style="margin: 0; color: #00468C;">📊 Campeonato Brasileiro 2026 • Classificação</h2>
+        </div>
+        <div id="classificacao-table-container" style="overflow-x: auto;"></div>
+    </div>
+
+    <div id="section-elenco" class="main-section" style="display: none; max-width: 1000px; margin: 0 auto; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #00468C; padding-bottom: 10px;">
+            <h2 style="margin: 0; color: #00468C;">🏃‍♂️ Elenco & Artilharia do Esquadrão</h2>
+            <button onclick="togglePlayerModal()" class="btn_abrir_painel" style="margin: 0; padding: 8px 16px; font-size: 14px;">+ Adicionar Jogador</button>
+        </div>
+
+        <div id="player-modal" style="display: none; background: rgba(0,0,0,0.75); position: fixed; top:0; left:0; width:100%; height:100%; z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(3px);">
+            <div style="background: #fff; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); color: #333;">
+                <h3 style="margin-top: 0; color: #00468C; margin-bottom: 15px;">Fardar Novo Jogador</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Nome do Atleta:</label>
+                        <input type="text" id="player-name" placeholder="Ex: Thaciano" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Posição:</label>
+                        <select id="player-position" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; background: white; box-sizing: border-box;">
+                            <option value="Goleiro">Goleiro</option>
+                            <option value="Lateral">Lateral</option>
+                            <option value="Zagueiro">Zagueiro</option>
+                            <option value="Meio-campista">Meio-campista</option>
+                            <option value="Atacante">Atacante</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button onclick="togglePlayerModal()" style="padding: 10px 15px; background: #777; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Cancelar</button>
+                    <button onclick="addPlayer()" style="padding: 10px 15px; background: #00468C; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 25px;">
+            <div style="flex: 1; min-width: 300px; background: rgba(0, 70, 140, 0.04); padding: 20px; border-radius: 8px; border: 1px solid rgba(0, 46, 140, 0.15);">
+                <h3 style="margin-top: 0; color: #00468C; font-size: 18px; border-bottom: 2px solid red; padding-bottom: 8px; margin-bottom: 15px;">⚽ Top Artilheiros</h3>
+                <ol id="top-scorers-list" style="padding-left: 20px; font-size: 16px; line-height: 2.2; margin: 0;"></ol>
+            </div>
+
+            <div style="flex: 1.8; min-width: 320px; background: rgba(0,0,0,0.02); padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+                <h3 style="margin-top: 0; color: #333; font-size: 18px; border-bottom: 2px solid #555; padding-bottom: 8px; margin-bottom: 15px;">📋 Jogadores Inscritos</h3>
+                <div id="elenco-grid" style="display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto; padding-right: 5px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>BBMP 🔵🔴⚪</p>
+        <span class="slogan">É o esquadrão, não tem jeito</span>
+        <img src="img/bahia.png" alt="Logo do Bahia" class="logo-bahia">
+    </footer>
+
+    <script src="main.js"></script>
 </body>
 </html>

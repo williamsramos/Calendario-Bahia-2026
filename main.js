@@ -29,7 +29,7 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   { date: "05/02", info: "Rodada 2ª • quarta", team1: "bahia", team2: "fluminense", stadium: "Arena Fonte Nova", time: "19:00", score: "1 x 1" },
   { date: "11/02", info: "Rodada 3ª • terça", team1: "vasco", team2: "bahia", stadium: "São Januário", time: "21:30", score: "0 x 1" },
   { date: "18/02", info: "Libertadores • 2ª fase • ida", team1: "o-higgins", team2: "bahia", stadium: "El Teniente", time: "19:00", score: "1 x 0" },
-  { date: "25/02", info: "Libertadores • 2ª fase • volta", team1: "bahia", team2: "o-higgins", stadium: "Arena Fonte Nova", time: "19:00", score: "2 x 1 (3 x 4)", result: "loser" },
+  { date: "25/02", info: "Libertadores • 2ª fase • volta", team1: "bahia", team2: "o-higgins", stadium: "Arena Fonte Nova", time: "19:00", score: "2 x 1, penalties: 3 x 4 ", result: "loser" },
   { date: "11/03", info: "Rodada 5ª • quarta", team1: "bahia", team2: "vitoria", stadium: "Arena Fonte Nova", time: "20:00", score: "1 x 1" },
   { date: "15/03", info: "Rodada 6ª • domingo", team1: "internacional", team2: "bahia", stadium: "Beira-Rio", time: "16:00", score: "0 x 1" },
   { date: "18/03", info: "Rodada 7ª • quarta", team1: "bahia", team2: "bragantino", stadium: "Arena Fonte Nova", time: "19:00", score: "2 x 0" },
@@ -513,16 +513,76 @@ function renderGames() {
         badgeHTML = `<div class="next-match-badge">⭐ PRÓXIMO JOGO</div>`;
       }
 
-      if (g.score && g.score !== "x" && g.score.trim() !== "" && g.score.includes("x") && !g.score.includes("(")) {
-        const placar = g.score.split("x");
-        const gols1 = parseInt(placar[0]);
-        const gols2 = parseInt(placar[1]);
+      // --- TRATAMENTO INTELIGENTE DO PLACAR E AGREGADO ---
+      let valorInput = g.score || "x"; 
+      let placarExibicao = valorInput;
+      let penaltisExibicao = "";
+
+      // 1. Extrai o placar normal e os pênaltis se já existirem na string (Ex: "2 x 1 (3 x 4)")
+      if (valorInput.includes("(")) {
+        const partes = valorInput.split("(");
+        placarExibicao = partes[0].trim();
+        penaltisExibicao = partes[1].replace(")", "").trim();
+      } 
+      // 2. Se houver a propriedade 'penalties' independente no objeto original
+      else if (g.penalties && g.penalties.trim() !== "") {
+        penaltisExibicao = g.penalties;
+      }
+      // 3. SEGUNDO CRITÉRIO: DETECÇÃO AUTOMÁTICA POR EMPATE NO AGREGADO
+      else if (g.info.toLowerCase().includes("volta") && placarExibicao.includes("x") && placarExibicao !== "x") {
+        const adversario = g.team1 === "bahia" ? g.team2 : g.team1;
+        const jogoIda = games.find(jogo => 
+          jogo.info.toLowerCase().includes("ida") && 
+          (jogo.team1 === adversario || jogo.team2 === adversario) &&
+          jogo.score && jogo.score !== "x"
+        );
+
+        if (jogoIda) {
+          const pVolta = placarExibicao.split("x");
+          const golsVolta1 = parseInt(pVolta[0]);
+          const golsVolta2 = parseInt(pVolta[1]);
+
+          const pIda = jogoIda.score.split("(")[0].split("x");
+          const golsIda1 = parseInt(pIda[0]);
+          const golsIda2 = parseInt(pIda[1]);
+
+          if (!isNaN(golsVolta1) && !isNaN(golsVolta2) && !isNaN(golsIda1) && !isNaN(golsIda2)) {
+            let totalBahia = 0;
+            let totalAdversario = 0;
+
+            if (jogoIda.team1 === "bahia") { totalBahia += golsIda1; totalAdversario += golsIda2; } 
+            else { totalBahia += golsIda2; totalAdversario += golsIda1; }
+
+            if (g.team1 === "bahia") { totalBahia += golsVolta1; totalAdversario += golsVolta2; } 
+            else { totalBahia += golsVolta2; totalAdversario += golsVolta1; }
+
+            if (totalBahia === totalAdversario) {
+              penaltisExibicao = "0 x 0"; // Cria um placeholder inicial de pênaltis se houver empate agregado
+            }
+          }
+        }
+      }
+
+      // Separação dos gols individuais para popular os respectivos inputs da tela
+      const golsNormalArray = placarExibicao.split("x");
+      const golNormal1 = golsNormalArray[0]?.trim() || "";
+      const golNormal2 = golsNormalArray[1]?.trim() || "";
+
+      const golsPenaltisArray = penaltisExibicao.split("x");
+      const golPenalti1 = golsPenaltisArray[0]?.trim() || "";
+      const golPenalti2 = golsPenaltisArray[1]?.trim() || "";
+      // --------------------------------------------------
+
+      if (placarExibicao && placarExibicao !== "x" && placarExibicao.trim() !== "" && placarExibicao.includes("x")) {
+        const placarPartes = placarExibicao.split("x");
+        const gols1 = parseInt(placarPartes[0]);
+        const gols2 = parseInt(placarPartes[1]);
 
         if (!isNaN(gols1) && !isNaN(gols2)) {
           if (g.team1 === "bahia") {
             extraClass += (gols1 > gols2) ? " win" : (gols1 < gols2) ? " loser" : " draw";
           } else if (g.team2 === "bahia") {
-            extraClass += (gols2 > gols1) ? " win" : (gols2 < gols1) ? " loser" : " draw";
+            extraClass += (gols2 > gols1) ? " win" : (gols2 < gols1) ? " draw" : " loser";
           }
         }
       }
@@ -531,6 +591,15 @@ function renderGames() {
       const t2Name = g.team2.replace("-", " ");
       const img1 = shields[g.team1] || "img/bahia.png";
       const img2 = shields[g.team2] || "img/bahia.png";
+
+      // Função auxiliar interna para atualizar dinamicamente a string unificada no LocalStorage
+      window.atualizarPlacarComPenaltis = function(idx, n1, n2, p1, p2) {
+        let stringResultado = `${n1 || '0'} x ${n2 || '0'}`;
+        if (p1 !== "" || p2 !== "") {
+          stringResultado += ` (${p1 || '0'} x ${p2 || '0'})`;
+        }
+        saveScore(idx, stringResultado);
+      };
 
       containerHTML += `
         <div class="match-card ${extraClass}">
@@ -542,9 +611,23 @@ function renderGames() {
               <span class="team-name">${t1Name}</span>
               <img src="${img1}" class="team-logo">
             </div>
-            <div class="score-box">
-              <input class="score-input" value="${g.score}" oninput="saveScore(${index}, this.value)">
+            
+            <div class="score-box" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <input class="score-input" value="${golNormal1}" oninput="atualizarPlacarComPenaltis(${index}, this.value, '${golNormal2}', '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
+              
+              ${penaltisExibicao !== "" ? `
+                <input class="pk-input" value="${golPenalti1}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', this.value, '${golPenalti2}')" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
+              ` : ''}
+
+              <span style="font-weight: bold; color: white; margin: 0 2px;">x</span>
+
+              ${penaltisExibicao !== "" ? `
+                <input class="pk-input" value="${golPenalti2}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', '${golPenalti1}', this.value)" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
+              ` : ''}
+
+              <input class="score-input" value="${golNormal2}" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', this.value, '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
             </div>
+
             <div class="team-box away">
               <img src="${img2}" class="team-logo">
               <span class="team-name">${t2Name}</span>

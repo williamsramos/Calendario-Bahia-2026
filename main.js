@@ -513,28 +513,27 @@ function renderGames() {
         badgeHTML = `<div class="next-match-badge">⭐ PRÓXIMO JOGO</div>`;
       }
 
-      // --- TRATAMENTO INTELIGENTE DO PLACAR E AGREGADO ---
+      // --- TRATAMENTO DO PLACAR ---
       let valorInput = g.score || "x"; 
       let placarExibicao = valorInput;
       let penaltisExibicao = "";
 
-      // 1. Extrai o placar normal e os pênaltis se já existirem na string (Ex: "2 x 1 (3 x 4)")
+      // 1. Separa caso existam parênteses salvos
       if (valorInput.includes("(")) {
         const partes = valorInput.split("(");
         placarExibicao = partes[0].trim();
         penaltisExibicao = partes[1].replace(")", "").trim();
       } 
-      // 2. Se houver a propriedade 'penalties' independente no objeto original
+      // 2. Fallback caso use propriedade nativa do objeto
       else if (g.penalties && g.penalties.trim() !== "") {
         penaltisExibicao = g.penalties;
       }
-      // 3. DETECÇÃO AUTOMÁTICA POR EMPATE NO AGREGADO (Apenas se o jogo já tiver placar preenchido)
+      // 3. SEGUNDO CRITÉRIO: DETECÇÃO AUTOMÁTICA POR EMPATE NO AGREGADO
       else if (g.info.toLowerCase().includes("volta") && placarExibicao.includes("x") && placarExibicao.trim() !== "x") {
         const pVolta = placarExibicao.split("x");
         const golV1Raw = pVolta[0]?.trim();
         const golV2Raw = pVolta[1]?.trim();
 
-        // SÓ CALCULA SE OS INPUTS NÃO ESTIVEREM VAZIOS
         if (golV1Raw !== "" && golV2Raw !== "" && !isNaN(parseInt(golV1Raw)) && !isNaN(parseInt(golV2Raw))) {
           const adversario = g.team1 === "bahia" ? g.team2 : g.team1;
           const jogoIda = games.find(jogo => 
@@ -562,14 +561,14 @@ function renderGames() {
               else { totalBahia += golsVolta2; totalAdversario += golsVolta1; }
 
               if (totalBahia === totalAdversario) {
-                penaltisExibicao = "0 x 0"; // Abre as caixas de PK zeradas para você poder digitar
+                penaltisExibicao = "0 x 0";
               }
             }
           }
         }
       }
 
-      // Separação segura dos gols individuais para preencher a tela
+      // Isola os gols limpos para renderizar nos inputs
       const golsNormalArray = placarExibicao.split("x");
       const golNormal1 = golsNormalArray[0]?.trim() || "";
       const golNormal2 = golsNormalArray[1]?.trim() || "";
@@ -577,28 +576,33 @@ function renderGames() {
       const golsPenaltisArray = penaltisExibicao.split("x");
       const golPenalti1 = golsPenaltisArray[0]?.trim() || "";
       const golPenalti2 = golsPenaltisArray[1]?.trim() || "";
-      // --------------------------------------------------
 
-      if (placarExibicao && placarExibicao !== "x" && placarExibicao.trim() !== "" && placarExibicao.includes("x")) {
-        const placarPartes = placarExibicao.split("x");
-        const gols1 = parseInt(placarPartes[0]);
-        const gols2 = parseInt(placarPartes[1]);
+      // --- CORREÇÃO DEFINITIVA DA LÓGICA DE CORES DOS CARDS ---
+      if (golNormal1 !== "" && golNormal2 !== "") {
+        const gols1 = parseInt(golNormal1);
+        const gols2 = parseInt(golNormal2);
 
         if (!isNaN(gols1) && !isNaN(gols2)) {
           if (g.team1 === "bahia") {
-            extraClass += (gols1 > gols2) ? " win" : (gols1 < gols2) ? " loser" : " draw";
+            // Bahia Mandante
+            if (gols1 > gols2) extraClass += " win";
+            else if (gols1 < gols2) extraClass += " loser";
+            else extraClass += " draw";
           } else if (g.team2 === "bahia") {
-            extraClass += (gols2 > gols1) ? " win" : (gols2 < gols1) ? " draw" : " loser";
+            // Bahia Visitante
+            if (gols2 > gols1) extraClass += " win";
+            else if (gols2 < gols1) extraClass += " loser";
+            else extraClass += " draw";
           }
         }
       }
+      // --------------------------------------------------------
 
       const t1Name = g.team1.replace("-", " ");
       const t2Name = g.team2.replace("-", " ");
       const img1 = shields[g.team1] || "img/bahia.png";
       const img2 = shields[g.team2] || "img/bahia.png";
 
-      // Função auxiliar interna para atualizar dinamicamente a string unificada no LocalStorage
       window.atualizarPlacarComPenaltis = function(idx, n1, n2, p1, p2) {
         let stringResultado = `${n1 || ''} x ${n2 || ''}`;
         if (p1 !== "" || p2 !== "") {
@@ -619,7 +623,7 @@ function renderGames() {
             </div>
             
             <div class="score-box" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-              <input class="score-input" value="${golNormal1}" oninput="atualizarPlacarComPenaltis(${index}, this.value, '${golNormal2}', '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;" placeholder="">
+              <input class="score-input" value="${golNormal1}" oninput="atualizarPlacarComPenaltis(${index}, this.value, '${golNormal2}', '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
               
               ${penaltisExibicao !== "" ? `
                 <input class="pk-input" value="${golPenalti1}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', this.value, '${golPenalti2}')" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
@@ -631,7 +635,7 @@ function renderGames() {
                 <input class="pk-input" value="${golPenalti2}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', '${golPenalti1}', this.value)" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
               ` : ''}
 
-              <input class="score-input" value="${golNormal2}" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', this.value, '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;" placeholder="">
+              <input class="score-input" value="${golNormal2}" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', this.value, '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
             </div>
 
             <div class="team-box away">

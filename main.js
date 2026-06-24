@@ -24,7 +24,9 @@ const shields = {
 };
 
 // 📦 Jogos armazenados
-let games = JSON.parse(localStorage.getItem("games")) || [
+let games = JSON.parse(localStorage.getItem("games")) || [];
+
+const listaAtualizadaDeGames = [
   { date: "28/01", info: "Rodada 1ª • terça", team1: "corinthians", team2: "bahia", stadium: "Vila Belmiro", time: "20:00", score: "1 x 2" },
   { date: "05/02", info: "Rodada 2ª • quarta", team1: "bahia", team2: "fluminense", stadium: "Arena Fonte Nova", time: "19:00", score: "1 x 1" },
   { date: "11/02", info: "Rodada 3ª • terça", team1: "vasco", team2: "bahia", stadium: "São Januário", time: "21:30", score: "0 x 1" },
@@ -49,10 +51,18 @@ let games = JSON.parse(localStorage.getItem("games")) || [
   { date: "17/07", info: "Rodada 4ª • sexta", team1: "bahia", team2: "chapecoense", stadium: "Arena Fonte Nova", time: "19:30", score: "x" },
   { date: "21/07", info: "Rodada 19ª • terça", team1: "atletico-mg", team2: "bahia", stadium: "Arena MRV", time: "19:30", score: "x" },
   { date: "26/07", info: "Rodada 20ª • domingo", team1: "bahia", team2: "corinthians", stadium: "Arena Fonte Nova", time: "16:00", score: "x" },
+  { date: "29/07", info: "Rodada 21ª • quarta", team1: "fluminense", team2: "bahia", stadium: "Maracnã", time: "21:30", score: "x" },
   { date: "09/08", info: "Rodada 22ª • domingo", team1: "bahia", team2: "vasco", stadium: "Arena Fonte Nova", time: "16:00", score: "x" },
   { date: "16/08", info: "Rodada 23ª • domingo", team1: "chapecoense", team2: "bahia", stadium: "Arena Condá", time: "11:00", score: "x" },
   { date: "23/08", info: "Rodada 24ª • domingo", team1: "vitoria", team2: "bahia", stadium: "Barradão", time: "16:00", score: "x" }
 ];
+
+// Se o localStorage estiver vazio OU não tiver a rodada nova (Fluminense de 29/07), força a atualização
+if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team1 === "fluminense")) {
+  games = listaAtualizadaDeGames;
+  localStorage.setItem("games", JSON.stringify(games));
+}
+
 
 let activeTab = 'todas';
 let activeMandoFilter = 'todos-jogos';

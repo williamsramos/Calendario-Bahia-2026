@@ -469,10 +469,10 @@ header {
     white-space: nowrap; /* Impede que o nome quebre em duas linhas */
     overflow: visible;    /* Garante que o texto não seja escondido */
     text-overflow: clip;  /* Evita que apareça '...' se o espaço for curto */
-    font-size: 0.9rem;    /* Reduza levemente a fonte se necessário */
+    /*font-size: 0.9rem;    /* Reduza levemente a fonte se necessário */
     padding-left: 5px;    /* Dá um respiro para o texto não colar na borda */
     font-weight: 700;
-    font-size: 12px;
+    font-size: 9px;
     text-transform: uppercase;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }

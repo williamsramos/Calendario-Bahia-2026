@@ -466,11 +466,19 @@ header {
 }
 
 .team-name {
-    font-weight: 700;
-    font-size: 15px;
-    text-transform: uppercase;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    white-space: nowrap; /* Impede que o nome quebre em duas linhas */
+    overflow: visible;    /* Garante que o texto não seja escondido */
+    text-overflow: clip;  /* Evita que apareça '...' se o espaço for curto */
+    font-size: 0.9rem;    /* Reduza levemente a fonte se necessário */
+    padding-left: 5px;    /* Dá um respiro para o texto não colar na borda */
 }
+
+.team-container {
+    flex: 1;              /* Faz o nome do time ocupar o espaço disponível */
+    min-width: 0;         /* Essencial para permitir que o texto se ajuste */
+}
+
+
 
 .light-theme .team-name {
     text-shadow: none;

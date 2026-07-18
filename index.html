@@ -8,37 +8,28 @@
 </head>
 <body>
 
-    <!-- Topo da Página / Header -->
     <header id="main-header">
         <div class="header-container">
             <h1>Temporada do Esquadrão</h1>
-            
-            <!-- Controle do Seletor Dinâmico de Ano/Temporada -->
             <div class="season-control">
-                <label for="season-select">Temporada Ativa:</label>
+                <label for="season-select">Temporada:</label>
                 <select id="season-select" onchange="mudarTemporada(this.value)">
-                    <option value="2026">2026 (Legado)</option>
-                    <option value="2027">2027 (Limpa)</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
                 </select>
             </div>
         </div>
     </header>
 
-    <!-- Barra Dinâmica de Progresso da Temporada -->
     <div class="progress-container">
-        <div class="progress-label">Progresso Geral da Temporada: <span id="progress-percentage">0%</span></div>
-        <div class="progress-bar-bg">
-            <div id="progress-fill" style="width: 0%;"></div>
-        </div>
+        <div class="progress-label">Progresso da Temporada: <span id="progress-percentage">0%</span></div>
+        <div class="progress-bar-bg"><div id="progress-fill" style="width: 0%;"></div></div>
     </div>
 
-    <!-- Layout em Grade Principal -->
     <div class="dashboard-grid">
         
-        <!-- COLUNA DA ESQUERDA: Jogos e Filtros -->
+        <!-- COLUNA DA ESQUERDA: Jogos -->
         <div class="left-column">
-            
-            <!-- Menu de Abas por Tipo de Campeonato -->
             <div class="tab-menu">
                 <button class="tab-btn active" onclick="switchTab('todas', event)">Todos</button>
                 <button class="tab-btn" onclick="switchTab('estadual-tab', event)">Estadual</button>
@@ -47,42 +38,25 @@
                 <button class="tab-btn" onclick="switchTab('copas-tab', event)">Copas</button>
             </div>
 
-            <!-- Filtros de Mando de Campo -->
             <div class="filter-menu">
                 <button class="filter-btn active" onclick="filterMando('todos-jogos', event)">Todos os Mandos</button>
                 <button class="filter-btn" onclick="filterMando('mandante', event)">Como Mandante</button>
                 <button class="filter-btn" onclick="filterMando('visitante', event)">Como Visitante</button>
             </div>
 
-            <!-- Listagem de containers gerenciados pelo Javascript -->
+            <!-- Voltando ao container único e limpo para receber a listagem direta -->
             <main id="main-content">
-                <!-- Seção 1: Campeonato Estadual -->
-                <section class="campeonato-secao" id="sec-estadual">
-                    <h2 class="secao-titulo">Campeonato Estadual</h2>
-                    <div id="estadual-container"></div>
-                </section>
-
-                <!-- Seção 2: Brasileirão -->
-                <section class="campeonato-secao" id="sec-brasileirao">
-                    <h2 class="secao-titulo">Campeonato Brasileiro</h2>
-                    <div id="brasileirao-containers"></div>
-                </section>
-
-                <!-- Seção 3: Copas Internas/Continentais -->
-                <section class="campeonato-secao" id="sec-copas">
-                    <h2 class="secao-titulo">Copas</h2>
-                    <div id="copas-container"></div>
-                </section>
+                <div id="estadual-container"></div>
+                <div id="brasileirao-containers"></div>
+                <div id="copas-container"></div>
             </main>
         </div>
 
-        <!-- COLUNA DA DIREITA: Classificação, Painel Admin & Cards -->
+        <!-- COLUNA DA DIREITA: Classificação e Admin -->
         <div class="right-column">
-            
-            <!-- Painel de Indicadores Rápidos -->
             <div class="widgets-row">
-                <div class="widget-card">🎁 Posição Atual: <span id="stat-posicao">1º</span></div>
-                <div class="widget-card">⭐ Pontos Ganhos: <span id="stat-pontos">0</span></div>
+                <div class="widget-card">Posição: <span id="stat-posicao">1º</span></div>
+                <div class="widget-card">Pontos: <span id="stat-pontos">0</span></div>
             </div>
 
             <div class="widgets-row">
@@ -90,7 +64,6 @@
                 <div class="widget-card">Aproveitamento: <span id="stat-aproveitamento">0%</span></div>
             </div>
 
-            <!-- Tabela Visual de Classificação Simulada -->
             <div class="table-card">
                 <h3>Classificação do Campeonato</h3>
                 <table>
@@ -106,15 +79,12 @@
                             <th>SG</th>
                         </tr>
                     </thead>
-                    <tbody id="tabela-corpo">
-                        <!-- Gerado Dinamicamente por Javascript -->
-                    </tbody>
+                    <tbody id="tabela-corpo"></tbody>
                 </table>
             </div>
 
-            <!-- Painel Administrativo de Inserção de Jogos -->
             <div id="admin-panel" class="form-card">
-                <h3>Adicionar Novo Jogo ao Calendário</h3>
+                <h3>Adicionar Novo Jogo</h3>
                 
                 <div class="form-group">
                     <label>Competição:</label>
@@ -126,7 +96,6 @@
                 </div>
 
                 <div class="form-group">
-                    <!-- Seletores dinâmicos de sub-categorias ocultáveis -->
                     <select id="rodada-select">
                         <script>
                             for (let i = 1; i <= 38; i++) {
@@ -145,8 +114,8 @@
 
                     <select id="copa-fase" style="display: none;">
                         <option value="Copa do Brasil • Fase Iniciais">Copa do Brasil - Fase Inicial</option>
-                        <option value="Copa do Brasil • Oitavas">Copa do Brasil - Oitavas de Final</option>
-                        <option value="Copa do Brasil • Quartas">Copa do Brasil - Quartas de Final</option>
+                        <option value="Copa do Brasil • Oitavas">Copa do Brasil - Oitavas</option>
+                        <option value="Copa do Brasil • Quartas">Copa do Brasil - Quartas</option>
                         <option value="Copa do Brasil • Semifinal">Copa do Brasil - Semifinal</option>
                         <option value="Copa do Brasil • Final">Copa do Brasil - Final</option>
                         <option value="Libertadores • Fase de Grupos">Libertadores - Grupos</option>
@@ -169,7 +138,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Estádio / Informações Extras:</label>
+                    <label>Estádio / Info:</label>
                     <input type="text" id="info" placeholder="Ex: Arena Fonte Nova">
                 </div>
 
@@ -185,13 +154,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Placar Inicial (Opcional):</label>
+                    <label>Placar (Opcional):</label>
                     <input type="text" id="score" placeholder="Ex: x ou 2 x 1">
                 </div>
 
                 <button class="btn-primary" onclick="saveGame()">Salvar Partida</button>
             </div>
-
         </div>
     </div>
 

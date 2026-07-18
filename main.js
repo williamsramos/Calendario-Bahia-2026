@@ -48,7 +48,7 @@ const listaAtualizadaDeGames = [
   { date: "17/05", info: "Rodada 16ª • domingo", team1: "bahia", team2: "gremio", stadium: "Arena Fonte Nova", time: "16:00", score: "1 x 1" },
   { date: "25/05", info: "Rodada 17ª • segunda", team1: "coritiba", team2: "bahia", stadium: "Couto Pereira", time: "20:00", score: "3 x 2" },
   { date: "30/05", info: "Rodada 18ª • sábado", team1: "bahia", team2: "botafogo", stadium: "Arena Fonte Nova", time: "17:30", score: "2 x 1" },
-  { date: "17/07", info: "Rodada 4ª • sexta", team1: "bahia", team2: "chapecoense", stadium: "Arena Fonte Nova", time: "19:30", score: "x" },
+  { date: "17/07", info: "Rodada 4ª • sexta", team1: "bahia", team2: "chapecoense", stadium: "Arena Fonte Nova", time: "19:30", score: "2x0" },
   { date: "21/07", info: "Rodada 19ª • terça", team1: "atletico-mg", team2: "bahia", stadium: "Arena MRV", time: "19:30", score: "x" },
   { date: "26/07", info: "Rodada 20ª • domingo", team1: "bahia", team2: "corinthians", stadium: "Arena Fonte Nova", time: "16:00", score: "x" },
   { date: "29/07", info: "Rodada 21ª • quarta", team1: "fluminense", team2: "bahia", stadium: "Maracnã", time: "21:30", score: "x" },

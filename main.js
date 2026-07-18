@@ -673,6 +673,17 @@ function renderGames() {
 // ============================================================================
 // 🏃‍♂️ MÓDULO EXCLUSIVO: GERENCIAMENTO DE ELENCO & TOP ARTILHEIROS
 // ============================================================================
+// Verifica e força a inclusão de Guido e Marco Moreno caso eles não estejam no localStorage antigo
+let dadosLocais = JSON.parse(localStorage.getItem("bahia_players"));
+if (dadosLocais) {
+  const temGuido = dadosLocais.some(p => p.name.includes("Guido"));
+  const temMarco = dadosLocais.some(p => p.name.includes("Marco Moreno"));
+  // Se faltar qualquer um dos novos, limpa para forçar a lista atualizada com todos eles
+  if (!temGuido || !temMarco) {
+    localStorage.removeItem("bahia_players");
+  }
+}
+
 let players = JSON.parse(localStorage.getItem("bahia_players")) || [
   { name: "Ronaldo", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
   { name: "Guido Herreira", position: "Goleiro", goals: 0, nationality: "🇦🇷" },
@@ -740,9 +751,11 @@ function togglePlayerModal() {
 function addPlayer() {
   const nameInput = document.getElementById('player-name');
   const posSelect = document.getElementById('player-position');
+  const natSelect = document.getElementById('player-nationality');
   
   const name = nameInput.value.trim();
   const position = posSelect.value;
+  const nationality = natSelect ? natSelect.value : "🇧🇷";
   
   if (!name) {
     alert("⚠️ Por favor, digite o nome do jogador!");
@@ -754,7 +767,7 @@ function addPlayer() {
     return;
   }
   
-  players.push({ name, position, goals: 0, nationality: "🇧🇷" });
+  players.push({ name, position, goals: 0, nationality });
   localStorage.setItem("bahia_players", JSON.stringify(players));
   
   nameInput.value = "";

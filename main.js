@@ -101,7 +101,7 @@ function toggleAdminPanel() {
   
   if (panel.style.display === 'block') {
     document.getElementById('admin-posicao').value = localStorage.getItem('bahia_posicao') || "6";
-    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "26";
+    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "29";
   }
 }
 
@@ -674,32 +674,33 @@ function renderGames() {
 // 🏃‍♂️ MÓDULO EXCLUSIVO: GERENCIAMENTO DE ELENCO & TOP ARTILHEIROS
 // ============================================================================
 let players = JSON.parse(localStorage.getItem("bahia_players")) || [
-  { name: "Ronaldo", position: "Goleiro", goals: 0 },
-  { name: "João Paulo", position: "Goleiro", goals: 0 },
-  { name: "Léo Vieira", position: "Goleiro", goals: 0 },
-  { name: "Iago Borduchi", position: "Lateral", goals: 0 },
-  { name: "Zé Guilherme", position: "Lateral", goals: 0 },
-  { name: "Román Gómez", position: "Lateral", goals: 0 },
-  { name: "Luciano Juba", position: "Lateral", goals: 7 },
-  { name: "David Duarte", position: "Zagueiro", goals: 2 },
-  { name: "Marcos Victor", position: "Zagueiro", goals: 0 },
-  { name: "Ramos Mingo", position: "Zagueiro", goals: 0 },
-  { name: "Luiz Gustavo", position: "Zagueiro", goals: 0 },
-  { name: "Kanu", position: "Zagueiro", goals: 0 },
-  { name: "Everton Ribeiro", position: "Meio-campista", goals: 0 },
-  { name: "Nicolás Acevedo", position: "Meio-campista", goals: 0 },
-  { name: "Erick", position: "Meio-campista", goals: 2 },
-  { name: "Nestor", position: "Meio-campista", goals: 0 },
-  { name: "Michel Araújo", position: "Meio-campista", goals: 0 },
-  { name: "Caio Alexandre", position: "Meio-campista", goals: 0 },
-  { name: "Jean Lucas", position: "Meio-campista", goals: 2 },
-  { name: "Ademir", position: "Atacante", goals: 0 },
-  { name: "Erick Pulga", position: "Atacante", goals: 0 },
-  { name: "Willian José", position: "Atacante", goals: 3 },
-  { name: "Sanabria", position: "Atacante", goals: 2 },
-  { name: "Kike Olivera", position: "Atacante", goals: 1 },
-  { name: "Everaldo", position: "Atacante", goals: 4 },
-  { name: "Alejo Veliz", position: "Atacante", goals: 0 }
+  { name: "Ronaldo", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
+  { name: "Guido Herreira", position: "Goleiro", goals: 0, nationality: "🇦🇷" },
+  { name: "Léo Vieira", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
+  { name: "Iago Borduchi", position: "Lateral", goals: 0, nationality: "🇧🇷" },
+  { name: "Zé Guilherme", position: "Lateral", goals: 0, nationality: "🇧🇷" },
+  { name: "Román Gómez", position: "Lateral", goals: 0, nationality: "🇦🇷" },
+  { name: "Luciano Juba", position: "Lateral", goals: 7, nationality: "🇧🇷" },
+  { name: "David Duarte", position: "Zagueiro", goals: 2, nationality: "🇧🇷" },
+  { name: "Marcos Victor", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
+  { name: "Ramos Mingo", position: "Zagueiro", goals: 0, nationality: "🇦🇷" },
+  { name: "Luiz Gustavo", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
+  { name: "Kanu", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
+  { name: "Marco Moreno", position: "Zagueiro", goals: 0, nationality: "🇪🇸" },
+  { name: "Everton Ribeiro", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
+  { name: "Nicolás Acevedo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
+  { name: "Erick", position: "Meio-campista", goals: 2, nationality: "🇧🇷" },
+  { name: "Rodrigo Nestor", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
+  { name: "Michel Araújo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
+  { name: "Caio Alexandre", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
+  { name: "Jean Lucas", position: "Meio-campista", goals: 2, nationality: "🇧🇷" },
+  { name: "Ademir", position: "Atacante", goals: 0, nationality: "🇧🇷" },
+  { name: "Erick Pulga", position: "Atacante", goals: 0, nationality: "🇧🇷" },
+  { name: "Willian José", position: "Atacante", goals: 3, nationality: "🇧🇷" },
+  { name: "Sanabria", position: "Atacante", goals: 2, nationality: "🇦🇷" },
+  { name: "Kike Olivera", position: "Atacante", goals: 1, nationality: "🇺🇾" },
+  { name: "Everaldo", position: "Atacante", goals: 4, nationality: "🇧🇷" },
+  { name: "Alejo Veliz", position: "Atacante", goals: 0, nationality: "🇦🇷" }
 ];
 
 let activePositionFilter = 'todos';
@@ -753,7 +754,7 @@ function addPlayer() {
     return;
   }
   
-  players.push({ name, position, goals: 0 });
+  players.push({ name, position, goals: 0, nationality: "🇧🇷" });
   localStorage.setItem("bahia_players", JSON.stringify(players));
   
   nameInput.value = "";
@@ -782,31 +783,48 @@ function renderElenco() {
   if (grid) grid.innerHTML = "";
   if (topList) topList.innerHTML = "";
   
-  players.forEach((player, index) => {
+  const ordemPosicoes = ["Goleiro", "Lateral", "Zagueiro", "Meio-campista", "Atacante"];
+  
+  ordemPosicoes.forEach(posicaoAtual => {
     if (activePositionFilter !== 'todos') {
-      if (activePositionFilter === 'goleiros' && player.position !== 'Goleiro') return;
-      if (activePositionFilter === 'laterais' && player.position !== 'Lateral') return;
-      if (activePositionFilter === 'zagueiros' && player.position !== 'Zagueiro') return;
-      if (activePositionFilter === 'meio-campistas' && player.position !== 'Meio-campista') return;
-      if (activePositionFilter === 'atacantes' && player.position !== 'Atacante') return;
+      if (activePositionFilter === 'goleiros' && posicaoAtual !== 'Goleiro') return;
+      if (activePositionFilter === 'laterais' && posicaoAtual !== 'Lateral') return;
+      if (activePositionFilter === 'zagueiros' && posicaoAtual !== 'Zagueiro') return;
+      if (activePositionFilter === 'meio-campistas' && posicaoAtual !== 'Meio-campista') return;
+      if (activePositionFilter === 'atacantes' && posicaoAtual !== 'Atacante') return;
     }
 
-    const row = document.createElement('div');
-    row.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; background: rgba(255,255,255,0.7); border-radius: 4px;";
-    
-    row.innerHTML = `
-      <div style="color: #333;">
-        <strong style="font-size: 15px;">${player.name}</strong> 
-        <span style="font-size: 11px; color: #555; margin-left: 8px; background: #e4e4e4; padding: 2px 8px; border-radius: 12px; font-weight: bold;">${player.position}</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-weight: bold; min-width: 65px; text-align: right; color: #111; font-size: 14px;">⚽ ${player.goals} ${player.goals === 1 ? 'gol' : 'gols'}</span>
-        <button onclick="updateGoals(${index}, 1)" style="padding: 4px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; font-size:14px;">+</button>
-        <button onclick="updateGoals(${index}, -1)" style="padding: 4px 10px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; font-size:14px;">-</button>
-        <button onclick="removePlayer(${index})" style="padding: 2px 4px; background: transparent; color: #bbb; border: none; cursor: pointer; font-size: 13px; margin-left: 5px;">❌</button>
-      </div>
-    `;
-    if (grid) grid.appendChild(row);
+    const jogadoresDaPosicao = players
+      .map((p, idx) => ({ ...p, originalIndex: idx }))
+      .filter(p => p.position === posicaoAtual);
+
+    if (jogadoresDaPosicao.length > 0 && grid) {
+      const header = document.createElement('div');
+      header.style.cssText = "margin: 15px 0 8px 0; padding: 6px 10px; background: #00468C; color: white; font-weight: bold; font-size: 14px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;";
+      header.innerText = posicaoAtual === "Goleiro" ? "Goleiros" : posicaoAtual + "s";
+      grid.appendChild(header);
+
+      jogadoresDaPosicao.forEach(player => {
+        const flag = player.nationality ? ` ${player.nationality}` : "";
+        const goalIcon = player.position === 'Goleiro' ? "" : "⚽ ";
+
+        const row = document.createElement('div');
+        row.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; background: rgba(255,255,255,0.7); border-radius: 4px; margin-bottom: 4px;";
+        
+        row.innerHTML = `
+          <div style="color: #333;">
+            <strong style="font-size: 15px;">${player.name}${flag}</strong> 
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-weight: bold; min-width: 65px; text-align: right; color: #111; font-size: 14px;">${goalIcon}${player.goals} ${player.goals === 1 ? 'gol' : 'gols'}</span>
+            <button onclick="updateGoals(${player.originalIndex}, 1)" style="padding: 4px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; font-size:14px;">+</button>
+            <button onclick="updateGoals(${player.originalIndex}, -1)" style="padding: 4px 10px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; font-size:14px;">-</button>
+            <button onclick="removePlayer(${player.originalIndex})" style="padding: 2px 4px; background: transparent; color: #bbb; border: none; cursor: pointer; font-size: 13px; margin-left: 5px;">❌</button>
+          </div>
+        `;
+        grid.appendChild(row);
+      });
+    }
   });
   
   const artilheiros = [...players]
@@ -815,12 +833,22 @@ function renderElenco() {
     
   if (topList) {
     if (artilheiros.length === 0) {
-      topList.innerHTML = `<li style="list-style: none; color: #666; font-style: italic; font-size: 14px;">Nenhum gol registrado no sistema.</li>`;
+      topList.innerHTML = `<li style="list-style: none; color: #666; font-style: italic; font-size: 14px; padding: 10px 0;">Nenhum gol registrado no sistema.</li>`;
     } else {
-      artilheiros.forEach(player => {
+      artilheiros.forEach((player, idx) => {
+        const flag = player.nationality ? ` ${player.nationality}` : "";
         const li = document.createElement('li');
-        li.style.color = "#333";
-        li.innerHTML = `<strong>${player.name}</strong> — <span style="color: #00468C; font-weight: bold;">${player.goals} ${player.goals === 1 ? 'gol' : 'gols'}</span>`;
+        
+        li.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; margin-bottom: 6px; background: #f8f9fa; border-left: 4px solid #00468C; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); list-style: none;";
+        
+        li.innerHTML = `
+          <div style="font-size: 14px; color: #333;">
+            <span style="font-weight: bold; color: #777; margin-right: 8px;">${idx + 1}º</span>
+            <strong>${player.name}${flag}</strong>
+            <span style="font-size: 11px; color: #666; background: #e9ecef; padding: 1px 6px; border-radius: 10px; margin-left: 6px;">${player.position}</span>
+          </div>
+          <span style="color: #00468C; font-weight: 800; font-size: 14px; background: #e6f0fa; padding: 2px 10px; border-radius: 20px;">⚽ ${player.goals} ${player.goals === 1 ? 'gol' : 'gols'}</span>
+        `;
         topList.appendChild(li);
       });
     }

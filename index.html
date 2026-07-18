@@ -56,6 +56,7 @@
 
             <select id="competition-type" onchange="toggleCompetitionOptions()">
                 <option value="brasileirao">Campeonato Brasileiro</option>
+                <option value="estadual">Campeonato Estadual</option> <!-- Adicionado: Opção Estadual -->
                 <option value="copas">Copas (Libertadores / Copa do Brasil)</option>
             </select>
 
@@ -95,6 +96,7 @@
             <button class="tab-btn" onclick="switchTab('1-turno', event)">1º Turno</button>
             <button class="tab-btn" onclick="switchTab('2-turno', event)">2º Turno</button>
             <button class="tab-btn" onclick="switchTab('copas-tab', event)">Copas</button>
+            <button class="tab-btn" onclick="switchTab('estadual-tab', event)">Estadual</button> <!-- Adicionado: Filtro Estadual -->
         </div>
 
         <div class="progress-container">
@@ -138,6 +140,12 @@
         </div>
 
         <main id="main-content">
+            <!-- Adicionado: Seção do Campeonato Estadual -->
+            <section class="campeonato-secao" id="sec-estadual" style="display: none;">
+                <h2 class="secao-titulo">Campeonato Estadual</h2>
+                <div id="estadual-containers"></div>
+            </section>
+
             <section class="campeonato-secao" id="sec-brasileirao">
                 <h2 class="secao-titulo">Campeonato Brasileiro</h2>
                 <div id="brasileirao-containers"></div>

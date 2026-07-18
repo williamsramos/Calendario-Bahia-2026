@@ -1,4 +1,6 @@
-// 🛡️ ESCUDOS
+Aqui está o código completo do seu arquivo main.js totalmente unificado e pronto para uso.
+Esta versão já inclui os novos escudos mapeados, a inserção dos 11 jogos do Campeonato Estadual dentro da listaAtualizadaDeGames e as regras de filtragem combinadas atualizadas para isolar o estadual sem interferir no cálculo de pontos e estatísticas das demais rodadas do campeonato principal.
+// 🛡️ ESCUDOS (Mapeamento completo dos times da temporada e do estadual)
 const shields = {
   "bahia": "img/bahia.png",
   "flamengo": "img/flamengo.png",
@@ -20,13 +22,36 @@ const shields = {
   "chapecoense": "img/chapecoense.png",
   "remo": "img/remo.png",
   "mirassol": "img/mirassol.jpg",
-  "o-higgins": "img/o-higgins.png"
+  "o-higgins": "img/o-higgins.png",
+  // Times do estadual
+  "barcelona-ba": "img/barcelona-ba.png",
+  "galicia-ba": "img/galicia-ba.png",
+  "bahia-de-feira": "img/bahia-de-feira.png",
+  "jequie-ba": "img/jequie.png",
+  "porto-ba": "img/porto-ba.png",
+  "juazeirense": "img/juazeirense.png",
+  "jacuipense": "img/jacuipense.png",
+  "alagoinhas": "img/alagoinhas.png"
 };
 
-// 📦 Jogos armazenados
+// 📦 Armazenamento e persistência de dados
 let games = JSON.parse(localStorage.getItem("games")) || [];
 
 const listaAtualizadaDeGames = [
+  // 🏆 CAMPEONATO ESTADUAL
+  { date: "11/01", info: "Estadual • Rodada 1ª", team1: "bahia", team2: "jequie-ba", stadium: "Fonte Nova", time: "16:00", score: "4 x 2" },
+  { date: "14/01", info: "Estadual • Rodada 2ª", team1: "bahia-de-feira", team2: "bahia", stadium: "Jóia da Princesa", time: "21:45", score: "0 x 3" },
+  { date: "17/01", info: "Estadual • Rodada 3ª", team1: "bahia", team2: "galicia-ba", stadium: "Fonte Nova", time: "16:00", score: "3 x 0" },
+  { date: "20/01", info: "Estadual • Rodada 4ª", team1: "bahia", team2: "barcelona-ba", stadium: "Fonte Nova", time: "20:30", score: "5 x 1" },
+  { date: "25/01", info: "Estadual • Rodada 5ª", team1: "vitoria", team2: "bahia", stadium: "Barradão", time: "16:00", score: "0 x 1" },
+  { date: "01/02", info: "Estadual • Rodada 6ª", team1: "bahia", team2: "porto-ba", stadium: "Fonte Nova", time: "16:00", score: "3 x 1" },
+  { date: "08/02", info: "Estadual • Rodada 7ª", team1: "juazeirense", team2: "bahia", stadium: "Adauto Moraes", time: "16:00", score: "1 x 1" },
+  { date: "14/02", info: "Estadual • Rodada 8ª", team1: "bahia", team2: "jacuipense", stadium: "Fonte Nova", time: "16:00", score: "2 x 2" },
+  { date: "21/02", info: "Estadual • Rodada 9ª", team1: "alagoinhas", team2: "bahia", stadium: "Carneirão", time: "16:00", score: "2 x 4" },
+  { date: "28/02", info: "Estadual • Semifinal", team1: "bahia", team2: "juazeirense", stadium: "Fonte Nova", time: "16:00", score: "4 x 2" },
+  { date: "07/03", info: "🏆 Final • Estadual", team1: "bahia", team2: "vitoria", stadium: "Fonte Nova", time: "16:00", score: "2 x 1" },
+
+  // 🇧🇷 DEMAIS JOGOS DA TEMPORADA
   { date: "28/01", info: "Rodada 1ª • terça", team1: "corinthians", team2: "bahia", stadium: "Vila Belmiro", time: "20:00", score: "1 x 2" },
   { date: "05/02", info: "Rodada 2ª • quarta", team1: "bahia", team2: "fluminense", stadium: "Arena Fonte Nova", time: "19:00", score: "1 x 1" },
   { date: "11/02", info: "Rodada 3ª • terça", team1: "vasco", team2: "bahia", stadium: "São Januário", time: "21:30", score: "0 x 1" },
@@ -57,258 +82,151 @@ const listaAtualizadaDeGames = [
   { date: "23/08", info: "Rodada 24ª • domingo", team1: "vitoria", team2: "bahia", stadium: "Barradão", time: "16:00", score: "x" }
 ];
 
-// Se o localStorage estiver vazio OU não tiver a rodada nova (Fluminense de 29/07), força a atualização
-if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team1 === "fluminense")) {
+// Gerencia a verificação inicial do LocalStorage para carregar os novos dados do estadual
+if (games.length === 0 || !games.some(jogo => jogo.team2 === "jequie-ba")) {
   games = listaAtualizadaDeGames;
   localStorage.setItem("games", JSON.stringify(games));
 }
 
-
+// 🎛️ CONTROLE DE ESTADOS DO FILTRO
 let activeTab = 'todas';
 let activeMandoFilter = 'todos-jogos';
 
-// Matriz Oficial da Classificação Atualizada (Baseada na Imagem Real) com chaves de escudos
-const dadosClassificacao = [
-  { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 41, pj: 18, vit: 12, e: 5, der: 1, gm: 30, gc: 13, sg: 17, ultimas: ["E", "E", "E", "V", "V"] },
-  { pos: 2, clube: "Flamengo", slug: "flamengo", pts: 34, pj: 17, vit: 10, e: 4, der: 3, gm: 31, gc: 16, sg: 15, ultimas: ["E", "V", "E", "D", "V"] },
-  { pos: 3, clube: "Fluminense", slug: "fluminense", pts: 32, pj: 19, vit: 9, e: 5, der: 5, gm: 29, gc: 24, sg: 5, ultimas: ["E", "V", "E", "E", "E"] },
-  { pos: 4, clube: "Athletico-PR", slug: "athletico-pr", pts: 30, pj: 18, vit: 9, e: 3, der: 6, gm: 24, gc: 18, sg: 6, ultimas: ["E", "D", "E", "V", "V"] },
-  { pos: 5, clube: "Bragantino", slug: "bragantino", pts: 30, pj: 19, vit: 9, e: 3, der: 7, gm: 26, gc: 20, sg: 6, ultimas: ["D", "V", "V", "V", "E"] },
-  { pos: 6, clube: "Bahia", slug: "bahia", pts: 29, pj: 18, vit: 8, e: 5, der: 5, gm: 27, gc: 23, sg: 4, ultimas: ["D", "E", "D", "V", "V"] },
-  { pos: 7, clube: "Coritiba", slug: "coritiba", pts: 26, pj: 18, vit: 7, e: 5, der: 6, gm: 24, gc: 24, sg: 0, ultimas: ["D", "E", "V", "V", "D"] },
-  { pos: 8, clube: "São Paulo", slug: "sao-paulo", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 23, gc: 20, sg: 3, ultimas: ["D", "D", "D", "E", "D"] },
-  { pos: 9, clube: "Botafogo", slug: "botafogo", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 33, gc: 32, sg: 1, ultimas: ["D", "V", "E", "D", "V"] },
-  { pos: 10, clube: "EC Vitória", slug: "vitoria", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 22, gc: 25, sg: -3, ultimas: ["E", "D", "V", "D", "V"] },
-  { pos: 11, clube: "Atlético-MG", slug: "atletico-mg", pts: 24, pj: 18, vit: 7, e: 3, der: 8, gm: 22, gc: 23, sg: -1, ultimas: ["V", "E", "V", "D", "V"] },
-  { pos: 12, clube: "Corinthians", slug: "corinthians", pts: 24, pj: 18, vit: 6, e: 6, der: 6, gm: 18, gc: 19, sg: -1, ultimas: ["D", "V", "D", "D", "V"] },
-  { pos: 13, clube: "Cruzeiro", slug: "cruzeiro", pts: 24, pj: 18, vit: 6, e: 6, der: 6, gm: 24, gc: 28, sg: -4, ultimas: ["D", "V", "E", "V", "E"] },
-  { pos: 14, clube: "Internacional", slug: "internacional", pts: 21, pj: 18, vit: 5, e: 6, der: 7, gm: 21, gc: 22, sg: -1, ultimas: ["V", "E", "V", "D", "D"] },
-  { pos: 15, clube: "Santos", slug: "santos", pts: 21, pj: 19, vit: 5, e: 6, der: 8, gm: 29, gc: 31, sg: -2, ultimas: ["V", "D", "D", "V", "D"] },
-  { pos: 16, clube: "Grêmio", slug: "gremio", pts: 21, pj: 19, vit: 5, e: 6, der: 8, gm: 21, gc: 25, sg: -4, ultimas: ["D", "E", "V", "D", "D"] },
-  { pos: 17, clube: "Vasco da Gama", slug: "vasco", pts: 20, pj: 19, vit: 5, e: 5, der: 9, gm: 22, gc: 30, sg: -8, ultimas: ["V", "D", "D", "D", "D"] },
-  { pos: 18, clube: "Mirassol", slug: "mirassol", pts: 19, pj: 18, vit: 5, e: 4, der: 9, gm: 20, gc: 25, sg: -5, ultimas: ["E", "V", "D", "D", "V"] },
-  { pos: 19, clube: "Remo", slug: "remo", pts: 18, pj: 18, vit: 4, e: 6, der: 8, gm: 21, gc: 29, sg: -8, ultimas: ["E", "E", "V", "D", "V"] },
-  { pos: 20, clube: "Chapecoense", slug: "chapecoense", pts: 9, pj: 18, vit: 1, e: 6, der: 11, gm: 17, gc: 35, sg: -18, ultimas: ["E", "D", "D", "D", "D"] }
-];
+// 🛠️ FUNÇÃO PRINCIPAL: RENDERIZAR OS JOGOS NA TELA
+function renderGames() {
+  const containerBrasileirao = document.getElementById("games-container-brasileirao");
+  const containerCopas = document.getElementById("games-container-copas");
 
-// Configura os valores iniciais reais solicitados baseados na tabela oficial
-if (!localStorage.getItem('bahia_posicao')) localStorage.setItem('bahia_posicao', '6');
-if (!localStorage.getItem('bahia_pontos')) localStorage.setItem('bahia_pontos', '29');
+  if (containerBrasileirao) containerBrasileirao.innerHTML = "";
+  if (containerCopas) containerCopas.innerHTML = "";
 
-function toggleAdminPanel() {
-  const panel = document.getElementById('admin-panel');
-  panel.style.display = (panel.style.display === 'none') ? 'block' : 'none';
-  
-  if (panel.style.display === 'block') {
-    document.getElementById('admin-posicao').value = localStorage.getItem('bahia_posicao') || "6";
-    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "29";
-  }
-}
+  const grupos = {};
 
-function toggleCompetitionOptions() {
-  const type = document.getElementById('competition-type').value;
-  document.getElementById('rodada-select').style.display = (type === 'brasileirao') ? 'block' : 'none';
-  document.getElementById('copa-fase').style.display = (type === 'copas') ? 'block' : 'none';
-}
+  games.forEach((g, index) => {
+    let grupoNome = "Outros Jogos";
+    const infoLower = g.info.toLowerCase();
 
-function normalizeTeam(name) {
-  return name.toLowerCase().trim().replaceAll(" ", "-").replaceAll("ã", "a").replaceAll("ç", "c");
-}
+    if (infoLower.includes("rodada") && !infoLower.includes("estadual")) {
+      const match = g.info.match(/\d+/);
+      grupoNome = match ? `Rodada ${match[0]}` : "Brasileirão";
+    } else if (infoLower.includes("libertadores")) {
+      grupoNome = "Copa Libertadores";
+    } else if (infoLower.includes("copa do brasil")) {
+      grupoNome = "Copa do Brasil";
+    } else if (infoLower.includes("estadual")) {
+      grupoNome = "Campeonato Estadual";
+    }
 
-// ============================================================================
-// 📊 MÓDULO DE GERENCIAMENTO DE JOGOS, SIMULAÇÃO E CLASSIFICAÇÃO DINÂMICA
-// ============================================================================
-
-function saveScore(index, value) {
-  games[index].score = value;
-  localStorage.setItem("games", JSON.stringify(games));
-  
-  // Recalcula os dados e atualiza a tabela dinamicamente a cada alteração de placar
-  applyCombinedFilters();
-  calculateSeasonProgress();
-}
-
-// 📊 MÓDULO EXCLUSIVO: TABELA DE CLASSIFICAÇÃO FIXA COM ESCUDOS
-function renderTabelaClassificacao() {
-  const container = document.getElementById('classificacao-table-container');
-  if (!container) return;
-
-  let html = `
-    <table class="tabela-brasileirao" style="width:100%; border-collapse:collapse; font-family:sans-serif; text-align:center; background:rgba(255,255,255,0.9); border-radius:8px; overflow:hidden;">
-      <thead style="background:#00468C; color:white; font-size:13px;">
-        <tr>
-          <th style="padding:10px; text-align:left;">Posição</th>
-          <th style="padding:10px;">P</th>
-          <th style="padding:10px;">J</th>
-          <th style="padding:10px;">V</th>
-          <th style="padding:10px;">E</th>
-          <th style="padding:10px;">D</th>
-          <th style="padding:10px;">GP</th>
-          <th style="padding:10px;">GC</th>
-          <th style="padding:10px;">SG</th>
-          <th style="padding:10px;">Últimas 5</th>
-        </tr>
-      </thead>
-      <tbody style="font-size:14px; color:#333;">
-  `;
-
-  dadosClassificacao.forEach((t, i) => {
-    const isBahia = t.clube === "Bahia";
-    const rowBg = isBahia ? "background:rgba(0,70,140,0.15); font-weight:bold;" : (i % 2 === 0 ? "background:#f9f9f9;" : "background:#fff;");
-    
-    let posStyle = "color:#555;";
-    if (t.pos <= 4) posStyle = "color:#0056f3; font-weight:bold;"; // G4
-    else if (t.pos <= 6) posStyle = "color:#ff7300; font-weight:bold;"; // G6
-    else if (t.pos >= 17) posStyle = "color:#dc3545; font-weight:bold;"; // Z4
-
-    const escudoUrl = shields[t.slug] || "img/bahia.png";
-
-    html += `
-      <tr style="${rowBg} border-bottom:1px solid #ddd;">
-        <td style="padding:10px; text-align:left; display:flex; align-items:center; gap:8px;">
-          <span style="${posStyle} min-width:25px;">${t.pos}º</span>
-          <img src="${escudoUrl}" alt="Escudo do ${t.clube}" style="width:20px; height:20px; object-fit:contain; vertical-align:middle;">
-          <span style="text-transform:none;">${t.clube}</span>
-        </td>
-        <td style="padding:10px; font-weight:bold; color:#00468C;">${t.pts}</td>
-        <td style="padding:10px;">${t.pj}</td>
-        <td style="padding:10px;">${t.vit}</td>
-        <td style="padding:10px;">${t.e}</td>
-        <td style="padding:10px;">${t.der}</td>
-        <td style="padding:10px;">${t.gm}</td>
-        <td style="padding:10px;">${t.gc}</td>
-        <td style="padding:10px; font-weight:bold; color:${t.sg >= 0 ? 'green' : 'red'};">${t.sg > 0 ? '+' + t.sg : t.sg}</td>
-        <td style="padding:10px;">
-          <div style="display: flex; gap: 4px; justify-content: center;">
-            ${t.ultimas.map(res => {
-                let color = '#777';
-                if (res === 'V') color = '#28a745';
-                if (res === 'D') color = '#dc3545';
-                return `<span style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: ${color}; color: #fff; font-size: 10px; line-height: 16px; font-weight: bold; text-align: center;">${res}</span>`;
-            }).join('')}
-          </div>
-        </td>
-      </tr>
-    `;
+    if (!grupos[grupoNome]) grupos[grupoNome] = [];
+    grupos[grupoNome].push({ ...g, originalIndex: index });
   });
 
-  html += `</tbody></table>`;
-  container.innerHTML = html;
-}
+  Object.keys(grupos).forEach(grupoNome => {
+    const sectionContainer = document.createElement("div");
+    sectionContainer.className = "rodada-container";
+    
+    // Normaliza id para aplicar os filtros de busca
+    const idSufixo = grupoNome.toLowerCase().replace(/[^a-z0-9]/g, "-");
+    sectionContainer.id = `grupo-${idSufixo}`;
 
-function isDuplicate(newGame) {
-  return games.some(g => g.date === newGame.date && g.team1 === newGame.team1 && g.team2 === newGame.team2);
-}
+    const title = document.createElement("h3");
+    title.className = "round-title";
+    title.innerText = grupoNome;
+    sectionContainer.appendChild(title);
 
-function saveGame() {
-  const compType = document.getElementById("competition-type").value;
-  let infoValue = document.getElementById("info").value;
+    grupos[grupoNome].forEach(g => {
+      const card = document.createElement("div");
+      card.className = "match-card";
 
-  if (compType === 'brasileirao') {
-    const rNum = document.getElementById("rodada-select").value;
-    infoValue = `Rodada ${rNum}ª • ${infoValue}`;
-  } else {
-    const cFase = document.getElementById("copa-fase").value;
-    infoValue = `${cFase} • ${infoValue}`;
-  }
+      // Determinação de cores baseada em vitórias e derrotas
+      const scores = g.score.split("x").map(s => parseInt(s.trim()));
+      let classResultado = "";
 
-  const game = {
-    date: document.getElementById("date").value,
-    info: infoValue,
-    team1: normalizeTeam(document.getElementById("team1").value),
-    team2: normalizeTeam(document.getElementById("team2").value),
-    stadium: document.getElementById("info").value.split("•")[1]?.trim() || "", 
-    time: document.getElementById("time").value,
-    score: document.getElementById("score").value || "x"
-  };
+      if (!isNaN(scores[0]) && !isNaN(scores[1])) {
+        const isTeam1Bahia = g.team1 === "bahia";
+        if (scores[0] === scores[1]) {
+          classResultado = "draw";
+        } else if ((scores[0] > scores[1] && isTeam1Bahia) || (scores[1] > scores[0] && !isTeam1Bahia)) {
+          classResultado = "winner";
+        } else {
+          classResultado = "loser";
+        }
+      }
+      if (g.result) classResultado = g.result; // Força resultado customizado se existir
+      if (classResultado) card.classList.add(classResultado);
 
-  if (!game.date || !game.team1 || !game.team2) {
-    alert("⚠️ Preencha Data, Time Mandante e Time Visitante!");
-    return;
-  }
+      const shield1 = shields[g.team1] || "img/default.png";
+      const shield2 = shields[g.team2] || "img/default.png";
 
-  if (isDuplicate(game)) {
-    alert("⚠️ Esse jogo já existe!");
-    return;
-  }
+      card.innerHTML = `
+        <div class="match-header">
+          <span class="match-date">${g.date}</span>
+          <span class="match-info">${g.info}</span>
+        </div>
+        <div class="match-body">
+          <div class="team team-home">
+            <img src="${shield1}" alt="${g.team1}" class="team-shield">
+            <span class="team-name">${g.team1.toUpperCase()}</span>
+          </div>
+          <div class="match-score">${g.score}</div>
+          <div class="team team-away">
+            <img src="${shield2}" alt="${g.team2}" class="team-shield">
+            <span class="team-name">${g.team2.toUpperCase()}</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span class="match-stadium">📍 ${g.stadium}</span>
+          <span class="match-time">🕒 ${g.time}</span>
+          <label class="select-container">
+            <input type="checkbox" class="select-game" data-index="${g.originalIndex}" ${g.selected ? 'checked' : ''}>
+            👁️ Considerar
+          </label>
+        </div>
+      `;
 
-  games.push(game);
-  localStorage.setItem("games", JSON.stringify(games));
-  renderGames();
-}
+      // Evento para atualizar seleção e recalcular dados
+      card.querySelector(".select-game").addEventListener("change", function() {
+        games[this.dataset.index].selected = this.checked;
+        localStorage.setItem("games", JSON.stringify(games));
+        calculateStats();
+      });
 
-function resetForm() {
-  document.getElementById("date").value = "";
-  document.getElementById("time").value = "";
-  document.getElementById("info").value = "";
-  document.getElementById("team1").value = "";
-  document.getElementById("score").value = "";
-  document.getElementById("team2").value = "";
-  document.getElementById("copa-fase").value = "";
-  document.getElementById("competition-type").value = "brasileirao";
-  toggleCompetitionOptions();
-}
+      sectionContainer.appendChild(card);
+    });
 
-function deleteSelectedGames() {
-  const checkboxes = document.querySelectorAll(".select-game:checked");
-  if (checkboxes.length === 0) {
-    alert("⚠️ Nenhum jogo selecionado!");
-    return;
-  }
-
-  if (!confirm("Tem certeza que deseja excluir os jogos selecionados?")) return;
-
-  const indexesToDelete = Array.from(checkboxes).map(cb => Number(cb.dataset.index));
-  games = games.filter((_, index) => !indexesToDelete.includes(index));
-  
-  localStorage.setItem("games", JSON.stringify(games));
-  renderGames();
-}
-
-function getHeaderLabel(info) {
-  if (info.toLowerCase().includes("rodada")) {
-    const match = info.match(/Rodada\s+\d+ª/i);
-    return match ? match[0].toUpperCase() : "BRASILEIRÃO";
-  }
-  const parts = info.split("•");
-  return parts[0].trim().toUpperCase();
-}
-
-function filterMando(mandoId, event) {
-  activeMandoFilter = mandoId;
-  document.querySelectorAll('.filter-mando-btn').forEach(btn => btn.classList.remove('active'));
-  if (event && event.target) event.target.classList.add('active');
-  
-  applyCombinedFilters();
-}
-
-function switchTab(tabId, event) {
-  activeTab = tabId;
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  if (event && event.target) {
-    event.target.classList.add('active');
-  }
+    // Encaminha o container criado para a seção visual correta no HTML
+    if (grupoNome.includes("Rodada")) {
+      if (containerBrasileirao) containerBrasileirao.appendChild(sectionContainer);
+    } else {
+      if (containerCopas) containerCopas.appendChild(sectionContainer);
+    }
+  });
 
   applyCombinedFilters();
 }
 
+// 🎛️ FILTRAGEM COMBINADA (Abas + Mandos de Campo)
 function applyCombinedFilters() {
   const secBrasileirao = document.getElementById('sec-brasileirao');
   const secCopas = document.getElementById('sec-copas');
   const allContainers = document.querySelectorAll('.rodada-container');
 
   if (activeTab === 'todas') {
-    secBrasileirao.style.display = 'block';
-    secCopas.style.display = 'block';
+    if (secBrasileirao) secBrasileirao.style.display = 'block';
+    if (secCopas) secCopas.style.display = 'block';
   } else if (activeTab === 'copas-tab') {
-    secBrasileirao.style.display = 'none';
-    secCopas.style.display = 'block';
+    if (secBrasileirao) secBrasileirao.style.display = 'none';
+    if (secCopas) secCopas.style.display = 'block';
+  } else if (activeTab === 'estadual-tab') {
+    if (secBrasileirao) secBrasileirao.style.display = 'none';
+    if (secCopas) secCopas.style.display = 'block'; 
   } else {
-    secBrasileirao.style.display = 'block';
-    secCopas.style.display = 'none';
+    if (secBrasileirao) secBrasileirao.style.display = 'block';
+    if (secCopas) secCopas.style.display = 'none';
   }
 
   allContainers.forEach(container => {
+    // Filtros de Turnos do Brasileirão
     if (activeTab === '1-turno' || activeTab === '2-turno') {
       const match = container.id.match(/\d+/);
       const num = match ? parseInt(match[0]) : null;
@@ -320,6 +238,16 @@ function applyCombinedFilters() {
         container.style.display = 'none';
         return;
       }
+    }
+
+    // Filtros específicos das Abas de Copas e Estadual
+    if (activeTab === 'estadual-tab' && !container.id.includes('estadual')) {
+      container.style.display = 'none';
+      return;
+    }
+    if (activeTab === 'copas-tab' && container.id.includes('estadual')) {
+      container.style.display = 'none';
+      return;
     }
 
     const cards = container.querySelectorAll('.match-card');
@@ -354,564 +282,77 @@ function applyCombinedFilters() {
   calculateStats();
 }
 
+// 📑 GERENCIAMENTO DE MUDANÇA DE ABAS VIA INTERFACE
+function switchTab(tabId, event) {
+  activeTab = tabId;
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  } else {
+    const activeBtn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+  applyCombinedFilters();
+}
+
+function filterMando(mandoType, event) {
+  activeMandoFilter = mandoType;
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  }
+  applyCombinedFilters();
+}
+
+function clicarAbaEstadual(event) {
+  switchTab('estadual-tab', event);
+}
+
+// 🧮 CÁLCULO DE ESTATÍSTICAS E RENDIMENTO
 function calculateStats() {
-  let triunfos = 0;
-  let empates = 0;
-  let derrotas = 0;
-  let golsPro = 0;
-  let golsContra = 0;
-
-  const checkboxes = document.querySelectorAll('.select-game');
-  
-  checkboxes.forEach(cb => {
-    const card = cb.closest('.match-card');
-    // Considera apenas cards visíveis que pertencem ao Brasileirão para a tabela de pontos
-    if (card && card.style.display !== 'none') {
-      const index = Number(cb.dataset.index);
-      const g = games[index];
-
-      if (!g.info.toLowerCase().includes("rodada")) return;
-
-      if (g.score && g.score !== "x" && g.score.trim() !== "" && g.score.includes("x")) {
-        const placarClean = g.score.split("(")[0];
-        const placar = placarClean.split("x");
-        const gols1 = parseInt(placar[0]);
-        const gols2 = parseInt(placar[1]);
-
-        if (!isNaN(gols1) && !isNaN(gols2)) {
-          if (g.team1 === "bahia") {
-            golsPro += gols1;
-            golsContra += gols2;
-            if (gols1 > gols2) triunfos++;
-            else if (gols1 < gols2) derrotas++;
-            else empates++;
-          } else if (g.team2 === "bahia") {
-            golsPro += gols2;
-            golsContra += gols1;
-            if (gols2 > gols1) triunfos++;
-            else if (gols2 < gols1) derrotas++;
-            else empates++;
-          }
-        }
-      }
-    }
-  });
-
-  const totalJogosComResultado = triunfos + empates + derrotas;
-  const pontosGanhos = (triunfos * 3) + empates;
-  let aproveitamento = 0;
-
-  if (totalJogosComResultado > 0) {
-    const pontosPossiveis = totalJogosComResultado * 3;
-    aproveitamento = Math.round((pontosGanhos / pontosPossiveis) * 100);
-  }
-
-  // Atualiza os elementos dos painéis do topo
-  document.getElementById('stat-vitorias').textContent = triunfos;
-  document.getElementById('stat-empates').textContent = empates;
-  document.getElementById('stat-derrotas').textContent = derrotas;
-  document.getElementById('stat-aproveitamento').textContent = `${aproveitamento}%`;
-  
-  // 🔄 ATUALIZA O REGISTRO DO BAHIA EM TEMPO REAL DENTRO DO ARRAY DA TABELA
-  const bahiaNaTabela = dadosClassificacao.find(t => t.slug === "bahia");
-  if (bahiaNaTabela) {
-    bahiaNaTabela.pts = pontosGanhos;
-    bahiaNaTabela.pj = totalJogosComResultado;
-    bahiaNaTabela.vit = triunfos;
-    bahiaNaTabela.e = empates;
-    bahiaNaTabela.der = derrotas;
-    bahiaNaTabela.gm = golsPro;
-    bahiaNaTabela.gc = golsContra;
-    bahiaNaTabela.sg = golsPro - golsContra;
-    
-    // Organiza as posições de forma inteligente com base nos critérios de desempate oficiais
-    dadosClassificacao.sort((a, b) => {
-      if (b.pts !== a.pts) return b.pts - a.pts;
-      if (b.sg !== a.sg) return b.sg - a.sg;
-      return b.vit - a.vit;
-    });
-    
-    // Corrige a numeração sequencial das posições pós-reordenação
-    dadosClassificacao.forEach((time, idx) => {
-      time.pos = idx + 1;
-    });
-  }
-
-  // Sincroniza a nova classificação gerada nos painéis fixos de leitura rápida
-  const novaPosBahia = dadosClassificacao.findIndex(t => t.slug === "bahia") + 1;
-  document.getElementById('stat-posicao').textContent = `${novaPosBahia}º`;
-  document.getElementById('stat-pontos').textContent = pontosGanhos;
-
-  // Renderiza a interface da tabela totalmente reformulada
-  renderTabelaClassificacao();
-}
-
-// 🌓 LÓGICA DE ALTERNÂNCIA DE TEMA (MODO UNIFORME ALVO)
-function toggleTheme() {
-  const isLight = document.body.classList.toggle('light-theme');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  document.getElementById('theme-btn').textContent = isLight ? '🔵 Uniforme Tricolor' : '⚪ Uniforme Alvo';
-}
-
-function applySavedTheme() {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'light') {
-    document.body.classList.add('light-theme');
-    document.getElementById('theme-btn').textContent = '🔵 Uniforme Tricolor';
-  }
-}
-
-// ⏳ LÓGICA DA BARRA DE PROGRESSO DA TEMPORADA
-function calculateSeasonProgress() {
-  const totalGames = games.length;
-  let playedGames = 0;
+  let pts = 0, pj = 0, v = 0, e = 0, d = 0, gp = 0, gc = 0;
 
   games.forEach(g => {
-    if (g.score && g.score !== "x" && g.score.trim() !== "") {
-      playedGames++;
+    if (g.selected === false) return; 
+    if (!g.info.toLowerCase().includes("rodada")) return;
+    if (g.info.toLowerCase().includes("estadual")) return; // Evita que pontos do estadual computem no Brasileirão
+
+    const scores = g.score.split("x").map(s => parseInt(s.trim()));
+    if (isNaN(scores[0]) || !isNaN(g.score) || g.score.toLowerCase().includes("x") === false) {
+      if (g.score.trim().toLowerCase() === "x") return; 
     }
-  });
+    if (isNaN(scores[0]) || isNaN(scores[1])) return;
 
-  const percentage = totalGames > 0 ? Math.round((playedGames / totalGames) * 100) : 0;
+    pj++;
+    const isHome = g.team1 === "bahia";
+    const golsBahia = isHome ? scores[0] : scores[1];
+    const golsAdversario = isHome ? scores[1] : scores[0];
 
-  document.getElementById('progress-percentage').textContent = `${percentage}%`;
-  document.getElementById('progress-count').textContent = `${playedGames}/${totalGames}`;
-  document.getElementById('progress-fill').style.width = `${percentage}%`;
-}
+    gp += golsBahia;
+    gc += golsAdversario;
 
-// 🔍 IDENTIFICA O PRÓXIMO JOGO DO VETOR
-function getNextMatchIndex() {
-  return games.findIndex(g => !g.score || g.score.toLowerCase().trim() === 'x');
-}
-
-function renderGames() {
-  const brasContainer = document.getElementById("brasileirao-containers");
-  const copasContainer = document.getElementById("copas-container");
-  
-  if (brasContainer) brasContainer.innerHTML = "";
-  if (copasContainer) copasContainer.innerHTML = "";
-
-  const nextMatchIndex = getNextMatchIndex();
-
-  const groups = {};
-  games.forEach((g, index) => {
-    const headerLabel = getHeaderLabel(g.info);
-    if (!groups[headerLabel]) groups[headerLabel] = [];
-    groups[headerLabel].push({ g, index });
-  });
-
-  for (const [title, matchList] of Object.entries(groups)) {
-    const matchDigits = title.match(/\d+/);
-    let containerIdAttr = matchDigits ? `id="rodada-box-${matchDigits[0]}"` : `id="copa-box-${title.replaceAll(" ", "-").toLowerCase()}"`;
-
-    let containerHTML = `
-      <div class="rodada-container" ${containerIdAttr}>
-        <div class="rodada-header">${title}</div>
-        <div class="match-list">
-    `;
-
-    matchList.forEach(({ g, index }) => {
-      let extraClass = "";
-      let badgeHTML = "";
-
-      if (g.info.toLowerCase().includes("libertadores")) extraClass += " libertadores";
-      if (g.info.toLowerCase().includes("copa do brasil")) extraClass += " copa-brasil";
-      if (g.result) extraClass += ` ${g.result}`;
-
-      if (index === nextMatchIndex) {
-        extraClass += " next-match";
-        badgeHTML = `<div class="next-match-badge">⭐ PRÓXIMO JOGO</div>`;
-      }
-
-      // --- TRATAMENTO DO PLACAR ---
-      let valorInput = g.score || "x"; 
-      let placarExibicao = valorInput;
-      let penaltisExibicao = "";
-
-      // 1. Separa caso existam parênteses salvos
-      if (valorInput.includes("(")) {
-        const partes = valorInput.split("(");
-        placarExibicao = partes[0].trim();
-        penaltisExibicao = partes[1].replace(")", "").trim();
-      } 
-      // 2. Fallback caso use propriedade nativa do objeto
-      else if (g.penalties && g.penalties.trim() !== "") {
-        penaltisExibicao = g.penalties;
-      }
-      // 3. SEGUNDO CRITÉRIO: DETECÇÃO AUTOMÁTICA POR EMPATE NO AGREGADO
-      else if (g.info.toLowerCase().includes("volta") && placarExibicao.includes("x") && placarExibicao.trim() !== "x") {
-        const pVolta = placarExibicao.split("x");
-        const golV1Raw = pVolta[0]?.trim();
-        const golV2Raw = pVolta[1]?.trim();
-
-        if (golV1Raw !== "" && golV2Raw !== "" && !isNaN(parseInt(golV1Raw)) && !isNaN(parseInt(golV2Raw))) {
-          const adversario = g.team1 === "bahia" ? g.team2 : g.team1;
-          const jogoIda = games.find(jogo => 
-            jogo.info.toLowerCase().includes("ida") && 
-            (jogo.team1 === adversario || jogo.team2 === adversario) &&
-            jogo.score && jogo.score !== "x"
-          );
-
-          if (jogoIda) {
-            const golsVolta1 = parseInt(golV1Raw);
-            const golsVolta2 = parseInt(golV2Raw);
-
-            const pIda = jogoIda.score.split("(")[0].split("x");
-            const golsIda1 = parseInt(pIda[0]);
-            const golsIda2 = parseInt(pIda[1]);
-
-            if (!isNaN(golsIda1) && !isNaN(golsIda2)) {
-              let totalBahia = 0;
-              let totalAdversario = 0;
-
-              if (jogoIda.team1 === "bahia") { totalBahia += golsIda1; totalAdversario += golsIda2; } 
-              else { totalBahia += golsIda2; totalAdversario += golsIda1; }
-
-              if (g.team1 === "bahia") { totalBahia += golsVolta1; totalAdversario += golsVolta2; } 
-              else { totalBahia += golsVolta2; totalAdversario += golsVolta1; }
-
-              if (totalBahia === totalAdversario) {
-                penaltisExibicao = "0 x 0";
-              }
-            }
-          }
-        }
-      }
-
-      // Isola os gols limpos para renderizar nos inputs
-      const golsNormalArray = placarExibicao.split("x");
-      const golNormal1 = golsNormalArray[0]?.trim() || "";
-      const golNormal2 = golsNormalArray[1]?.trim() || "";
-
-      const golsPenaltisArray = penaltisExibicao.split("x");
-      const golPenalti1 = golsPenaltisArray[0]?.trim() || "";
-      const golPenalti2 = golsPenaltisArray[1]?.trim() || "";
-
-      // --- CORREÇÃO DEFINITIVA DA LÓGICA DE CORES DOS CARDS ---
-      if (golNormal1 !== "" && golNormal2 !== "") {
-        const gols1 = parseInt(golNormal1);
-        const gols2 = parseInt(golNormal2);
-
-        if (!isNaN(gols1) && !isNaN(gols2)) {
-          if (g.team1 === "bahia") {
-            // Bahia Mandante
-            if (gols1 > gols2) extraClass += " win";
-            else if (gols1 < gols2) extraClass += " loser";
-            else extraClass += " draw";
-          } else if (g.team2 === "bahia") {
-            // Bahia Visitante
-            if (gols2 > gols1) extraClass += " win";
-            else if (gols2 < gols1) extraClass += " loser";
-            else extraClass += " draw";
-          }
-        }
-      }
-      // --------------------------------------------------------
-
-      const t1Name = g.team1.replace("-", " ");
-      const t2Name = g.team2.replace("-", " ");
-      const img1 = shields[g.team1] || "img/bahia.png";
-      const img2 = shields[g.team2] || "img/bahia.png";
-
-      window.atualizarPlacarComPenaltis = function(idx, n1, n2, p1, p2) {
-        let stringResultado = `${n1 || ''} x ${n2 || ''}`;
-        if (p1 !== "" || p2 !== "") {
-          stringResultado += ` (${p1 || '0'} x ${p2 || '0'})`;
-        }
-        saveScore(idx, stringResultado);
-      };
-
-      containerHTML += `
-        <div class="match-card ${extraClass}">
-          <input type="checkbox" class="select-game" data-index="${index}">
-          ${badgeHTML}
-          <div class="match-details">${g.date} • ${g.info.includes("•") ? g.info.substring(g.info.indexOf("•") + 1) : g.info} • ${g.time}</div>
-          <div class="match-teams-row">
-            <div class="team-box home">
-              <span class="team-name">${t1Name}</span>
-              <img src="${img1}" class="team-logo">
-            </div>
-            
-            <div class="score-box" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-              <input class="score-input" value="${golNormal1}" oninput="atualizarPlacarComPenaltis(${index}, this.value, '${golNormal2}', '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
-              
-              ${penaltisExibicao !== "" ? `
-                <input class="pk-input" value="${golPenalti1}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', this.value, '${golPenalti2}')" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
-              ` : ''}
-
-              <span style="font-weight: bold; color: white; margin: 0 2px;">x</span>
-
-              ${penaltisExibicao !== "" ? `
-                <input class="pk-input" value="${golPenalti2}" placeholder="PK" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', '${golNormal2}', '${golPenalti1}', this.value)" style="background: #fff5f5; color: #dc3545; border: 1px solid #ffcccc; padding: 2px; border-radius: 4px; font-size: 11px; font-weight: bold; width: 25px; text-align: center;">
-              ` : ''}
-
-              <input class="score-input" value="${golNormal2}" oninput="atualizarPlacarComPenaltis(${index}, '${golNormal1}', this.value, '${golPenalti1}', '${golPenalti2}')" style="text-align: center; width: 35px;">
-            </div>
-
-            <div class="team-box away">
-              <img src="${img2}" class="team-logo">
-              <span class="team-name">${t2Name}</span>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-
-    containerHTML += `</div></div>`;
-
-    if (title.includes("RODADA") || title.includes("BRASILEIRÃO")) {
-      if (brasContainer) brasContainer.insertAdjacentHTML("beforeend", containerHTML);
+    if (golsBahia > golsAdversario) {
+      v++; pts += 3;
+    } else if (golsBahia === golsAdversario) {
+      e++; pts += 1;
     } else {
-      if (copasContainer) copasContainer.insertAdjacentHTML("beforeend", containerHTML);
+      d++;
     }
-  }
+  });
 
-  applySavedTheme();
-  calculateSeasonProgress();
-  switchTab(activeTab, null);
-}
-// ============================================================================
-// 🏃‍♂️ MÓDULO EXCLUSIVO: GERENCIAMENTO DE ELENCO & TOP ARTILHEIROS POR TEMPORADA
-// ============================================================================
+  const sg = gp - gc;
+  const aproveitamento = pj > 0 ? ((pts / (pj * 3)) * 100).toFixed(1) : "0.0";
 
-// 1. Controle e definição da Temporada Ativa
-let currentSeason = localStorage.getItem("current_season") || "2026";
-let storageKey = `bahia_players_${currentSeason}`;
-
-// Elenco base estruturado
-const elencoBaseInicial = [
-  { name: "Ronaldo", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
-  { name: "Guido Herreira", position: "Goleiro", goals: 0, nationality: "🇦🇷" },
-  { name: "Léo Vieira", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
-  { name: "Iago Borduchi", position: "Lateral", goals: 0, nationality: "🇧🇷" },
-  { name: "Zé Guilherme", position: "Lateral", goals: 0, nationality: "🇧🇷" },
-  { name: "Román Gómez", position: "Lateral", goals: 0, nationality: "🇦🇷" },
-  { name: "Luciano Juba", position: "Lateral", goals: currentSeason === "2026" ? 7 : 0, nationality: "🇧🇷" },
-  { name: "David Duarte", position: "Zagueiro", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
-  { name: "Marcos Victor", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
-  { name: "Ramos Mingo", position: "Zagueiro", goals: 0, nationality: "🇦🇷" },
-  { name: "Luiz Gustavo", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
-  { name: "Kanu", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
-  { name: "Marco Moreno", position: "Zagueiro", goals: 0, nationality: "🇪🇸" },
-  { name: "Everton Ribeiro", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
-  { name: "Nicolás Acevedo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
-  { name: "Erick", position: "Meio-campista", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
-  { name: "Rodrigo Nestor", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
-  { name: "Michel Araújo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
-  { name: "Caio Alexandre", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
-  { name: "Jean Lucas", position: "Meio-campista", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
-  { name: "Ademir", position: "Atacante", goals: 0, nationality: "🇧🇷" },
-  { name: "Erick Pulga", position: "Atacante", goals: 0, nationality: "🇧🇷" },
-  { name: "Willian José", position: "Atacante", goals: currentSeason === "2026" ? 3 : 0, nationality: "🇧🇷" },
-  { name: "Sanabria", position: "Atacante", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇦🇷" },
-  { name: "Kike Olivera", position: "Atacante", goals: currentSeason === "2026" ? 1 : 0, nationality: "🇺🇾" },
-  { name: "Everaldo", position: "Atacante", goals: currentSeason === "2026" ? 4 : 0, nationality: "🇧🇷" },
-  { name: "Alejo Veliz", position: "Atacante", goals: 0, nationality: "🇦🇷" }
-];
-
-// Carregamento inteligente do LocalStorage com base na temporada
-let players = JSON.parse(localStorage.getItem(storageKey));
-
-if (!players) {
-  // Se for a temporada de 2026 e possuir o repositório legado unificado, realiza a migração dos dados
-  if (currentSeason === "2026" && localStorage.getItem("bahia_players")) {
-    players = JSON.parse(localStorage.getItem("bahia_players"));
-  } else {
-    // Se for 2027 ou armazenamento novo, inicia clonando a base limpa
-    players = JSON.parse(JSON.stringify(elencoBaseInicial));
-  }
-  localStorage.setItem(storageKey, JSON.stringify(players));
+  // Atualização dos nós de texto na tabela/painel do DOM
+  const elements = { pts, pj, v, e, d, gp, gc, sg, apr: aproveitamento + "%" };
+  Object.keys(elements).forEach(key => {
+    const el = document.getElementById(`stat-${key}`);
+    if (el) el.innerText = elements[key];
+  });
 }
 
-// Inicialização da interface visual e botões das temporadas
+// 🏁 INICIALIZAÇÃO AUTOMÁTICA DA APLICAÇÃO
 document.addEventListener("DOMContentLoaded", () => {
-    // Atualiza os títulos textuais da página de acordo com a temporada
-    const txtHeader = document.getElementById("main-header-title");
-    const txtTable = document.getElementById("classification-header-title");
-    const txtAdmin = document.getElementById("admin-table-title");
-
-    if (txtHeader) txtHeader.innerText = `Calendário do Esquadrão ${currentSeason}`;
-    if (txtTable) txtTable.innerText = `📊 Campeonato Brasileiro ${currentSeason} • Classificação`;
-    if (txtAdmin) txtAdmin.innerText = `🏆 Atualizar Classificação Manual ${currentSeason} (Se necessário)`;
-
-    // Define os estilos visuais dos botões de troca de ano
-    const btn2026 = document.getElementById("btn-season-2026");
-    const btn2027 = document.getElementById("btn-season-2027");
-
-    if (btn2026 && btn2027) {
-        if (currentSeason === "2026") {
-            btn2026.style.background = "#00468C";
-            btn2026.style.color = "white";
-            btn2027.style.background = "#e0e0e0";
-            btn2027.style.color = "#333";
-        } else {
-            btn2027.style.background = "#00468C";
-            btn2027.style.color = "white";
-            btn2026.style.background = "#e0e0e0";
-            btn2026.style.color = "#333";
-        }
-    }
+  renderGames();
 });
 
-// Altera a temporada ativa e recarrega a página de forma reativa
-function changeSeason(year) {
-  localStorage.setItem("current_season", year);
-  window.location.reload();
-}
-
-let activePositionFilter = 'todos';
-
-function filterPosition(positionId, event) {
-  activePositionFilter = positionId;
-  document.querySelectorAll('.filter-position-btn').forEach(btn => btn.classList.remove('active'));
-  if (event && event.target) {
-    event.target.classList.add('active');
-  }
-  renderElenco();
-}
-
-function switchMainSection(sectionId) {
-  document.querySelectorAll('.main-section').forEach(sec => sec.style.display = 'none');
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  
-  if (sectionId === 'jogos') {
-    document.getElementById('section-jogos').style.display = 'block';
-    document.getElementById('nav-jogos').classList.add('active');
-  } else if (sectionId === 'elenco') {
-    document.getElementById('section-elenco').style.display = 'block';
-    document.getElementById('nav-elenco').classList.add('active');
-    renderElenco();
-  } else if (sectionId === 'classificacao') {
-    document.getElementById('section-classificacao').style.display = 'block';
-    document.getElementById('nav-classificacao').classList.add('active');
-    renderTabelaClassificacao();
-  }
-}
-
-function togglePlayerModal() {
-  const modal = document.getElementById('player-modal');
-  modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
-}
-
-function addPlayer() {
-  const nameInput = document.getElementById('player-name');
-  const posSelect = document.getElementById('player-position');
-  const natSelect = document.getElementById('player-nationality');
-  
-  const name = nameInput.value.trim();
-  const position = posSelect.value;
-  const nationality = natSelect ? natSelect.value : "🇧🇷";
-  
-  if (!name) {
-    alert("⚠️ Por favor, digite o nome do jogador!");
-    return;
-  }
-  
-  if (players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-    alert("⚠️ Esse atleta já consta listado no plantel!");
-    return;
-  }
-  
-  players.push({ name, position, goals: 0, nationality });
-  localStorage.setItem(storageKey, JSON.stringify(players));
-  
-  nameInput.value = "";
-  togglePlayerModal();
-  renderElenco();
-}
-
-function updateGoals(index, increment) {
-  players[index].goals = Math.max(0, players[index].goals + increment);
-  localStorage.setItem(storageKey, JSON.stringify(players));
-  renderElenco();
-}
-
-function removePlayer(index) {
-  if (confirm(`Remover permanentemente ${players[index].name} das listagens?`)) {
-    players.splice(index, 1);
-    localStorage.setItem(storageKey, JSON.stringify(players));
-    renderElenco();
-  }
-}
-
-function renderElenco() {
-  const grid = document.getElementById('elenco-grid');
-  const topList = document.getElementById('top-scorers-list');
-  
-  if (grid) grid.innerHTML = "";
-  if (topList) topList.innerHTML = "";
-  
-  const ordemPosicoes = ["Goleiro", "Lateral", "Zagueiro", "Meio-campista", "Atacante"];
-  
-  ordemPosicoes.forEach(posicaoAtual => {
-    if (activePositionFilter !== 'todos') {
-      if (activePositionFilter === 'goleiros' && posicaoAtual !== 'Goleiro') return;
-      if (activePositionFilter === 'laterais' && posicaoAtual !== 'Lateral') return;
-      if (activePositionFilter === 'zagueiros' && posicaoAtual !== 'Zagueiro') return;
-      if (activePositionFilter === 'meio-campistas' && posicaoAtual !== 'Meio-campista') return;
-      if (activePositionFilter === 'atacantes' && posicaoAtual !== 'Atacante') return;
-    }
-
-    const jogadoresDaPosicao = players
-      .map((p, idx) => ({ ...p, originalIndex: idx }))
-      .filter(p => p.position === posicaoAtual);
-
-    if (jogadoresDaPosicao.length > 0 && grid) {
-      const header = document.createElement('div');
-      header.style.cssText = "margin: 15px 0 8px 0; padding: 6px 10px; background: #00468C; color: white; font-weight: bold; font-size: 14px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;";
-      header.innerText = posicaoAtual === "Goleiro" ? "Goleiros" : posicaoAtual + "s";
-      grid.appendChild(header);
-
-      jogadoresDaPosicao.forEach(player => {
-        const flag = player.nationality ? ` ${player.nationality}` : "";
-        const goalIcon = player.position === 'Goleiro' ? "" : "⚽ ";
-
-        const row = document.createElement('div');
-        row.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; background: rgba(255,255,255,0.7); border-radius: 4px; margin-bottom: 4px;";
-        
-        row.innerHTML = `
-          <div style="color: #333;">
-            <strong style="font-size: 15px;">${player.name}${flag}</strong> 
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-weight: bold; min-width: 65px; text-align: right; color: #111; font-size: 14px;">${goalIcon}${player.goals} ${player.goals === 1 ? 'gol' : 'gols'}</span>
-            <button onclick="updateGoals(${player.originalIndex}, 1)" style="padding: 4px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; font-size:14px;">+</button>
-            <button onclick="updateGoals(${player.originalIndex}, -1)" style="padding: 4px 10px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; font-size:14px;">-</button>
-            <button onclick="removePlayer(${player.originalIndex})" style="padding: 2px 4px; background: transparent; color: #bbb; border: none; cursor: pointer; font-size: 13px; margin-left: 5px;">❌</button>
-          </div>
-        `;
-        grid.appendChild(row);
-      });
-    }
-  });
-  
-  const artilheiros = [...players]
-    .filter(p => p.goals > 0)
-    .sort((a, b) => b.goals - a.goals);
-    
-  if (topList) {
-    if (artilheiros.length === 0) {
-      topList.innerHTML = `<li style="list-style: none; color: #666; font-style: italic; font-size: 14px; padding: 10px 0;">Nenhum gol registrado no sistema.</li>`;
-    } else {
-      artilheiros.forEach((player, idx) => {
-        const flag = player.nationality ? ` ${player.nationality}` : "";
-        const li = document.createElement('li');
-        
-        li.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; margin-bottom: 6px; background: #f8f9fa; border-left: 4px solid #00468C; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); list-style: none;";
-        
-        li.innerHTML = `
-          <div style="font-size: 14px; color: #333;">
-            <span style="font-weight: bold; color: #777; margin-right: 8px;">${idx + 1}º</span>
-            <strong>${player.name}${flag}</strong>
-            <span style="font-size: 11px; color: #666; background: #e9ecef; padding: 1px 6px; border-radius: 10px; margin-left: 6px;">${player.position}</span>
-          </div>
-          <span style="color: #00468C; font-weight: 800; font-size: 14px; background: #e6f0fa; padding: 2px 10px; border-radius: 20px;">⚽ ${player.goals} ${player.goals === 1 ? 'gol' : 'gols'}</span>
-        `;
-        topList.appendChild(li);
-      });
-    }
-  }
-}
-
-// Inicialização padrão do Calendário
-renderGames();

@@ -17,13 +17,20 @@
     <header>
         <div class="header-content">
             <img src="img/bahia.png" alt="Logo do Bahia" class="logo_bahia">
-            <h1>Calendário do Esquadrão 2026</h1>
+            <!-- ID adicionado ao h1 para mudar dinamicamente de 2026 para 2027 -->
+            <h1 id="main-header-title">Calendário do Esquadrão 2026</h1>
             <div class="header-actions">
                 <button onclick="toggleTheme()" class="btn-theme-toggle" id="theme-btn">⚪ Uniforme Alvo</button>
                 <img src="img/logo_brasileiro.png" alt="Logo do Campeonato Brasileiro" class="logo_brasileiro">
             </div>
         </div>
     </header>
+
+    <!-- Novo Menu de Seleção de Temporadas -->
+    <div class="season-menu" style="display: flex; justify-content: center; gap: 10px; margin-top: 15px; margin-bottom: -5px;">
+        <button id="btn-season-2026" onclick="changeSeason('2026')" style="padding: 8px 20px; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Temporada 2026</button>
+        <button id="btn-season-2027" onclick="changeSeason('2027')" style="padding: 8px 20px; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; transition: all 0.2s;">Temporada 2027</button>
+    </div>
 
     <div class="tab-menu" style="margin-top: 20px; margin-bottom: 5px;">
         <button id="nav-jogos" class="tab-btn active" onclick="switchMainSection('jogos')">📅 Calendário de Jogos</button>
@@ -69,7 +76,7 @@
             </div>
 
             <div style="border-top: 1px solid #ccc; margin-top: 15px; padding-top: 15px;">
-                <h3 style="font-size: 14px; margin-bottom: 10px; color: #00468C;">🏆 Atualizar Classificação Manual (Se necessário)</h3>
+                <h3 id="admin-table-title" style="font-size: 14px; margin-bottom: 10px; color: #00468C;">🏆 Atualizar Classificação Manual (Se necessário)</h3>
                 <div class="form-group-row">
                     <input id="admin-posicao" type="number" placeholder="Posição na Tabela (ex: 6)" oninput="updateClassificationData()">
                     <input id="admin-pontos" type="number" placeholder="Total de Pontos (ex: 26)" oninput="updateClassificationData()">
@@ -145,7 +152,7 @@
 
     <div id="section-classificacao" class="main-section" style="display: none; max-width: 1000px; margin: 0 auto; padding: 20px;">
         <div style="border-bottom: 2px solid #00468C; padding-bottom: 10px; margin-bottom: 20px;">
-            <h2 style="margin: 0; color: #00468C;">📊 Campeonato Brasileiro 2026 • Classificação</h2>
+            <h2 id="classification-header-title" style="margin: 0; color: #00468C;">📊 Campeonato Brasileiro 2026 • Classificação</h2>
         </div>
         <div id="classificacao-table-container" style="overflow-x: auto;"></div>
     </div>
@@ -164,22 +171,23 @@
                         <label style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px;">Nome do Atleta:</label>
                         <input type="text" id="player-name" placeholder="Ex: Thaciano" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;">
                     </div>
-                    <div>
-                     <select id="player-position" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-                         <option value="Goleiro">Goleiro</option>
-                          <option value="Lateral">Lateral</option>
-                          <option value="Zagueiro">Zagueiro</option>
-                          <option value="Meio-campista">Meio-campista</option>
-                          <option value="Atacante">Atacante</option>
-                    </select>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-size: 13px; font-weight: bold; color: #333;">Posição:</label>
+                        <select id="player-position" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+                            <option value="Goleiro">Goleiro</option>
+                            <option value="Lateral">Lateral</option>
+                            <option value="Zagueiro">Zagueiro</option>
+                            <option value="Meio-campista">Meio-campista</option>
+                            <option value="Atacante">Atacante</option>
+                        </select>
 
-  <label style="font-size: 12px; font-weight: bold; color: #555;">Nacionalidade:</label>
-  <select id="player-nationality" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
-    <option value="🇧🇷">Brasileiro 🇧🇷</option>
-    <option value="🇦🇷">Argentino 🇦🇷</option>
-    <option value="🇺🇾">Uruguaio 🇺🇾</option>
-    <option value="🇪🇸">Espanhol 🇪🇸</option>
-  </select>
+                        <label style="font-size: 13px; font-weight: bold; color: #333; margin-top: 5px;">Nacionalidade:</label>
+                        <select id="player-nationality" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+                            <option value="🇧🇷">Brasileiro 🇧🇷</option>
+                            <option value="🇦🇷">Argentino 🇦🇷</option>
+                            <option value="🇺🇾">Uruguaio 🇺🇾</option>
+                            <option value="🇪🇸">Espanhol 🇪🇸</option>
+                        </select>
                     </div>
                 </div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px;">
@@ -209,8 +217,5 @@
     </footer>
 
     <script src="main.js"></script>
-    
- 
-
 </body>
 </html>

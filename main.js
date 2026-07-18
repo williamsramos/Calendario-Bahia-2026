@@ -671,28 +671,23 @@ function renderGames() {
   switchTab(activeTab, null);
 }
 // ============================================================================
-// 🏃‍♂️ MÓDULO EXCLUSIVO: GERENCIAMENTO DE ELENCO & TOP ARTILHEIROS
+// 🏃‍♂️ MÓDULO EXCLUSIVO: GERENCIAMENTO DE ELENCO & TOP ARTILHEIROS POR TEMPORADA
 // ============================================================================
-// Verifica e força a inclusão de Guido e Marco Moreno caso eles não estejam no localStorage antigo
-let dadosLocais = JSON.parse(localStorage.getItem("bahia_players"));
-if (dadosLocais) {
-  const temGuido = dadosLocais.some(p => p.name.includes("Guido"));
-  const temMarco = dadosLocais.some(p => p.name.includes("Marco Moreno"));
-  // Se faltar qualquer um dos novos, limpa para forçar a lista atualizada com todos eles
-  if (!temGuido || !temMarco) {
-    localStorage.removeItem("bahia_players");
-  }
-}
 
-let players = JSON.parse(localStorage.getItem("bahia_players")) || [
+// 1. Controle e definição da Temporada Ativa
+let currentSeason = localStorage.getItem("current_season") || "2026";
+let storageKey = `bahia_players_${currentSeason}`;
+
+// Elenco base estruturado
+const elencoBaseInicial = [
   { name: "Ronaldo", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
   { name: "Guido Herreira", position: "Goleiro", goals: 0, nationality: "🇦🇷" },
   { name: "Léo Vieira", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
   { name: "Iago Borduchi", position: "Lateral", goals: 0, nationality: "🇧🇷" },
   { name: "Zé Guilherme", position: "Lateral", goals: 0, nationality: "🇧🇷" },
   { name: "Román Gómez", position: "Lateral", goals: 0, nationality: "🇦🇷" },
-  { name: "Luciano Juba", position: "Lateral", goals: 7, nationality: "🇧🇷" },
-  { name: "David Duarte", position: "Zagueiro", goals: 2, nationality: "🇧🇷" },
+  { name: "Luciano Juba", position: "Lateral", goals: currentSeason === "2026" ? 7 : 0, nationality: "🇧🇷" },
+  { name: "David Duarte", position: "Zagueiro", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
   { name: "Marcos Victor", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
   { name: "Ramos Mingo", position: "Zagueiro", goals: 0, nationality: "🇦🇷" },
   { name: "Luiz Gustavo", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
@@ -700,19 +695,69 @@ let players = JSON.parse(localStorage.getItem("bahia_players")) || [
   { name: "Marco Moreno", position: "Zagueiro", goals: 0, nationality: "🇪🇸" },
   { name: "Everton Ribeiro", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
   { name: "Nicolás Acevedo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
-  { name: "Erick", position: "Meio-campista", goals: 2, nationality: "🇧🇷" },
+  { name: "Erick", position: "Meio-campista", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
   { name: "Rodrigo Nestor", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
   { name: "Michel Araújo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
   { name: "Caio Alexandre", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
-  { name: "Jean Lucas", position: "Meio-campista", goals: 2, nationality: "🇧🇷" },
+  { name: "Jean Lucas", position: "Meio-campista", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
   { name: "Ademir", position: "Atacante", goals: 0, nationality: "🇧🇷" },
   { name: "Erick Pulga", position: "Atacante", goals: 0, nationality: "🇧🇷" },
-  { name: "Willian José", position: "Atacante", goals: 3, nationality: "🇧🇷" },
-  { name: "Sanabria", position: "Atacante", goals: 2, nationality: "🇦🇷" },
-  { name: "Kike Olivera", position: "Atacante", goals: 1, nationality: "🇺🇾" },
-  { name: "Everaldo", position: "Atacante", goals: 4, nationality: "🇧🇷" },
+  { name: "Willian José", position: "Atacante", goals: currentSeason === "2026" ? 3 : 0, nationality: "🇧🇷" },
+  { name: "Sanabria", position: "Atacante", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇦🇷" },
+  { name: "Kike Olivera", position: "Atacante", goals: currentSeason === "2026" ? 1 : 0, nationality: "🇺🇾" },
+  { name: "Everaldo", position: "Atacante", goals: currentSeason === "2026" ? 4 : 0, nationality: "🇧🇷" },
   { name: "Alejo Veliz", position: "Atacante", goals: 0, nationality: "🇦🇷" }
 ];
+
+// Carregamento inteligente do LocalStorage com base na temporada
+let players = JSON.parse(localStorage.getItem(storageKey));
+
+if (!players) {
+  // Se for a temporada de 2026 e possuir o repositório legado unificado, realiza a migração dos dados
+  if (currentSeason === "2026" && localStorage.getItem("bahia_players")) {
+    players = JSON.parse(localStorage.getItem("bahia_players"));
+  } else {
+    // Se for 2027 ou armazenamento novo, inicia clonando a base limpa
+    players = JSON.parse(JSON.stringify(elencoBaseInicial));
+  }
+  localStorage.setItem(storageKey, JSON.stringify(players));
+}
+
+// Inicialização da interface visual e botões das temporadas
+document.addEventListener("DOMContentLoaded", () => {
+    // Atualiza os títulos textuais da página de acordo com a temporada
+    const txtHeader = document.getElementById("main-header-title");
+    const txtTable = document.getElementById("classification-header-title");
+    const txtAdmin = document.getElementById("admin-table-title");
+
+    if (txtHeader) txtHeader.innerText = `Calendário do Esquadrão ${currentSeason}`;
+    if (txtTable) txtTable.innerText = `📊 Campeonato Brasileiro ${currentSeason} • Classificação`;
+    if (txtAdmin) txtAdmin.innerText = `🏆 Atualizar Classificação Manual ${currentSeason} (Se necessário)`;
+
+    // Define os estilos visuais dos botões de troca de ano
+    const btn2026 = document.getElementById("btn-season-2026");
+    const btn2027 = document.getElementById("btn-season-2027");
+
+    if (btn2026 && btn2027) {
+        if (currentSeason === "2026") {
+            btn2026.style.background = "#00468C";
+            btn2026.style.color = "white";
+            btn2027.style.background = "#e0e0e0";
+            btn2027.style.color = "#333";
+        } else {
+            btn2027.style.background = "#00468C";
+            btn2027.style.color = "white";
+            btn2026.style.background = "#e0e0e0";
+            btn2026.style.color = "#333";
+        }
+    }
+});
+
+// Altera a temporada ativa e recarrega a página de forma reativa
+function changeSeason(year) {
+  localStorage.setItem("current_season", year);
+  window.location.reload();
+}
 
 let activePositionFilter = 'todos';
 
@@ -768,7 +813,7 @@ function addPlayer() {
   }
   
   players.push({ name, position, goals: 0, nationality });
-  localStorage.setItem("bahia_players", JSON.stringify(players));
+  localStorage.setItem(storageKey, JSON.stringify(players));
   
   nameInput.value = "";
   togglePlayerModal();
@@ -777,14 +822,14 @@ function addPlayer() {
 
 function updateGoals(index, increment) {
   players[index].goals = Math.max(0, players[index].goals + increment);
-  localStorage.setItem("bahia_players", JSON.stringify(players));
+  localStorage.setItem(storageKey, JSON.stringify(players));
   renderElenco();
 }
 
 function removePlayer(index) {
   if (confirm(`Remover permanentemente ${players[index].name} das listagens?`)) {
     players.splice(index, 1);
-    localStorage.setItem("bahia_players", JSON.stringify(players));
+    localStorage.setItem(storageKey, JSON.stringify(players));
     renderElenco();
   }
 }

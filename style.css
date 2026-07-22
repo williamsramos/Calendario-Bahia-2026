@@ -496,29 +496,10 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    position: relative;             /* Necessário para o posicionamento do placar */
-    width: 100%;
+    justify-content: center;
 }
 
-/* 2. Força o input do placar a ficar centralizado */
-.input-placar {
-    position: absolute;             /* Tira do fluxo, permitindo centralizar */
-    left: 50%;                      /* Move para a metade da largura */
-    transform: translateX(-50%);    /* Ajusta para o centro exato */
-    z-index: 10;                    /* Garante que fique acima de tudo */
-    
-    /* Ajustes visuais para ficar bonito */
-    width: 80px;                    /* Largura definida para o placar */
-    text-align: center;             /* Centraliza o texto dentro do input */
-}
 
-/* 3. Garante que os nomes dos times não fiquem por baixo do placar */
-.lado-esquerda, .lado-direita {
-    display: flex;
-    align-items: center;
-    width: 45%;                     /* Limita a largura para sobrar espaço no meio */
-}
 
 
 .score-input {

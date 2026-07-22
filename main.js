@@ -93,7 +93,7 @@ const dadosClassificacao = [
 
 // Configura os valores iniciais reais solicitados baseados na tabela oficial
 if (!localStorage.getItem('bahia_posicao')) localStorage.setItem('bahia_posicao', '6');
-if (!localStorage.getItem('bahia_pontos')) localStorage.setItem('bahia_pontos', '29');
+if (!localStorage.getItem('bahia_pontos')) localStorage.setItem('bahia_pontos', '30');
 
 function toggleAdminPanel() {
   const panel = document.getElementById('admin-panel');
@@ -101,7 +101,7 @@ function toggleAdminPanel() {
   
   if (panel.style.display === 'block') {
     document.getElementById('admin-posicao').value = localStorage.getItem('bahia_posicao') || "6";
-    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "29";
+    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "30";
   }
 }
 

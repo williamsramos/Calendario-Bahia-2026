@@ -67,19 +67,18 @@ if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team
 let activeTab = 'todas';
 let activeMandoFilter = 'todos-jogos';
 
-// Matriz Oficial da Classificação Atualizada (Baseada na Imagem Real) com chaves de escudos
 const dadosClassificacao = [
   { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 41, pj: 18, vit: 12, e: 5, der: 1, gm: 30, gc: 13, sg: 17, ultimas: ["E", "E", "E", "V", "V"] },
   { pos: 2, clube: "Flamengo", slug: "flamengo", pts: 34, pj: 17, vit: 10, e: 4, der: 3, gm: 31, gc: 16, sg: 15, ultimas: ["E", "V", "E", "D", "V"] },
   { pos: 3, clube: "Fluminense", slug: "fluminense", pts: 32, pj: 19, vit: 9, e: 5, der: 5, gm: 29, gc: 24, sg: 5, ultimas: ["E", "V", "E", "E", "E"] },
   { pos: 4, clube: "Bragantino", slug: "bragantino", pts: 30, pj: 19, vit: 9, e: 3, der: 7, gm: 26, gc: 20, sg: 6, ultimas: ["D", "V", "V", "V", "E"] },
   { pos: 5, clube: "Athletico-PR", slug: "athletico-pr", pts: 30, pj: 18, vit: 9, e: 3, der: 6, gm: 24, gc: 18, sg: 6, ultimas: ["E", "D", "E", "V", "V"] },
-  { pos: 6, clube: "Bahia", slug: "bahia", pts: 29, pj: 18, vit: 8, e: 5, der: 5, gm: 27, gc: 23, sg: 4, ultimas: ["D", "E", "D", "V", "V"] },
+  { pos: 6, clube: "Bahia", slug: "bahia", pts: 30, pj: 19, vit: 8, e: 6, der: 5, gm: 28, gc: 24, sg: 4, ultimas: ["E", "D", "V", "V", "E"] },
   { pos: 7, clube: "Coritiba", slug: "coritiba", pts: 26, pj: 18, vit: 7, e: 5, der: 6, gm: 24, gc: 24, sg: 0, ultimas: ["D", "E", "V", "V", "D"] },
   { pos: 8, clube: "São Paulo", slug: "sao-paulo", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 23, gc: 20, sg: 3, ultimas: ["D", "D", "D", "E", "D"] },
   { pos: 9, clube: "Botafogo", slug: "botafogo", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 33, gc: 32, sg: 1, ultimas: ["D", "V", "E", "D", "V"] },
-  { pos: 10, clube: "Vitória", slug: "vitoria", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 22, gc: 25, sg: -3, ultimas: ["E", "D", "V", "D", "V"] },
-  { pos: 11, clube: "Atlético-MG", slug: "atletico-mg", pts: 24, pj: 18, vit: 7, e: 3, der: 8, gm: 22, gc: 23, sg: -1, ultimas: ["V", "E", "V", "D", "V"] },
+  { pos: 10, clube: "Atlético-MG", slug: "atletico-mg", pts: 25, pj: 19, vit: 7, e: 4, der: 8, gm: 23, gc: 24, sg: -1, ultimas: ["E", "V", "D", "V", "E"] },
+  { pos: 11, clube: "Vitória", slug: "vitoria", pts: 25, pj: 18, vit: 7, e: 4, der: 7, gm: 22, gc: 25, sg: -3, ultimas: ["E", "D", "V", "D", "V"] },
   { pos: 12, clube: "Corinthians", slug: "corinthians", pts: 24, pj: 18, vit: 6, e: 6, der: 6, gm: 18, gc: 19, sg: -1, ultimas: ["D", "V", "D", "D", "V"] },
   { pos: 13, clube: "Cruzeiro", slug: "cruzeiro", pts: 24, pj: 18, vit: 6, e: 6, der: 6, gm: 24, gc: 28, sg: -4, ultimas: ["D", "V", "E", "V", "E"] },
   { pos: 14, clube: "Internacional", slug: "internacional", pts: 21, pj: 18, vit: 5, e: 6, der: 7, gm: 21, gc: 22, sg: -1, ultimas: ["V", "E", "V", "D", "D"] },
@@ -90,6 +89,7 @@ const dadosClassificacao = [
   { pos: 19, clube: "Remo", slug: "remo", pts: 18, pj: 18, vit: 4, e: 6, der: 8, gm: 21, gc: 29, sg: -8, ultimas: ["E", "E", "V", "D", "V"] },
   { pos: 20, clube: "Chapecoense", slug: "chapecoense", pts: 9, pj: 18, vit: 1, e: 6, der: 11, gm: 17, gc: 35, sg: -18, ultimas: ["E", "D", "D", "D", "D"] }
 ];
+
 
 // Configura os valores iniciais reais solicitados baseados na tabela oficial
 if (!localStorage.getItem('bahia_posicao')) localStorage.setItem('bahia_posicao', '6');

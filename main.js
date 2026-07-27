@@ -92,6 +92,7 @@ const dadosClassificacao = [
 
 
 
+
 // Configura os valores iniciais reais solicitados baseados na tabela oficial
 if (!localStorage.getItem('bahia_posicao')) localStorage.setItem('bahia_posicao', '6');
 if (!localStorage.getItem('bahia_pontos')) localStorage.setItem('bahia_pontos', '30');

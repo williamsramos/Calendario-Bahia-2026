@@ -75,7 +75,7 @@ const dadosClassificacao = [
   { pos: 5, clube: "Bahia", slug: "bahia", pts: 32, pj: 21, vit: 8, e: 8, der: 5, gm: 29, gc: 25, sg: 4, ultimas: ["V", "V", "E", "E", "E"] },
   { pos: 6, clube: "Bragantino", slug: "bragantino", pts: 31, pj: 20, vit: 9, e: 4, der: 7, gm: 26, gc: 20, sg: 6, ultimas: ["V", "V", "V", "E", "E"] },
   { pos: 7, clube: "Botafogo", slug: "botafogo", pts: 29, pj: 20, vit: 8, e: 5, der: 7, gm: 34, gc: 32, sg: 2, ultimas: ["E", "D", "V", "E", "V"] },
-  { pos: 8, clube: "Atlético-MG", slug: "atletico-mg", pts: 28, pj: 21, vit: 8, e: 4, der: 9, gm: 25, gc: 26, sg: -1, ultimas: ["V", "D", "V", "E", "V"] },
+  { pos: 8, clube: "Atlético-MG", slug: "atletico-mg", pts: 28, pj: 20, vit: 8, e: 4, der: 9, gm: 25, gc: 26, sg: -1, ultimas: ["V", "D", "V", "E", "V"] },
   { pos: 9, clube: "Corinthians", slug: "corinthians", pts: 28, pj: 20, vit: 7, e: 7, der: 6, gm: 22, gc: 20, sg: 2, ultimas: ["D", "V", "V", "V", "E"] },
   { pos: 10, clube: "Coritiba", slug: "coritiba", pts: 27, pj: 20, vit: 7, e: 6, der: 7, gm: 25, gc: 27, sg: -2, ultimas: ["V", "V", "D", "D", "E"] },
   { pos: 11, clube: "Cruzeiro", slug: "cruzeiro", pts: 27, pj: 20, vit: 7, e: 6, der: 7, gm: 26, gc: 30, sg: -4, ultimas: ["E", "V", "E", "V", "D"] },

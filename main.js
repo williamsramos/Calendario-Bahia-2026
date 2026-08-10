@@ -67,7 +67,6 @@ if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team
 let activeTab = 'todas';
 let activeMandoFilter = 'todos-jogos';
 
-dados.sort((a, b) => b.pts - a.pts || b.vit - a.vit || b.sg - a.sg || b.gm - a.gm);
 
 const dadosClassificacao = [
   { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 48, pj: 22, vit: 14, e: 6, der: 2, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "D", "V", "E"] },
@@ -413,7 +412,7 @@ function calculateStats() {
   document.getElementById('stat-derrotas').textContent = derrotas;
   document.getElementById('stat-aproveitamento').textContent = `${aproveitamento}%`;
   
-  // 🔄 ATUALIZA O REGISTRO DO BAHIA EM TEMPO REAL DENTRO DO ARRAY DA TABELA
+    // 🔄 ATUALIZA O REGISTRO DO BAHIA EM TEMPO REAL DENTRO DO ARRAY DA TABELA
   const bahiaNaTabela = dadosClassificacao.find(t => t.slug === "bahia");
   if (bahiaNaTabela) {
     bahiaNaTabela.pts = pontosGanhos;
@@ -425,18 +424,15 @@ function calculateStats() {
     bahiaNaTabela.gc = golsContra;
     bahiaNaTabela.sg = golsPro - golsContra;
     
-    // Organiza as posições de forma inteligente com base nos critérios de desempate oficiais
-    dadosClassificacao.sort((a, b) => {
-      if (b.pts !== a.pts) return b.pts - a.pts;
-      if (b.sg !== a.sg) return b.sg - a.sg;
-      return b.vit - a.vit;
-    });
+    // ⬇️ SEU TRECHO ADICIONADO AQUI:
+    dadosClassificacao.sort((a, b) => b.pts - a.pts || b.vit - a.vit || b.sg - a.sg || b.gm - a.gm);
     
     // Corrige a numeração sequencial das posições pós-reordenação
     dadosClassificacao.forEach((time, idx) => {
       time.pos = idx + 1;
     });
   }
+
 
   // Sincroniza a nova classificação gerada nos painéis fixos de leitura rápida
   const novaPosBahia = dadosClassificacao.findIndex(t => t.slug === "bahia") + 1;

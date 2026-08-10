@@ -67,28 +67,7 @@ if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team
 let activeTab = 'todas';
 let activeMandoFilter = 'todos-jogos';
 
-const dadosClassificacao = [
-  { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 48, pj: 22, vit: 14, e: 6, der: 2, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "D", "V", "E"] },
-  { pos: 2, clube: "Flamengo", slug: "flamengo", pts: 42, pj: 21, vit: 12, e: 6, der: 3, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "E", "E", "V"] },
-  { pos: 3, clube: "Athletico-PR", slug: "athletico-pr", pts: 40, pj: 22, vit: 12, e: 4, der: 6, gm: 30, gc: 19, sg: 11, ultimas: ["V", "V", "V", "E", "V"] },
-  { pos: 4, clube: "Fluminense", slug: "fluminense", pts: 35, pj: 22, vit: 9, e: 8, der: 5, gm: 30, gc: 25, sg: 5, ultimas: ["E", "E", "E", "E", "E"] },
-  { pos: 5, clube: "Cruzeiro", slug: "cruzeiro", pts: 33, pj: 22, vit: 9, e: 6, der: 7, gm: 30, gc: 31, sg: -1, ultimas: ["E", "V", "D", "V", "V"] },
-  { pos: 6, clube: "Bahia", slug: "bahia", pts: 33, pj: 22, vit: 8, e: 9, der: 5, gm: 29, gc: 25, sg: 4, ultimas: ["V", "E", "E", "E", "E"] },
-  { pos: 7, clube: "Corinthians", slug: "corinthians", pts: 32, pj: 22, vit: 8, e: 8, der: 6, gm: 24, gc: 20, sg: 4, ultimas: ["V", "V", "E", "E", "V"] },
-  { pos: 8, clube: "Bragantino", slug: "bragantino", pts: 31, pj: 21, vit: 9, e: 4, der: 8, gm: 26, gc: 22, sg: 4, ultimas: ["V", "V", "E", "E", "D"] },
-  { pos: 9, clube: "Botafogo", slug: "botafogo", pts: 30, pj: 21, vit: 8, e: 6, der: 7, gm: 35, gc: 33, sg: 2, ultimas: ["D", "V", "E", "V", "E"] },
-  { pos: 10, clube: "Coritiba", slug: "coritiba", pts: 30, pj: 22, vit: 8, e: 6, der: 8, gm: 27, gc: 29, sg: -2, ultimas: ["D", "D", "E", "D", "V"] },
-  { pos: 11, clube: "Atlético-MG", slug: "atletico-mg", pts: 29, pj: 21, vit: 8, e: 5, der: 9, gm: 27, gc: 28, sg: -1, ultimas: ["D", "V", "E", "V", "E"] },
-  { pos: 12, clube: "São Paulo", slug: "sao-paulo", pts: 26, pj: 21, vit: 7, e: 5, der: 9, gm: 26, gc: 25, sg: 1, ultimas: ["E", "D", "D", "E", "D"] },
-  { pos: 13, clube: "Vitória", slug: "vitoria", pts: 26, pj: 22, vit: 7, e: 5, der: 11, gm: 22, gc: 33, sg: -11, ultimas: ["V", "E", "D", "D", "D"] },
-  { pos: 14, clube: "Grêmio", slug: "gremio", pts: 25, pj: 21, vit: 6, e: 7, der: 7, gm: 23, gc: 26, sg: -3, ultimas: ["V", "D", "D", "E", "V"] },
-  { pos: 15, clube: "Mirassol", slug: "mirassol", pts: 23, pj: 21, vit: 6, e: 5, der: 10, gm: 24, gc: 30, sg: -6, ultimas: ["D", "V", "E", "V", "D"] },
-  { pos: 16, clube: "Internacional", slug: "internacional", pts: 23, pj: 22, vit: 5, e: 8, der: 9, gm: 23, gc: 27, sg: -4, ultimas: ["D", "D", "D", "E", "E"] },
-  { pos: 17, clube: "Santos", slug: "santos", pts: 22, pj: 21, vit: 5, e: 7, der: 9, gm: 31, gc: 35, sg: -4, ultimas: ["D", "V", "D", "E", "D"] },
-  { pos: 18, clube: "Vasco da Gama", slug: "vasco", pts: 22, pj: 21, vit: 5, e: 7, der: 9, gm: 23, gc: 31, sg: -8, ultimas: ["D", "D", "D", "E", "E"] },
-  { pos: 19, clube: "Remo", slug: "remo", pts: 22, pj: 22, vit: 5, e: 7, der: 11, gm: 26, gc: 36, sg: -10, ultimas: ["V", "D", "V", "D", "E"] },
-  { pos: 20, clube: "Chapecoense", slug: "chapecoense", pts: 10, pj: 21, vit: 1, e: 7, der: 13, gm: 20, gc: 43, sg: -23, ultimas: ["D", "D", "D", "E", "D"] }
-];
+
 
 
 

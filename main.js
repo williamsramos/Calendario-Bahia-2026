@@ -67,6 +67,8 @@ if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team
 let activeTab = 'todas';
 let activeMandoFilter = 'todos-jogos';
 
+dados.sort((a, b) => b.pts - a.pts || b.vit - a.vit || b.sg - a.sg || b.gm - a.gm);
+
 const dadosClassificacao = [
   { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 48, pj: 22, vit: 14, e: 6, der: 2, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "D", "V", "E"] },
   { pos: 2, clube: "Flamengo", slug: "flamengo", pts: 42, pj: 21, vit: 12, e: 6, der: 3, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "E", "E", "V"] },
@@ -89,11 +91,6 @@ const dadosClassificacao = [
   { pos: 19, clube: "Remo", slug: "remo", pts: 22, pj: 22, vit: 5, e: 7, der: 11, gm: 26, gc: 36, sg: -10, ultimas: ["V", "D", "V", "D", "E"] },
   { pos: 20, clube: "Chapecoense", slug: "chapecoense", pts: 10, pj: 21, vit: 1, e: 7, der: 13, gm: 20, gc: 43, sg: -23, ultimas: ["D", "D", "D", "E", "D"] }
 ];
-
-
-
-
-
 
 // Configura os valores iniciais reais solicitados baseados na tabela oficial
 if (!localStorage.getItem('bahia_posicao')) localStorage.setItem('bahia_posicao', '6');
@@ -432,8 +429,6 @@ function calculateStats() {
     dadosClassificacao.sort((a, b) => {
       if (b.pts !== a.pts) return b.pts - a.pts;
       if (b.sg !== a.sg) return b.sg - a.sg;
-      dados.sort((a, b) => b.pts - a.pts || b.vit - a.vit || b.sg - a.sg || b.gm - a.gm);
-
       return b.vit - a.vit;
     });
     

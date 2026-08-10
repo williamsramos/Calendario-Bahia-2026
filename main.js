@@ -432,6 +432,8 @@ function calculateStats() {
     dadosClassificacao.sort((a, b) => {
       if (b.pts !== a.pts) return b.pts - a.pts;
       if (b.sg !== a.sg) return b.sg - a.sg;
+      dados.sort((a, b) => b.pts - a.pts || b.vit - a.vit || b.sg - a.sg || b.gm - a.gm);
+
       return b.vit - a.vit;
     });
     

@@ -54,7 +54,9 @@ const listaAtualizadaDeGames = [
   { date: "29/07", info: "Rodada 21ª • quarta", team1: "fluminense", team2: "bahia", stadium: "Maracnã", time: "21:30", score: "0x0" },
   { date: "09/08", info: "Rodada 22ª • domingo", team1: "bahia", team2: "vasco", stadium: "Arena Fonte Nova", time: "16:00", score: "0x0" },
   { date: "16/08", info: "Rodada 23ª • domingo", team1: "chapecoense", team2: "bahia", stadium: "Arena Condá", time: "11:00", score: "x" },
-  { date: "23/08", info: "Rodada 24ª • domingo", team1: "vitoria", team2: "bahia", stadium: "Barradão", time: "16:00", score: "x" }
+  { date: "23/08", info: "Rodada 24ª • domingo", team1: "vitoria", team2: "bahia", stadium: "Barradão", time: "16:00", score: "x" },
+  { date: "30/08", info: "Rodada 25ª • domingo", team1: "bahia", team2: "internacional", stadium: "Arena Fonte Nova", time: "19:30", score: "x" },
+  { date: "05/09", info: "Rodada 26ª • domingo", team1: "bragantino", team2: "bahia", stadium: "Estádio Municipal Cícero de Souza Marques", time: "16:00", score: "x" }
 ];
 
 // Se o localStorage estiver vazio OU não tiver a rodada nova (Fluminense de 29/07), força a atualização

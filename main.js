@@ -678,9 +678,9 @@ let storageKey = `bahia_players_${currentSeason}`;
 
 // Elenco base estruturado
 const elencoBaseInicial = [
-  { name: "Ronaldo", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
-  { name: "Guido Herreira", position: "Goleiro", goals: 0, nationality: "🇦🇷" },
-  { name: "Léo Vieira", position: "Goleiro", goals: 0, nationality: "🇧🇷" },
+  { name: "Ronaldo", position: "Goleiro", nationality: "🇧🇷" },
+  { name: "Guido Herreira", position: "Goleiro", nationality: "🇦🇷" },
+  { name: "Léo Vieira", position: "Goleiro", nationality: "🇧🇷" },
   { name: "Iago Borduchi", position: "Lateral", goals: 0, nationality: "🇧🇷" },
   { name: "Zé Guilherme", position: "Lateral", goals: 0, nationality: "🇧🇷" },
   { name: "Román Gómez", position: "Lateral", goals: 0, nationality: "🇦🇷" },

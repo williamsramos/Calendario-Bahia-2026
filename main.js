@@ -53,14 +53,14 @@ const listaAtualizadaDeGames = [
   { date: "26/07", info: "Rodada 20ª • domingo", team1: "bahia", team2: "corinthians", stadium: "Arena Fonte Nova", time: "16:00", score: "1x1" },
   { date: "29/07", info: "Rodada 21ª • quarta", team1: "fluminense", team2: "bahia", stadium: "Maracnã", time: "21:30", score: "0x0" },
   { date: "09/08", info: "Rodada 22ª • domingo", team1: "bahia", team2: "vasco", stadium: "Arena Fonte Nova", time: "16:00", score: "0x0" },
-  { date: "16/08", info: "Rodada 23ª • domingo", team1: "chapecoense", team2: "bahia", stadium: "Arena Condá", time: "11:00", score: "x" },
+  { date: "16/08", info: "Rodada 23ª • domingo", team1: "chapecoense", team2: "bahia", stadium: "Arena Condá", time: "11:00", score: "3x3" },
   { date: "23/08", info: "Rodada 24ª • domingo", team1: "vitoria", team2: "bahia", stadium: "Barradão", time: "16:00", score: "x" },
   { date: "30/08", info: "Rodada 25ª • domingo", team1: "bahia", team2: "internacional", stadium: "Arena Fonte Nova", time: "19:30", score: "x" },
-  { date: "05/09", info: "Rodada 26ª • domingo", team1: "bragantino", team2: "bahia", stadium: "Estádio Municipal Cícero de Souza Marques", time: "16:00", score: "x" }
+  { date: "05/09", info: "Rodada 26ª • domingo", team1: "bragantino", team2: "bahia", stadium: "Estádio Municipal Cícero de Souza Marques", time: "16:00", score: "x" }
 ];
 
-// Se o localStorage estiver vazio OU não tiver a rodada nova (Fluminense de 29/07), força a atualização
-if (games.length === 0 || !games.some(jogo => jogo.date === "29/07" && jogo.team1 === "fluminense")) {
+// Se o localStorage estiver vazio OU não tiver a rodada nova, força a atualização
+if (games.length === 0 || !games.some(jogo => jogo.date === "16/08" && jogo.team1 === "chapecoense")) {
   games = listaAtualizadaDeGames;
   localStorage.setItem("games", JSON.stringify(games));
 }
@@ -71,31 +71,31 @@ let activeMandoFilter = 'todos-jogos';
 
 
 const dadosClassificacao = [
-  { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 48, pj: 22, vit: 14, e: 6, der: 2, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "D", "V", "E"] },
-  { pos: 2, clube: "Flamengo", slug: "flamengo", pts: 42, pj: 21, vit: 12, e: 6, der: 3, gm: 39, gc: 18, sg: 21, ultimas: ["V", "V", "E", "E", "V"] },
-  { pos: 3, clube: "Athletico-PR", slug: "athletico-pr", pts: 40, pj: 22, vit: 12, e: 4, der: 6, gm: 30, gc: 19, sg: 11, ultimas: ["V", "V", "V", "E", "V"] },
-  { pos: 4, clube: "Fluminense", slug: "fluminense", pts: 35, pj: 22, vit: 9, e: 8, der: 5, gm: 30, gc: 25, sg: 5, ultimas: ["E", "E", "E", "E", "E"] },
-  { pos: 5, clube: "Cruzeiro", slug: "cruzeiro", pts: 33, pj: 22, vit: 9, e: 6, der: 7, gm: 30, gc: 31, sg: -1, ultimas: ["E", "V", "D", "V", "V"] },
-  { pos: 6, clube: "Bahia", slug: "bahia", pts: 33, pj: 22, vit: 8, e: 9, der: 5, gm: 29, gc: 25, sg: 4, ultimas: ["V", "E", "E", "E", "E"] },
-  { pos: 7, clube: "Corinthians", slug: "corinthians", pts: 32, pj: 22, vit: 8, e: 8, der: 6, gm: 24, gc: 20, sg: 4, ultimas: ["V", "V", "E", "E", "V"] },
-  { pos: 8, clube: "Bragantino", slug: "bragantino", pts: 31, pj: 21, vit: 9, e: 4, der: 8, gm: 26, gc: 22, sg: 4, ultimas: ["V", "V", "E", "E", "D"] },
-  { pos: 9, clube: "Botafogo", slug: "botafogo", pts: 30, pj: 21, vit: 8, e: 6, der: 7, gm: 35, gc: 33, sg: 2, ultimas: ["D", "V", "E", "V", "E"] },
-  { pos: 10, clube: "Coritiba", slug: "coritiba", pts: 30, pj: 22, vit: 8, e: 6, der: 8, gm: 27, gc: 29, sg: -2, ultimas: ["D", "D", "E", "D", "V"] },
-  { pos: 11, clube: "Atlético-MG", slug: "atletico-mg", pts: 29, pj: 21, vit: 8, e: 5, der: 9, gm: 27, gc: 28, sg: -1, ultimas: ["D", "V", "E", "V", "E"] },
-  { pos: 12, clube: "São Paulo", slug: "sao-paulo", pts: 26, pj: 21, vit: 7, e: 5, der: 9, gm: 26, gc: 25, sg: 1, ultimas: ["E", "D", "D", "E", "D"] },
-  { pos: 13, clube: "Vitória", slug: "vitoria", pts: 26, pj: 22, vit: 7, e: 5, der: 11, gm: 22, gc: 33, sg: -11, ultimas: ["V", "E", "D", "D", "D"] },
-  { pos: 14, clube: "Grêmio", slug: "gremio", pts: 25, pj: 21, vit: 6, e: 7, der: 7, gm: 23, gc: 26, sg: -3, ultimas: ["V", "D", "D", "E", "V"] },
-  { pos: 15, clube: "Mirassol", slug: "mirassol", pts: 23, pj: 21, vit: 6, e: 5, der: 10, gm: 24, gc: 30, sg: -6, ultimas: ["D", "V", "E", "V", "D"] },
-  { pos: 16, clube: "Internacional", slug: "internacional", pts: 23, pj: 22, vit: 5, e: 8, der: 9, gm: 23, gc: 27, sg: -4, ultimas: ["D", "D", "D", "E", "E"] },
-  { pos: 17, clube: "Santos", slug: "santos", pts: 22, pj: 21, vit: 5, e: 7, der: 9, gm: 31, gc: 35, sg: -4, ultimas: ["D", "V", "D", "E", "D"] },
-  { pos: 18, clube: "Vasco da Gama", slug: "vasco", pts: 22, pj: 21, vit: 5, e: 7, der: 9, gm: 23, gc: 31, sg: -8, ultimas: ["D", "D", "D", "E", "E"] },
-  { pos: 19, clube: "Remo", slug: "remo", pts: 22, pj: 22, vit: 5, e: 7, der: 11, gm: 26, gc: 36, sg: -10, ultimas: ["V", "D", "V", "D", "E"] },
-  { pos: 20, clube: "Chapecoense", slug: "chapecoense", pts: 10, pj: 21, vit: 1, e: 7, der: 13, gm: 20, gc: 43, sg: -23, ultimas: ["D", "D", "D", "E", "D"] }
+  { pos: 1, clube: "Palmeiras", slug: "palmeiras", pts: 48, pj: 23, vit: 14, e: 6, der: 3, gm: 41, gc: 21, sg: 20, ultimas: ["V", "V", "D", "V", "D"] },
+  { pos: 2, clube: "Flamengo", slug: "flamengo", pts: 45, pj: 22, vit: 13, e: 6, der: 3, gm: 44, gc: 19, sg: 25, ultimas: ["V", "V", "E", "V", "V"] },
+  { pos: 3, clube: "Athletico-PR", slug: "athletico-pr", pts: 41, pj: 23, vit: 12, e: 5, der: 6, gm: 31, gc: 20, sg: 11, ultimas: ["V", "V", "V", "E", "V"] },
+  { pos: 4, clube: "Fluminense", slug: "fluminense", pts: 38, pj: 23, vit: 10, e: 8, der: 5, gm: 33, gc: 27, sg: 6, ultimas: ["E", "E", "E", "E", "V"] },
+  { pos: 5, clube: "Cruzeiro", slug: "cruzeiro", pts: 36, pj: 23, vit: 10, e: 6, der: 7, gm: 32, gc: 31, sg: 1, ultimas: ["V", "D", "V", "V", "V"] },
+  { pos: 6, clube: "Bahia", slug: "bahia", pts: 34, pj: 23, vit: 8, e: 10, der: 5, gm: 32, gc: 28, sg: 4, ultimas: ["E", "E", "E", "E", "E"] },
+  { pos: 7, clube: "Bragantino", slug: "bragantino", pts: 32, pj: 22, vit: 9, e: 5, der: 8, gm: 27, gc: 23, sg: 4, ultimas: ["V", "E", "E", "D", "E"] },
+  { pos: 8, clube: "Atlético-MG", slug: "atletico-mg", pts: 32, pj: 22, vit: 9, e: 5, der: 8, gm: 30, gc: 28, sg: 2, ultimas: ["V", "E", "V", "E", "V"] },
+  { pos: 9, clube: "Corinthians", slug: "corinthians", pts: 32, pj: 22, vit: 8, e: 8, der: 6, gm: 25, gc: 22, sg: 3, ultimas: ["V", "E", "E", "V", "D"] },
+  { pos: 10, clube: "Botafogo", slug: "botafogo", pts: 30, pj: 22, vit: 8, e: 6, der: 8, gm: 35, gc: 34, sg: 1, ultimas: ["V", "E", "V", "E", "D"] },
+  { pos: 11, clube: "Coritiba", slug: "coritiba", pts: 30, pj: 22, vit: 8, e: 6, der: 8, gm: 28, gc: 30, sg: -2, ultimas: ["D", "E", "D", "V", "E"] },
+  { pos: 12, clube: "Vitória", slug: "vitoria", pts: 29, pj: 23, vit: 8, e: 5, der: 10, gm: 23, gc: 33, sg: -10, ultimas: ["E", "D", "D", "D", "V"] },
+  { pos: 13, clube: "São Paulo", slug: "sao-paulo", pts: 27, pj: 22, vit: 7, e: 6, der: 9, gm: 27, gc: 26, sg: 1, ultimas: ["D", "D", "E", "D", "E"] },
+  { pos: 14, clube: "Santos", slug: "santos", pts: 25, pj: 22, vit: 6, e: 7, der: 9, gm: 34, gc: 31, sg: 3, ultimas: ["V", "D", "E", "D", "V"] },
+  { pos: 15, clube: "Grêmio", slug: "gremio", pts: 25, pj: 22, vit: 6, e: 7, der: 9, gm: 23, gc: 29, sg: -6, ultimas: ["D", "D", "E", "V", "D"] },
+  { pos: 16, clube: "Internacional", slug: "internacional", pts: 24, pj: 23, vit: 5, e: 9, der: 9, gm: 24, gc: 28, sg: -4, ultimas: ["D", "D", "E", "E", "E"] },
+  { pos: 17, clube: "Mirassol", slug: "mirassol", pts: 23, pj: 22, vit: 6, e: 5, der: 11, gm: 25, gc: 35, sg: -10, ultimas: ["V", "E", "V", "D", "D"] },
+  { pos: 18, clube: "Remo", slug: "remo", pts: 23, pj: 23, vit: 5, e: 8, der: 11, gm: 27, gc: 37, sg: -10, ultimas: ["D", "V", "D", "E", "E"] },
+  { pos: 19, clube: "Vasco da Gama", slug: "vasco", pts: 22, pj: 22, vit: 5, e: 7, der: 10, gm: 23, gc: 34, sg: -11, ultimas: ["D", "D", "E", "E", "D"] },
+  { pos: 20, clube: "Chapecoense", slug: "chapecoense", pts: 11, pj: 22, vit: 1, e: 8, der: 13, gm: 23, gc: 46, sg: -23, ultimas: ["D", "D", "E", "D", "E"] }
 ];
 
 // Configura os valores iniciais reais solicitados baseados na tabela oficial
 if (!localStorage.getItem('bahia_posicao')) localStorage.setItem('bahia_posicao', '6');
-if (!localStorage.getItem('bahia_pontos')) localStorage.setItem('bahia_pontos', '30');
+if (!localStorage.getItem('bahia_pontos')) localStorage.setItem('bahia_pontos', '34');
 
 function toggleAdminPanel() {
   const panel = document.getElementById('admin-panel');
@@ -103,7 +103,7 @@ function toggleAdminPanel() {
   
   if (panel.style.display === 'block') {
     document.getElementById('admin-posicao').value = localStorage.getItem('bahia_posicao') || "6";
-    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "30";
+    document.getElementById('admin-pontos').value = localStorage.getItem('bahia_pontos') || "34";
   }
 }
 
@@ -414,7 +414,7 @@ function calculateStats() {
   document.getElementById('stat-derrotas').textContent = derrotas;
   document.getElementById('stat-aproveitamento').textContent = `${aproveitamento}%`;
   
-    // 🔄 ATUALIZA O REGISTRO DO BAHIA EM TEMPO REAL DENTRO DO ARRAY DA TABELA
+  // 🔄 ATUALIZA O REGISTRO DO BAHIA EM TEMPO REAL DENTRO DO ARRAY DA TABELA
   const bahiaNaTabela = dadosClassificacao.find(t => t.slug === "bahia");
   if (bahiaNaTabela) {
     bahiaNaTabela.pts = pontosGanhos;
@@ -426,7 +426,7 @@ function calculateStats() {
     bahiaNaTabela.gc = golsContra;
     bahiaNaTabela.sg = golsPro - golsContra;
     
-    // ⬇️ SEU TRECHO ADICIONADO AQUI:
+    // Organiza as posições de forma inteligente com base na regra informada
     dadosClassificacao.sort((a, b) => b.pts - a.pts || b.vit - a.vit || b.sg - a.sg || b.gm - a.gm);
     
     // Corrige a numeração sequencial das posições pós-reordenação
@@ -434,7 +434,6 @@ function calculateStats() {
       time.pos = idx + 1;
     });
   }
-
 
   // Sincroniza a nova classificação gerada nos painéis fixos de leitura rápida
   const novaPosBahia = dadosClassificacao.findIndex(t => t.slug === "bahia") + 1;
@@ -693,7 +692,7 @@ const elencoBaseInicial = [
   { name: "Kanu", position: "Zagueiro", goals: 0, nationality: "🇧🇷" },
   { name: "Marco Moreno", position: "Zagueiro", goals: 0, nationality: "🇪🇸" },
   { name: "Everton Ribeiro", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
-  { name: "Nicolás Acevedo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
+  { name: "Nicolás Acevedo", position: "Meio-campista", goals: 1, nationality: "🇺🇾" },
   { name: "Erick", position: "Meio-campista", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇧🇷" },
   { name: "Rodrigo Nestor", position: "Meio-campista", goals: 0, nationality: "🇧🇷" },
   { name: "Michel Araújo", position: "Meio-campista", goals: 0, nationality: "🇺🇾" },
@@ -705,7 +704,7 @@ const elencoBaseInicial = [
   { name: "Sanabria", position: "Atacante", goals: currentSeason === "2026" ? 2 : 0, nationality: "🇦🇷" },
   { name: "Kike Olivera", position: "Atacante", goals: currentSeason === "2026" ? 1 : 0, nationality: "🇺🇾" },
   { name: "Everaldo", position: "Atacante", goals: currentSeason === "2026" ? 4 : 0, nationality: "🇧🇷" },
-  { name: "Alejo Veliz", position: "Atacante", goals: 0, nationality: "🇦🇷" }
+  { name: "Alejo Veliz", position: "Atacante", goals: 1, nationality: "🇦🇷" }
 ];
 
 // Carregamento inteligente do LocalStorage com base na temporada
